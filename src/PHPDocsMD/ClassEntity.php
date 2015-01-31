@@ -3,7 +3,7 @@ namespace PHPDocsMD;
 
 
 /**
- * Object describing a function
+ * Object describing a class
  * @package PHPDocsMD
  */
 class ClassEntity {
