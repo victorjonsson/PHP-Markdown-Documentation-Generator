@@ -21,7 +21,24 @@ class Reflector {
      * @return \PHPDocsMD\ClassEntity
      */
     function getClassEntity() {
+        $class = $this->reflectClass();
+        $class->setFunctions($this->reflectFunctions());
+        return $class;
+    }
+
+    /**
+     * @return ClassEntity
+     */
+    private function reflectClass()
+    {
 
     }
 
+    /**
+     * @return FunctionEntity[]
+     */
+    private function reflectFunctions()
+    {
+
+    }
 }

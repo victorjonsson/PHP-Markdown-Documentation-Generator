@@ -8,18 +8,34 @@
 
 class TestReflector extends PHPUnit_Framework_TestCase {
 
-    public function testClass() {
+    /**
+     * @var \PHPDocsMD\Reflector
+     */
+    private $reflector;
 
+    /**
+     * @var \PHPDocsMD\ClassEntity
+     */
+    private $class;
+
+    protected function setUp()
+    {
         require_once __DIR__.'/ExampleClass.php';
-        $reflector = new \PHPDocsMD\Reflector('ExampleClass');
-        $class = $reflector->getClassEntity();
+        $this->reflector = new \PHPDocsMD\Reflector('ExampleClass');
+        $this->class = $this->reflector->getClassEntity();
+    }
 
-        $this->assertEquals('ExampleClass', $class->getName());
-        $this->assertEquals('This is a description of this class', $class->getDescription());
-        $this->assertEquals('Class: Acme\\ExampleClass', $class->generateTitle());
-        $this->assertEquals('class-acmeexampleclass', $class->generateAnchor());
+    function testClass()
+    {
+        $this->assertEquals('ExampleClass', $this->class->getName());
+        $this->assertEquals('This is a description of this class', $this->class->getDescription());
+        $this->assertEquals('Class: Acme\\ExampleClass', $this->class->generateTitle());
+        $this->assertEquals('class-acmeexampleclass', $this->class->generateAnchor());
+    }
 
-        $functions = $class->getFunctions();
+    function testFunctions()
+    {
+        $functions = $this->class->getFunctions();
 
         $this->assertEquals('description of a', $functions[0]->getDescription());
         $this->assertEquals(false, $functions[0]->isDeprecated());
@@ -52,7 +68,6 @@ class TestReflector extends PHPUnit_Framework_TestCase {
         $this->assertEquals('mixed', $functions[5]->getReturnType());
 
         $this->assertTrue( empty($functions[6]) ); // Should be skipped since tagged with @ignore
-
     }
 
 }
