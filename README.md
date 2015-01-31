@@ -5,7 +5,7 @@
 The documentation is just as important as the code it's refering to. With this command line tool 
 you will be able to write your documentation once, and only once! 
 
-Write you code documentation following the standard set by [phpdoc](http://www.phpdoc.org/) and generate markdown-formatted documenation by calling `phpdocs-md` in your console and get a full documenation of your code base.
+Write you code documentation following the standard set by [phpdoc](http://www.phpdoc.org/) and generate a markdown-formatted documenation by calling `phpdocs-md` in your console.
 
 ### Example
 
@@ -61,7 +61,9 @@ Perhaps a description of this class
 
 ```
 
-Only public and protected function will be a part of the documentation, you can also add @ignore to any function to exclude it from the docs. The program will try to guess the return type of functions that don't declar the return type. The program uses reflection to get as much information as possible 
+[Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/wiki/test)
+
+Only public and protected functions will be a part of the documentation, you can also add @ignore to any function to exclude it from the docs. The program will try to guess the return type of functions that don't declare the return type. The program uses reflection to get as much information as possible out of the code so that functions that's missing doc comments will also be  included in the generated documentation.
 
 ### Requirements
 
@@ -70,3 +72,5 @@ Only public and protected function will be a part of the documentation, you can 
 - Each class in its own file with the file name being the same as the class name.
 
 ### Installation
+
+Composer....
