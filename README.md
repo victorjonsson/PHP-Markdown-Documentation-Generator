@@ -61,6 +61,7 @@ Perhaps a description of this class
 
 ```
 
+Only public and protected function will be a part of the documentation, you can also add @ignore to any function to exclude it from the docs. The program will try to guess the return type of functions that don't declar the return type. The program uses reflection to get as much information as possible 
 
 ### Requirements
 
