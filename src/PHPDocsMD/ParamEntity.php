@@ -6,12 +6,7 @@ namespace PHPDocsMD;
  * Object describing a function parameter
  * @package PHPDocsMD
  */
-class ParamEntity {
-
-    /**
-     * @var string
-     */
-    private $description = '';
+class ParamEntity extends CodeEntity {
 
     /**
      * @var bool
@@ -37,22 +32,6 @@ class ParamEntity {
     public function getDefault()
     {
         return $this->default;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

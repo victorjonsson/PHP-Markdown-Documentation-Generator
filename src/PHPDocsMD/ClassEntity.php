@@ -6,38 +6,12 @@ namespace PHPDocsMD;
  * Object describing a class
  * @package PHPDocsMD
  */
-class ClassEntity {
-
-    /**
-     * @var string
-     */
-    private $name = '';
-
-    /**
-     * @var string
-     */
-    private $description = '';
+class ClassEntity extends CodeEntity {
 
     /**
      * @var \PHPDocsMD\FunctionEntity[]
      */
     private $functions = array();
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
 
     /**
      * @param \PHPDocsMD\FunctionEntity[] $functions
@@ -53,22 +27,6 @@ class ClassEntity {
     public function getFunctions()
     {
         return $this->functions;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

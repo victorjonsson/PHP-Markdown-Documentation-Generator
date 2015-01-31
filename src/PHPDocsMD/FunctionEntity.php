@@ -6,12 +6,7 @@ namespace PHPDocsMD;
  * Object describing a function
  * @package PHPDocsMD
  */
-class FunctionEntity {
-
-    /**
-     * @var string
-     */
-    private $description = '';
+class FunctionEntity extends CodeEntity {
 
     /**
      * @var \PHPDocsMD\ParamEntity[]
@@ -26,65 +21,7 @@ class FunctionEntity {
     /**
      * @var string
      */
-    private $name = '';
-
-    /**
-     * @var string
-     */
     private $visibility = 'public';
-
-    /**
-     * @var bool
-     */
-    private $deprecated = false;
-
-    /**
-     * @param boolean $deprecated
-     */
-    public function setDeprecated($deprecated)
-    {
-        $this->deprecated = $deprecated;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getDeprecated()
-    {
-        return $this->deprecated;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
 
     /**
      * @param \PHPDocsMD\ParamEntity[] $params
