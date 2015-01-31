@@ -43,6 +43,10 @@ By then calling `$ phpdocs-md src >> docs.md` in your console (the argument bein
 
 ```
 
+### Classes
+- [Acme\MyObject](#class-acmemyobject)
+- [Acme\OtherObject](#class-acmeotherobject)
+
 ## Class: Acme\MyObject
 
 This is a description of this class
