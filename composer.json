@@ -1,0 +1,19 @@
+{
+    "name": "victorjonsson/markdowndocs",
+    "description": "Command line tool for generating markdown-formatted class documentation",
+    "minimum-stability": "dev",
+    "homepage" : "https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator",
+    "license" : "MIT",
+    "version" : "1.0.0",
+    "authors": [{
+        "name": "Victor Jonsson",
+        "email": "kontakt@victorjonsson.se"
+    }],
+    "require" : {
+        "php" : ">=5.3.2",
+        "symfony/console": "2.6.*@dev"
+    },
+    "autoload": {
+        "psr-0": {"Rocker": "libs/"}
+    }
+}
