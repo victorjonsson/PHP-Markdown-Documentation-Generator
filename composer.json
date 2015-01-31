@@ -14,6 +14,6 @@
         "symfony/console": "2.6.*@dev"
     },
     "autoload": {
-        "psr-0": {"Rocker": "libs/"}
+        "psr-0": {"PHPDocsMD": "src/"}
     }
 }
