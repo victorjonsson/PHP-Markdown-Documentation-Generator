@@ -23,10 +23,15 @@ class CodeEntity {
      */
     private $isDeprecated = false;
 
+    /**
+     * @var string
+     */
+    private $deprecationMessage = '';
+
 
     /**
      * @param bool|null $toggle
-     * @return bool|void
+     * @return void|bool
      */
     public function isDeprecated($toggle=null)
     {
@@ -69,4 +74,19 @@ class CodeEntity {
         return $this->name;
     }
 
+    /**
+     * @param string $deprecationMessage
+     */
+    public function setDeprecationMessage($deprecationMessage)
+    {
+        $this->deprecationMessage = $deprecationMessage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeprecationMessage()
+    {
+        return $this->deprecationMessage;
+    }
 }
