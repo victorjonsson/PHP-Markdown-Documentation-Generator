@@ -14,6 +14,42 @@ class ClassEntity extends CodeEntity {
     private $functions = array();
 
     /**
+     * @var bool
+     */
+    private $isInterface = false;
+
+    /**
+     * @var bool
+     */
+    private $abstract = false;
+
+
+    /**
+     * @param null|bool $toggle
+     */
+    public function isAbstract($toggle=null)
+    {
+        if ( $toggle === null ) {
+            return $this->abstract;
+        } else {
+            $this->abstract = (bool)$toggle;
+        }
+    }
+
+    /**
+     * @param null|bool $toggle
+     * @return bool
+     */
+    public function isInterface($toggle=null)
+    {
+        if( $toggle === null ) {
+            return $this->isInterface;
+        } else {
+            $this->isInterface = (bool)$toggle;
+        }
+    }
+
+    /**
      * @param \PHPDocsMD\FunctionEntity[] $functions
      */
     public function setFunctions(array $functions)
@@ -33,7 +69,7 @@ class ClassEntity extends CodeEntity {
      * @return string
      */
     function generateTitle() {
-        return 'Class: '.$this->getName();
+        return ($this->isInterface() ? 'Interface' : 'Class') .': '. $this->getName();
     }
 
     /**

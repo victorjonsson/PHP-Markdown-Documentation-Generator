@@ -24,6 +24,24 @@ class FunctionEntity extends CodeEntity {
     private $visibility = 'public';
 
     /**
+     * @var bool
+     */
+    private $abstract = false;
+
+
+    /**
+     * @param null|bool $toggle
+     */
+    public function isAbstract($toggle=null)
+    {
+        if ( $toggle === null ) {
+            return $this->abstract;
+        } else {
+            $this->abstract = (bool)$toggle;
+        }
+    }
+
+    /**
      * @param \PHPDocsMD\ParamEntity[] $params
      */
     public function setParams(array $params)

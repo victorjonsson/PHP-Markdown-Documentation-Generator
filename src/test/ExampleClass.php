@@ -7,10 +7,10 @@ namespace Acme;
  *
  * @package Acme
  */
-class ExampleClass {
+abstract class ExampleClass {
 
     /**
-     * Description of funcA
+     * Description of a
      * @param $arg
      * @param array $arr
      * @param int $bool
@@ -20,18 +20,19 @@ class ExampleClass {
     }
 
     /**
-     * Description of funcC
-     * @deprecated This on is deprecated
+     * Description of c
+     * @deprecated This one is deprecated
      * @param $arg
      * @param array $arr
      * @param int $bool
+     * @return \Acme\ExampleClass
      */
     protected function funcC($arg, array $arr, $bool=10) {
 
     }
 
     /**
-     * Description of funcB
+     * Description of b
      * @param $arg
      * @param array $arr
      * @param int $bool
@@ -44,14 +45,35 @@ class ExampleClass {
 
     }
 
-    function isFunc() {}
-    function hasFunc() {}
     function getFunc() {}
+    function hasFunc() {}
+    abstract function isFunc();
 
     /**
      * @ignore
      */
-    function somFunc() {
+    function someFunc() {
 
     }
+
+    private function privFunc() {
+
+    }
+}
+
+/**
+ * @deprecated This one is deprecated
+ *
+ * Lorem te ipsum
+ *
+ * @package Acme
+ */
+class ExampleClassDepr {
+
+}
+
+interface ExampleInterface {
+
+    public function func($arg='a');
+
 }
