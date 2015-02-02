@@ -72,7 +72,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $tableGenerator->addFunc($func);
                 }
 
-                $docs = '## '.$class->generateTitle().PHP_EOL;
+                $docs = '<hr /> ### '.$class->generateTitle().PHP_EOL;
 
                 if( $class->getExtends() ) {
                     $link = $class->getExtends();

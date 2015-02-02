@@ -125,7 +125,9 @@ class ClassEntity extends CodeEntity {
      * @return string
      */
     function generateTitle() {
-        return ($this->isInterface() ? 'Interface' : 'Class') .': '. $this->getName() .( $this->isAbstract() ? ' (abstract)':'');
+        $label = $this->isInterface() ? 'Interface' : 'Class';
+        $abstractTag = $this->isAbstract() && !$this->isInterface() ? ' (abstract)' : '';
+        return $label .': '. $this->getName() .$abstractTag;
     }
 
     /**
