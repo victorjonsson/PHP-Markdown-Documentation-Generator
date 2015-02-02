@@ -10,7 +10,8 @@
 - [PHPDocsMD\Console\CLI](#class-phpdocsmdconsolecli)
 - [PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
 
-<hr /> ### Class: PHPDocsMD\ClassEntity
+<hr /> 
+### Class: PHPDocsMD\ClassEntity
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
@@ -30,7 +31,8 @@
 | public | <strong>setFunctions(<em>array</em> <strong>$functions)</strong> : <em>void</em> |
 | public | <strong>setInterfaces(<em>array</em> <strong>$implements)</strong> : <em>void</em> |
 
-<hr /> ### Class: PHPDocsMD\CodeEntity
+<hr /> 
+### Class: PHPDocsMD\CodeEntity
 
 > Object describing a piece of code
 
@@ -44,7 +46,8 @@
 | public | <strong>setDescription(<em>mixed</em> <strong>$description)</strong> : <em>void</em> |
 | public | <strong>setName(<em>mixed</em> <strong>$name)</strong> : <em>void</em> |
 
-<hr /> ### Class: PHPDocsMD\FunctionEntity
+<hr /> 
+### Class: PHPDocsMD\FunctionEntity
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
@@ -61,7 +64,8 @@
 | public | <strong>setReturnType(<em>mixed</em> <strong>$returnType)</strong> : <em>void</em> |
 | public | <strong>setVisibility(<em>mixed</em> <strong>$visibility)</strong> : <em>void</em> |
 
-<hr /> ### Class: PHPDocsMD\MDTableGenerator
+<hr /> 
+### Class: PHPDocsMD\MDTableGenerator
 
 > Class that can create a markdown-formatted table describing class functions referred to via FunctionEntity objects
 
@@ -71,7 +75,8 @@
 | public | <strong>getTable()</strong> : <em>string</em> |
 | public | <strong>openTable()</strong> : <em>void</em> |
 
-<hr /> ### Class: PHPDocsMD\ParamEntity
+<hr /> 
+### Class: PHPDocsMD\ParamEntity
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
@@ -84,7 +89,8 @@
 | public | <strong>setDefault(<em>mixed</em> <strong>$default)</strong> : <em>void</em> |
 | public | <strong>setType(<em>mixed</em> <strong>$type)</strong> : <em>void</em> |
 
-<hr /> ### Class: PHPDocsMD\Reflector
+<hr /> 
+### Class: PHPDocsMD\Reflector
 
 *This class implements [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
 
@@ -96,7 +102,8 @@
 | public | <strong>getClassEntity()</strong> : <em>\PHPDocsMD\ClassEntity</em> |
 | public | <strong>getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>mixed</em> |
 
-<hr /> ### Interface: PHPDocsMD\ReflectorInterface
+<hr /> 
+### Interface: PHPDocsMD\ReflectorInterface
 
 > Interface for classes that can compute ClassEntity objects
 
@@ -105,7 +112,8 @@
 | public | abstract getClassEntity()</strong> : <em>\PHPDocsMD\ClassEntity</em> |
 | public | abstract getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>string</em><br />Get declared type of a parameter. Will return empty string if not |
 
-<hr /> ### Class: PHPDocsMD\Console\CLI
+<hr /> 
+### Class: PHPDocsMD\Console\CLI
 
 *This class extends Symfony\Component\Console\Application*
 
@@ -116,7 +124,8 @@
 | public | <strong>__construct()</strong> : <em>void</em> |
 | public | <strong>run(<em>\Symfony\Component\Console\Input\InputInterface</em> <strong>$input=null</strong><em>\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output=null)</strong> : <em>int</em> |
 
-<hr /> ### Class: PHPDocsMD\Console\PHPDocsMDCommand
+<hr /> 
+### Class: PHPDocsMD\Console\PHPDocsMDCommand
 
 *This class extends Symfony\Component\Console\Command\Command*
 
