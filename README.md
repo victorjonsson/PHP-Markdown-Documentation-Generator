@@ -38,7 +38,8 @@ class MyObject {
 }
 ```
 
-By then calling `$ phpdocs-md generate src > docs.md` in your console (the second argument being the path to your class directory) and you will your class documentation written to docs.md.
+By then calling `$ phpdocs-md generate src > docs.md` in your console (the second argument being the path
+to your class directory) your class documentation will be written to docs.md.
 
 [Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/blob/master/docs.md)
 
