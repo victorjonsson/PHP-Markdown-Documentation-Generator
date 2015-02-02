@@ -9,6 +9,15 @@
 - [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)
 - [PHPDocsMD\Console\CLI](#class-phpdocsmdconsolecli)
 - [PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
+<em>\PHPDocsMD\ClassEntity
+<em>\PHPDocsMD\CodeEntity
+<em>\PHPDocsMD\FunctionEntity
+<em>\PHPDocsMD\MDTableGenerator
+<em>\PHPDocsMD\ParamEntity
+<em>\PHPDocsMD\Reflector
+<em>\PHPDocsMD\ReflectorInterface
+<em>\PHPDocsMD\Console\CLI
+<em>\PHPDocsMD\Console\PHPDocsMDCommand
 
 <hr /> 
 ### Class: PHPDocsMD\ClassEntity
@@ -22,7 +31,7 @@
 | public | <strong>generateAnchor()</strong> : <em>string</em> |
 | public | <strong>generateTitle()</strong> : <em>string</em> |
 | public | <strong>getExtends()</strong> : <em>string</em> |
-| public | <strong>getFunctions()</strong> : <em>\PHPDocsMD\FunctionEntity[]</em> |
+| public | <strong>getFunctions()</strong> : <em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> |
 | public | <strong>getInterfaces()</strong> : <em>array</em> |
 | public | <strong>hasIgnoreTag(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
 | public | <strong>isAbstract(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
@@ -55,7 +64,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>getParams()</strong> : <em>\PHPDocsMD\ParamEntity[]</em> |
+| public | <strong>getParams()</strong> : <em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]</em> |
 | public | <strong>getReturnType()</strong> : <em>string</em> |
 | public | <strong>getVisibility()</strong> : <em>string</em> |
 | public | <strong>hasParams()</strong> : <em>bool</em> |
@@ -71,7 +80,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>addFunc(<em>\PHPDocsMD\FunctionEntity</em> <strong>$func)</strong> : <em>void</em> |
+| public | <strong>addFunc(<em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> <strong>$func)</strong> : <em>void</em> |
 | public | <strong>getTable()</strong> : <em>string</em> |
 | public | <strong>openTable()</strong> : <em>void</em> |
 
@@ -99,7 +108,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>__construct(<em>mixed</em> <strong>$className)</strong> : <em>void</em> |
-| public | <strong>getClassEntity()</strong> : <em>\PHPDocsMD\ClassEntity</em> |
+| public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public | <strong>getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>mixed</em> |
 
 <hr /> 
@@ -109,7 +118,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | abstract getClassEntity()</strong> : <em>\PHPDocsMD\ClassEntity</em> |
+| public | abstract getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public | abstract getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>string</em><br />Get declared type of a parameter. Will return empty string if not |
 
 <hr /> 

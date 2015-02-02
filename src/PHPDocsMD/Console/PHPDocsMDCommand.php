@@ -56,6 +56,8 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $tableGenerator = new MDTableGenerator();
         $tableOfContent = array();
         $body = array();
+        $classLinks = array();
+
         foreach($classCollection as $ns => $classes) {
             foreach($classes as $className) {
                 $class = $this->getClassEntity($className);
@@ -65,6 +67,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
                 // Add to tbl of contents
                 $tableOfContent[] = sprintf('- [%s](#%s)', $class->getName(), $class->generateAnchor());
+                $classLinks[$class->generateAnchor()] = '\\'.$class->getName();
 
                 // generate function table
                 $tableGenerator->openTable();
@@ -112,7 +115,15 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             $output->writeln(implode(PHP_EOL, $tableOfContent));
         }
 
-        $output->writeln(PHP_EOL . implode(PHP_EOL, $body));
+        $docString = implode(PHP_EOL, $body);
+        foreach($classLinks as $anchor => $className) {
+            $replace = '<em>'.sprintf('[%s](#%s)', $className, $anchor);
+            $find = '<em>'.$className;
+            echo $find.PHP_EOL;
+            $docString = str_replace($find, $replace, $docString);
+        }
+
+        $output->writeln(PHP_EOL . $docString);
     }
 
     /**
