@@ -9,18 +9,8 @@
 - [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)
 - [PHPDocsMD\Console\CLI](#class-phpdocsmdconsolecli)
 - [PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
-<em>\PHPDocsMD\ClassEntity
-<em>\PHPDocsMD\CodeEntity
-<em>\PHPDocsMD\FunctionEntity
-<em>\PHPDocsMD\MDTableGenerator
-<em>\PHPDocsMD\ParamEntity
-<em>\PHPDocsMD\Reflector
-<em>\PHPDocsMD\ReflectorInterface
-<em>\PHPDocsMD\Console\CLI
-<em>\PHPDocsMD\Console\PHPDocsMDCommand
 
 <hr /> 
-
 ### Class: PHPDocsMD\ClassEntity
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
@@ -42,7 +32,6 @@
 | public | <strong>setInterfaces(<em>array</em> <strong>$implements)</strong> : <em>void</em> |
 
 <hr /> 
-
 ### Class: PHPDocsMD\CodeEntity
 
 > Object describing a piece of code

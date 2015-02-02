@@ -119,7 +119,6 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         foreach($classLinks as $anchor => $className) {
             $replace = '<em>'.sprintf('[%s](#%s)', $className, $anchor);
             $find = '<em>'.$className;
-            echo $find.PHP_EOL;
             $docString = str_replace($find, $replace, $docString);
         }
 
