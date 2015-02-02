@@ -42,6 +42,14 @@ class FunctionEntity extends CodeEntity {
     }
 
     /**
+     * @return bool
+     */
+    public function hasParams()
+    {
+        return !empty($this->params);
+    }
+
+    /**
      * @param \PHPDocsMD\ParamEntity[] $params
      */
     public function setParams(array $params)

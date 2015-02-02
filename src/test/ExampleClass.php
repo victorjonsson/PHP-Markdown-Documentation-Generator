@@ -7,7 +7,7 @@ namespace Acme;
  *
  * @package Acme
  */
-abstract class ExampleClass {
+abstract class ExampleClass implements \Reflector {
 
     /**
      * Description of a
@@ -41,7 +41,7 @@ abstract class ExampleClass {
 
     }
 
-    function funcD($arg, $arr=array()) {
+    function funcD($arg, $arr=array(), ExampleInterface $depr=null, \stdClass $class) {
 
     }
 

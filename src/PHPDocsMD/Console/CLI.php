@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command line interface for extracting markdown-formatted class documentation
  * @package PHPDocsMD\Console
+ * @ignore
  */
 class CLI extends Application {
 

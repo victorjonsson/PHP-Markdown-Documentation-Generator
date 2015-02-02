@@ -1,6 +1,7 @@
 <?php
 namespace PHPDocsMD\Console;
 
+use PHPDocsMD\MDTableGenerator;
 use PHPDocsMD\Reflector;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command line interface for extracting markdown-formatted class documentation
  * @package PHPDocsMD\Console
+ * @ignore
  */
 class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
@@ -38,16 +40,27 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             throw new \InvalidArgumentException('Given input is neither a class nor a source directory');
         }
 
+        $tableGenerator = new MDTableGenerator();
         $tableOfContent = array();
         $body = array();
         foreach($classCollection as $ns => $classes) {
             foreach($classes as $className) {
                 $reflector = new Reflector($className);
                 $class = $reflector->getClassEntity();
+
+                if( $class->hasIgnoreTag() )
+                    continue;
+
+                // Add to tbl of contents
                 $tableOfContent[] = sprintf('- [%s](#%s)', $class->getName(), $class->generateAnchor());
-                // generate output
-                $i = count($output);
-                #$body[$i] = '## '.$class->generateTitle();
+
+                // generate function table
+                $tableGenerator->openTable();
+                foreach($class->getFunctions() as $func) {
+                    $tableGenerator->addFunc($func);
+                }
+
+                $body[] = '## '.$class->generateTitle().PHP_EOL.$tableGenerator->getTable().PHP_EOL;
             }
         }
 

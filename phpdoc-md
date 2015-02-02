@@ -7,3 +7,4 @@ use PHPDocsMD\Console\CLI;
 $cli = new CLI();
 $code = $cli->run();
 exit($code);
+

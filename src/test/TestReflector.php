@@ -26,7 +26,7 @@ class TestReflector extends PHPUnit_Framework_TestCase {
     {
         $this->assertEquals('Acme\\ExampleClass', $this->class->getName());
         $this->assertEquals('This is a description of this class', $this->class->getDescription());
-        $this->assertEquals('Class: Acme\\ExampleClass', $this->class->generateTitle());
+        $this->assertEquals('Class: Acme\\ExampleClass (abstract)', $this->class->generateTitle());
         $this->assertEquals('class-acmeexampleclass', $this->class->generateAnchor());
         $this->assertFalse($this->class->isDeprecated());
         $this->assertFalse($this->class->hasIgnoreTag());
@@ -86,4 +86,35 @@ class TestReflector extends PHPUnit_Framework_TestCase {
         $this->assertTrue( empty($functions[7]) ); // Should be skipped since tagged with @ignore */
     }
 
+    function testParams()
+    {
+        $paramA = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 2);
+        $paramB = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 3);
+        $paramC = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 0);
+
+        $typeA = $this->reflector->getParamType($paramA);
+        $typeB = $this->reflector->getParamType($paramB);
+        $typeC = $this->reflector->getParamType($paramC);
+
+        $this->assertEmpty($typeC);
+        $this->assertEquals('\\stdClass', $typeB);
+        $this->assertEquals('\\Acme\\ExampleInterface', $typeA);
+
+        $functions = $this->class->getFunctions();
+        $params = $functions[3]->getParams();
+
+        $this->assertTrue($functions[3]->hasParams());
+        $this->assertFalse($functions[6]->hasParams());
+        $this->assertEquals(4, count($params));
+
+        $this->assertEquals(false, $params[0]->getDefault());
+        $this->assertEquals('$arg', $params[0]->getName());
+        $this->assertEquals('mixed', $params[0]->getType());
+        $this->assertEquals('array()', $params[1]->getDefault());
+        $this->assertEquals('$arr', $params[1]->getName());
+        $this->assertEquals('array', $params[1]->getType());
+        $this->assertEquals('null', $params[2]->getDefault());
+        $this->assertEquals('$depr', $params[2]->getName());
+        $this->assertEquals('\\Acme\\ExampleInterface', $params[2]->getType());
+    }
 }
