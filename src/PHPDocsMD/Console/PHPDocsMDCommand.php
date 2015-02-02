@@ -77,6 +77,15 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
                 $docs = '<hr /> '.PHP_EOL.'### '.$class->generateTitle().PHP_EOL;
 
+                if( $class->isDeprecated() ) {
+                    $docs .= PHP_EOL.'> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
+                }
+                elseif( $class->getDescription() ) {
+                    $docs .= PHP_EOL.'> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                }
+
+                $docs .= $tableGenerator->getTable().PHP_EOL;
+
                 if( $class->getExtends() ) {
                     $link = $class->getExtends();
                     if( $anchor = $this->getAnchorFromClassCollection($classCollection, $class->getExtends()) ) {
@@ -94,15 +103,6 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     }
                     $docs .= PHP_EOL.'*This class implements '.implode(', ', $interfaceNames).'*'.PHP_EOL;
                 }
-
-                if( $class->isDeprecated() ) {
-                    $docs .= PHP_EOL.'> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
-                }
-                elseif( $class->getDescription() ) {
-                    $docs .= PHP_EOL.'> '.$class->getDescription().PHP_EOL.PHP_EOL;
-                }
-
-                $docs .= $tableGenerator->getTable().PHP_EOL;
 
                 $body[] = $docs;
             }

@@ -31,20 +31,23 @@ class MDTableGenerator {
     function addFunc(FunctionEntity $func)
     {
         $str = '<strong>';
+
         if( $func->isAbstract() )
-            $str = 'abstract ';
+            $str .= 'abstract ';
 
         $str .=  $func->getName().'(';
 
         if( $func->hasParams() ) {
             $params = array();
             foreach($func->getParams() as $param) {
-                $str .= '<em>'.$param->getType().'</em> <strong>'.$param->getName();
-                if( $param->getDefault() )
-                    $str .= '='.$param->getDefault();
-                $str .= '</strong>';
+                $paramStr = '<em>'.$param->getType().'</em> <strong>'.$param->getName();
+                if( $param->getDefault() ) {
+                    $paramStr .= '='.$param->getDefault();
+                }
+                $paramStr .= '</strong>';
+                $params[] = $paramStr;
             }
-            $str .= '</strong> '.implode(', ', $params) .')';
+            $str .= '</strong>'.implode(', ', $params) .')';
         } else {
             $str .= ')';
         }
@@ -53,12 +56,12 @@ class MDTableGenerator {
 
         if( $func->isDeprecated() ) {
             $str = '<strike>'.$str.'</strike>';
-            $str .= '<br />DEPRECATED - '.$func->getDeprecationMessage();
+            $str .= '<br /><em>DEPRECATED - '.$func->getDeprecationMessage().'</em>';
         } elseif( $func->getDescription() ) {
-            $str .= '<br />'.$func->getDescription();
+            $str .= '<br /><em>'.$func->getDescription().'</em>';
         }
 
-        $str = str_replace(array('</strong><strong>', '</strong></strong> '), '', trim($str));
+        $str = str_replace(array('</strong><strong>', '</strong></strong> '), array('','</strong>'), trim($str));
 
         $firstCol =  $func->getVisibility() . ($func->isStatic() ? ' static':'');
 

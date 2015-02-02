@@ -50,6 +50,10 @@ class ClassEntity extends CodeEntity {
         }
     }
 
+    /**
+     * @param null $toggle
+     * @return bool
+     */
     public function hasIgnoreTag($toggle=null)
     {
         if( $toggle === null ) {
@@ -121,6 +125,7 @@ class ClassEntity extends CodeEntity {
     }
 
     /**
+     * Generate a descriptive title for this class
      * @return string
      */
     function generateTitle() {
@@ -130,6 +135,7 @@ class ClassEntity extends CodeEntity {
     }
 
     /**
+     * Generates an anchor link out of the generated title (see generateTitle)
      * @return string
      */
     function generateAnchor() {
