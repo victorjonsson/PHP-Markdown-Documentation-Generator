@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Command line interface for extracting markdown-formatted class documentation
  * @package PHPDocsMD\Console
- * @ignore
  */
 class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
@@ -60,7 +59,17 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $tableGenerator->addFunc($func);
                 }
 
-                $body[] = '## '.$class->generateTitle().PHP_EOL.$tableGenerator->getTable().PHP_EOL;
+                $docs = '## '.$class->generateTitle().PHP_EOL;
+                if( $class->isDeprecated() ) {
+                    $docs .= PHP_EOL.'> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
+                }
+                elseif( $class->getDescription() ) {
+                    $docs .= PHP_EOL.'> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                }
+
+                $docs .= $tableGenerator->getTable().PHP_EOL;
+
+                $body[] = $docs;
             }
         }
 
