@@ -28,6 +28,11 @@ class ClassEntity extends CodeEntity {
      */
     private $hasIgnoreTag = false;
 
+    /**
+     * @var string
+     */
+    private $extends = '';
+
 
     /**
      * @param null|bool $toggle
@@ -61,6 +66,22 @@ class ClassEntity extends CodeEntity {
         } else {
             $this->isInterface = (bool)$toggle;
         }
+    }
+
+    /**
+     * @param string $extends
+     */
+    public function setExtends($extends)
+    {
+        $this->extends = $extends;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtends()
+    {
+        return $this->extends;
     }
 
     /**

@@ -14,6 +14,20 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
+    private $memory = array();
+
+    /**
+     * @param $name
+     * @return \PHPDocsMD\ClassEntity
+     */
+    private function getClassEntity($name) {
+        if( !isset($this->memory[$name]) ) {
+            $reflector = new Reflector($name);
+            $this->memory[$name] = $reflector->getClassEntity();
+        }
+        return $this->memory[$name];
+    }
+
     protected function configure()
     {
         $this
@@ -44,8 +58,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $body = array();
         foreach($classCollection as $ns => $classes) {
             foreach($classes as $className) {
-                $reflector = new Reflector($className);
-                $class = $reflector->getClassEntity();
+                $class = $this->getClassEntity($className);
 
                 if( $class->hasIgnoreTag() )
                     continue;
@@ -60,6 +73,16 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 }
 
                 $docs = '## '.$class->generateTitle().PHP_EOL;
+
+                if( $class->getExtends() ) {
+                    $link = $class->getExtends();
+                    if( $anchor = $this->getAnchorFromClassCollection($classCollection, $class->getExtends()) ) {
+                        $link = sprintf('[%s](#%s)', $link, $anchor);
+                    }
+
+                    $docs .= PHP_EOL.'*This class extends '.$link.'*'.PHP_EOL;
+                }
+
                 if( $class->isDeprecated() ) {
                     $docs .= PHP_EOL.'> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
                 }
@@ -81,6 +104,21 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         }
 
         $output->writeln(PHP_EOL . implode(PHP_EOL, $body));
+    }
+
+    /**
+     * @param array $coll
+     * @param  $className
+     */
+    private function getAnchorFromClassCollection($coll, $find) {
+        foreach($coll as $ns => $classes) {
+            foreach($classes as $className) {
+                if( $className == $find ) {
+                    return $this->getClassEntity($className)->generateAnchor();
+                }
+            }
+        }
+        return false;
     }
 
     private function findClassInFile($file) {

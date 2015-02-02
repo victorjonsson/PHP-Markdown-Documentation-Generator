@@ -31,6 +31,9 @@ class Reflector {
         $class->isInterface($classReflection->isInterface());
         $class->isAbstract($classReflection->isAbstract());
         $class->hasIgnoreTag( isset($classTags['ignore']) );
+        if( $classReflection->getParentClass() ) {
+            $class->setExtends($classReflection->getParentClass()->getName());
+        }
 
         $functions = array();
         foreach($classReflection->getMethods() as $methodReflection) {
