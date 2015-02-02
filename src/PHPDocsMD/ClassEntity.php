@@ -23,6 +23,11 @@ class ClassEntity extends CodeEntity {
      */
     private $abstract = false;
 
+    /**
+     * @var bool
+     */
+    private $hasIgnoreTag = false;
+
 
     /**
      * @param null|bool $toggle
@@ -33,6 +38,15 @@ class ClassEntity extends CodeEntity {
             return $this->abstract;
         } else {
             $this->abstract = (bool)$toggle;
+        }
+    }
+
+    public function hasIgnoreTag($toggle=null)
+    {
+        if( $toggle === null ) {
+            return $this->hasIgnoreTag;
+        } else {
+            $this->hasIgnoreTag = (bool)$toggle;
         }
     }
 
@@ -69,13 +83,14 @@ class ClassEntity extends CodeEntity {
      * @return string
      */
     function generateTitle() {
-        return ($this->isInterface() ? 'Interface' : 'Class') .': '. $this->getName();
+        return ($this->isInterface() ? 'Interface' : 'Class') .': '. $this->getName() .( $this->isAbstract() ? ' (abstract)':'');
     }
 
     /**
      * @return string
      */
     function generateAnchor() {
-        return strtolower(str_replace(array(':', ' ', '\\'), array('', '-', ''), $this->generateTitle()));
+        $title = current(explode(' (', $this->generateTitle()));
+        return strtolower(str_replace(array(':', ' ', '\\'), array('', '-', ''), $title));
     }
 }

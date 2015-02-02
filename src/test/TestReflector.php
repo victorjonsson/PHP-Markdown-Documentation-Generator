@@ -29,15 +29,18 @@ class TestReflector extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Class: Acme\\ExampleClass', $this->class->generateTitle());
         $this->assertEquals('class-acmeexampleclass', $this->class->generateAnchor());
         $this->assertFalse($this->class->isDeprecated());
+        $this->assertFalse($this->class->hasIgnoreTag());
 
         $refl = new \PHPDocsMD\Reflector('Acme\\ExampleClassDepr');
         $class = $refl->getClassEntity();
         $this->assertTrue($class->isDeprecated());
         $this->assertEquals('This one is deprecated  Lorem te ipsum', $class->getDeprecationMessage());
+        $this->assertFalse($class->hasIgnoreTag());
 
         $refl = new \PHPDocsMD\Reflector('Acme\\ExampleInterface');
         $class = $refl->getClassEntity();
         $this->assertTrue($class->isInterface());
+        $this->assertTrue($class->hasIgnoreTag());
     }
 
     function testFunctions()

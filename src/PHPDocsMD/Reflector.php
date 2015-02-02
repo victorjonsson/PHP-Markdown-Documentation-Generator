@@ -26,9 +26,11 @@ class Reflector {
     function getClassEntity() {
         $reflection = new \ReflectionClass($this->className);
         $class = new ClassEntity();
-        $this->createEntity($reflection, $class);
+        $classTags = $this->createEntity($reflection, $class);
+
         $class->isInterface($reflection->isInterface());
         $class->isAbstract($reflection->isAbstract());
+        $class->hasIgnoreTag( isset($classTags['ignore']) );
 
         $functions = array();
         foreach($reflection->getMethods() as $method) {

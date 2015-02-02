@@ -72,6 +72,11 @@ class ExampleClassDepr {
 
 }
 
+/**
+ * Interface ExampleInterface
+ * @package Acme
+ * @ignore
+ */
 interface ExampleInterface {
 
     public function func($arg='a');
