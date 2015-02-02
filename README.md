@@ -65,11 +65,11 @@ Perhaps a description of this class
 
 [Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/blob/master/docs.md)
 
-Only public and protected functions will be a part of the documentation, you can also add @ignore to any function to exclude it from the docs. The program will try to guess the return type of functions that don't declare the return type. The program uses reflection to get as much information as possible out of the code so that functions that's missing doc comments will also be  included in the generated documentation.
+Only public and protected functions will be a part of the documentation, you can also add @ignore to any function or class to exclude it from the docs. The program will try to guess the return type of functions that don't declare the return type. The program uses reflection to get as much information as possible out of the code so that functions that's missing doc comments will also be  included in the generated documentation.
 
 ### Requirements
 
-- PHP version >= 5.3.0
+- PHP version >= 5.3.2
 - Reflection activated in php.ini
 - Each class in its own file with the file name being the same as the class name.
 

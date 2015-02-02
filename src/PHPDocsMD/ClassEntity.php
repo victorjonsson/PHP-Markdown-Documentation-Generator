@@ -3,7 +3,7 @@ namespace PHPDocsMD;
 
 
 /**
- * Object describing a class
+ * Object describing a class or a interface
  * @package PHPDocsMD
  */
 class ClassEntity extends CodeEntity {
@@ -32,6 +32,11 @@ class ClassEntity extends CodeEntity {
      * @var string
      */
     private $extends = '';
+
+    /**
+     * @var array
+     */
+    private $interfaces = array();
 
 
     /**
@@ -90,6 +95,22 @@ class ClassEntity extends CodeEntity {
     public function setFunctions(array $functions)
     {
         $this->functions = $functions;
+    }
+
+    /**
+     * @param array $implements
+     */
+    public function setInterfaces(array $implements)
+    {
+        $this->interfaces = $implements;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInterfaces()
+    {
+        return $this->interfaces;
     }
 
     /**

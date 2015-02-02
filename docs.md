@@ -6,6 +6,7 @@
 - [PHPDocsMD\MDTableGenerator](#class-phpdocsmdmdtablegenerator)
 - [PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)
 - [PHPDocsMD\Reflector](#class-phpdocsmdreflector)
+- [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)
 - [PHPDocsMD\Console\CLI](#class-phpdocsmdconsolecli)
 - [PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
 
@@ -13,7 +14,7 @@
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
-> Object describing a class
+> Object describing a class or a interface
 
 | Visibility | Function |
 |:-----------|:---------|
@@ -21,11 +22,13 @@
 | public | <strong>generateTitle()</strong> : <em>string</em> |
 | public | <strong>getExtends()</strong> : <em>string</em> |
 | public | <strong>getFunctions()</strong> : <em>\PHPDocsMD\FunctionEntity[]</em> |
+| public | <strong>getInterfaces()</strong> : <em>array</em> |
 | public | <strong>hasIgnoreTag(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
 | public | <strong>isAbstract(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
 | public | <strong>isInterface(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
 | public | <strong>setExtends(<em>mixed</em> <strong>$extends)</strong> : <em>void</em> |
 | public | <strong>setFunctions(<em>array</em> <strong>$functions)</strong> : <em>void</em> |
+| public | <strong>setInterfaces(<em>array</em> <strong>$implements)</strong> : <em>void</em> |
 
 ## Class: PHPDocsMD\CodeEntity
 
@@ -83,6 +86,8 @@
 
 ## Class: PHPDocsMD\Reflector
 
+*This class implements [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
+
 > Class that can compute ClassEntity objects out of real classes
 
 | Visibility | Function |
@@ -90,6 +95,15 @@
 | public | <strong>__construct(<em>mixed</em> <strong>$className)</strong> : <em>void</em> |
 | public | <strong>getClassEntity()</strong> : <em>\PHPDocsMD\ClassEntity</em> |
 | public | <strong>getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>mixed</em> |
+
+## Interface: PHPDocsMD\ReflectorInterface (abstract)
+
+> Interface for classes that can compute ClassEntity objects
+
+| Visibility | Function |
+|:-----------|:---------|
+| public | abstract getClassEntity()</strong> : <em>\PHPDocsMD\ClassEntity</em> |
+| public | abstract getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>string</em><br />Get declared type of a parameter. Will return empty string if not |
 
 ## Class: PHPDocsMD\Console\CLI
 

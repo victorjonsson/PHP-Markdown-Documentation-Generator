@@ -83,6 +83,15 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $docs .= PHP_EOL.'*This class extends '.$link.'*'.PHP_EOL;
                 }
 
+                if( $interfaces = $class->getInterfaces() ) {
+                    $interfaceNames = array();
+                    foreach($interfaces as $interface) {
+                        $anchor = $this->getAnchorFromClassCollection($classCollection, $interface);
+                        $interfaceNames[] = $anchor ? sprintf('[%s](#%s)', $interface, $anchor) : $interface;
+                    }
+                    $docs .= PHP_EOL.'*This class implements '.implode(', ', $interfaceNames).'*'.PHP_EOL;
+                }
+
                 if( $class->isDeprecated() ) {
                     $docs .= PHP_EOL.'> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
                 }
@@ -137,7 +146,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             /** @var \SplFileInfo $f */
             if( $f->isFile() && !$f->isLink() ) {
                 list($ns, $className) = $this->findClassInFile($f->getRealPath());
-                if( class_exists($className, true) ) {
+                if( class_exists($className, true) || interface_exists($className) ) {
                     $collection[$ns][] = $className;
                 }
             } elseif( $f->isDir() && !$f->isLink() ) {

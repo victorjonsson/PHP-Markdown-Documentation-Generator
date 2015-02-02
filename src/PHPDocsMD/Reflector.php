@@ -6,7 +6,8 @@ namespace PHPDocsMD;
  * Class that can compute ClassEntity objects out of real classes
  * @package PHPDocsMD
  */
-class Reflector {
+class Reflector implements ReflectorInterface
+{
 
     /**
      * @var string
@@ -31,6 +32,8 @@ class Reflector {
         $class->isInterface($classReflection->isInterface());
         $class->isAbstract($classReflection->isAbstract());
         $class->hasIgnoreTag( isset($classTags['ignore']) );
+        $class->setInterfaces( array_keys($classReflection->getInterfaces()) );
+
         if( $classReflection->getParentClass() ) {
             $class->setExtends($classReflection->getParentClass()->getName());
         }
