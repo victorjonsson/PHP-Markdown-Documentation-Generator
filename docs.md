@@ -11,6 +11,7 @@
 - [PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
 
 <hr /> 
+
 ### Class: PHPDocsMD\ClassEntity
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
@@ -32,6 +33,7 @@
 | public | <strong>setInterfaces(<em>array</em> <strong>$implements)</strong> : <em>void</em> |
 
 <hr /> 
+
 ### Class: PHPDocsMD\CodeEntity
 
 > Object describing a piece of code
