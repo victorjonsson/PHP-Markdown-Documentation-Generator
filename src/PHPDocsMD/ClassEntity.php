@@ -51,7 +51,7 @@ class ClassEntity extends CodeEntity {
     }
 
     /**
-     * @param null $toggle
+     * @param null|bool $toggle
      * @return bool
      */
     public function hasIgnoreTag($toggle=null)

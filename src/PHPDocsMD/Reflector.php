@@ -26,47 +26,14 @@ class Reflector implements ReflectorInterface
      */
     function getClassEntity() {
         $classReflection = new \ReflectionClass($this->className);
-        $class = new ClassEntity();
-        $classTags = $this->createEntity($classReflection, $class);
-
-        $class->isInterface($classReflection->isInterface());
-        $class->isAbstract($classReflection->isAbstract());
-        $class->hasIgnoreTag( isset($classTags['ignore']) );
-        $class->setInterfaces( array_keys($classReflection->getInterfaces()) );
-
-        if( $classReflection->getParentClass() ) {
-            $class->setExtends($classReflection->getParentClass()->getName());
-        }
+        $class = $this->createClassEntity($classReflection);
 
         $functions = array();
         foreach($classReflection->getMethods() as $methodReflection) {
-            $func = new FunctionEntity();
-            $tags = $this->createEntity($methodReflection, $func);
-
-            if( $this->shouldIgnoreMethod($tags, $methodReflection, $class) ) {
-                continue;
+            $func = $this->createFunctionEntity($methodReflection, $class);
+            if( $func ) {
+                $functions[$func->getName()] =  $func;
             }
-
-            $params = array();
-            foreach($methodReflection->getParameters() as $param) {
-                $docs = isset($tags['params'][$param->getName()]) ? $tags['params'][$param->getName()] : array();
-                $params[$param->getName()] = $this->createParameterEntity($param, $docs);
-            }
-
-            if( empty($tags['return']) ) {
-                $tags['return'] = $this->guessReturnTypeFromFuncName($func->getName());
-            }
-
-            $func->setReturnType($tags['return']);
-            $func->setParams(array_values($params));
-            $func->isStatic($methodReflection->isStatic());
-            $func->setVisibility( $methodReflection->isPublic() ? 'public':'protected');
-
-            if( $methodReflection->isAbstract() ) {
-                $func->isAbstract(true);
-            }
-
-            $functions[$func->getName()] =  $func;
         }
         ksort($functions);
         $class->setFunctions(array_values($functions));
@@ -75,12 +42,49 @@ class Reflector implements ReflectorInterface
     }
 
     /**
+     * @param \ReflectionMethod $methodReflection
+     * @param ClassEntity $class
+     * @return bool|FunctionEntity
+     */
+    protected function createFunctionEntity(\ReflectionMethod $methodReflection, ClassEntity $class)
+    {
+        $func = new FunctionEntity();
+        $tags = $this->createEntity($methodReflection, $func);
+
+        if( $this->shouldIgnoreFunction($tags, $methodReflection, $class) ) {
+            return false;
+        }
+
+        $params = array();
+        foreach ($methodReflection->getParameters() as $param) {
+            $paramName = '$'.$param->getName();
+            $docs = isset($tags['params'][$paramName]) ? $tags['params'][$paramName] : array();
+            $params[$param->getName()] = $this->createParameterEntity($param, $docs);
+        }
+
+        if (empty($tags['return'])) {
+            $tags['return'] = $this->guessReturnTypeFromFuncName($func->getName());
+        }
+
+        $func->setReturnType($tags['return']);
+        $func->setParams(array_values($params));
+        $func->isStatic($methodReflection->isStatic());
+        $func->setVisibility($methodReflection->isPublic() ? 'public' : 'protected');
+
+        if ($methodReflection->isAbstract()) {
+            $func->isAbstract(true);
+            return $func;
+        }
+        return $func;
+    }
+
+    /**
      * @param array $tags
      * @param \ReflectionMethod $methodReflection
      * @param ClassEntity $class
      * @return bool
      */
-    private function shouldIgnoreMethod($tags, $methodReflection, $class)
+    protected function shouldIgnoreFunction($tags, \ReflectionMethod $methodReflection, $class)
     {
         return isset($tags['ignore']) ||
                 $methodReflection->isPrivate() ||
@@ -92,13 +96,15 @@ class Reflector implements ReflectorInterface
      * @param array $docs
      * @return FunctionEntity
      */
-    private function createParameterEntity($reflection, $docs)
+    private function createParameterEntity(\ReflectionParameter $reflection, $docs)
     {
         // need to use slash instead of pipe or md-generation will get it wrong
-
         $def = false;
         $type = 'mixed';
-        $docs['type'] = empty($docs['type']) ? self::getParamType($reflection) : $docs['type'].'/'.self::getParamType($reflection);
+        $declaredType = self::getParamType($reflection);
+        if( $declaredType ) {
+            $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'/'.$declaredType;
+        }
 
         try {
             $def = $reflection->getDefaultValue();
@@ -121,7 +127,7 @@ class Reflector implements ReflectorInterface
             if( $type == 'mixed' && $def == 'null' && strpos($docs['type'], '\\') === 0 ) {
                 $type = false;
             }
-            if( $type && $def && !empty($docs['type']) && $docs['type'] != $type ) {
+            if( $type && $def && !empty($docs['type']) && $docs['type'] != $type && strpos($docs['type'], '|') === false) {
                 $docs['type'] = $type.'/'.$docs['type'];
             } elseif( $type && empty($docs['type']) ) {
                 $docs['type'] = $type;
@@ -130,7 +136,8 @@ class Reflector implements ReflectorInterface
             $docs = array(
                 'descriptions'=>'',
                 'name' => $varName,
-                'default' => $def
+                'default' => $def,
+                'type' => $type
             );
         }
 
@@ -138,7 +145,7 @@ class Reflector implements ReflectorInterface
         $param->setDescription($docs['description']);
         $param->setName($varName);
         $param->setDefault($docs['default']);
-        $param->setType(empty($docs['type']) ? 'mixed':$docs['type']);
+        $param->setType(empty($docs['type']) ? 'mixed':str_replace('|', '/', $docs['type']));
         return $param;
     }
 
@@ -245,16 +252,15 @@ class Reflector implements ReflectorInterface
             if( strpos($words[0], '@') === false ) {
                 $tags[$current_tag] .= ' '. $line;
             } elseif( $words[0] == '@param' ) {
-                array_splice($words, 0, 1);
                 $param_desc = '';
-                if( strpos($words[0], '$') === 0) {
-                    $param_name = $words[0];
-                    $param_type = 'mixed';
-                    array_splice($words, 0, 1);
-                } else {
+                if( strpos($words[1], '$') === 0) {
                     $param_name = $words[1];
-                    $param_type = $words[0];
+                    $param_type = 'mixed';
                     array_splice($words, 0, 2);
+                } else {
+                    $param_name = $words[2];
+                    $param_type = $words[1];
+                    array_splice($words, 0, 3);
                 }
                 $param_name = current(explode('=', $param_name));
                 if( count($words) > 1 ) {
@@ -288,5 +294,26 @@ class Reflector implements ReflectorInterface
         }
 
         return $tags;
+    }
+
+    /**
+     * @param \ReflectionClass $reflection
+     * @return ClassEntity
+     */
+    protected function createClassEntity(\ReflectionClass $reflection)
+    {
+        $class = new ClassEntity();
+        $classTags = $this->createEntity($reflection, $class);
+
+        $class->isInterface($reflection->isInterface());
+        $class->isAbstract($reflection->isAbstract());
+        $class->hasIgnoreTag(isset($classTags['ignore']));
+        $class->setInterfaces(array_keys($reflection->getInterfaces()));
+
+        if ($reflection->getParentClass()) {
+            $class->setExtends($reflection->getParentClass()->getName());
+            return $class;
+        }
+        return $class;
     }
 }

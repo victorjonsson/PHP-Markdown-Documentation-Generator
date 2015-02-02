@@ -37,11 +37,11 @@ class MyObject {
 }
 ```
 
-By then calling `$ phpdocs-md generate src > docs.md` in your console (the second argument being the path to your class directory) you will get the following output written to docs.md.
+By then calling `$ phpdocs-md generate src > docs.md` in your console (the second argument being the path to your class directory) and you will your class documentation written to docs.md.
 
 [Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/blob/master/docs.md)
 
-Only public and protected functions will be a part of the documentation, you can also add `@ignore` to any function or class to exclude it from the docs. The program will try to guess the return type of functions that don't declare the return type. The program uses reflection to get as much information as possible out of the code so that functions that's missing doc comments will also be  included in the generated documentation.
+Only public and protected functions will be a part of the documentation but you can also add `@ignore` to any function or class to exclude it from the docs. The program will try to guess the return type of functions that don't declare the return type. The program uses reflection to get as much information as possible out of the code so that functions that's missing doc comments will also be  included in the generated documentation.
 
 ### Requirements
 
