@@ -92,9 +92,9 @@ class TestReflector extends PHPUnit_Framework_TestCase {
         $paramB = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 3);
         $paramC = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 0);
 
-        $typeA = $this->reflector->getParamType($paramA);
-        $typeB = $this->reflector->getParamType($paramB);
-        $typeC = $this->reflector->getParamType($paramC);
+        $typeA = \PHPDocsMD\Reflector::getParamType($paramA);
+        $typeB = \PHPDocsMD\Reflector::getParamType($paramB);
+        $typeC = \PHPDocsMD\Reflector::getParamType($paramC);
 
         $this->assertEmpty($typeC);
         $this->assertEquals('\\stdClass', $typeB);

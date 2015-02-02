@@ -59,6 +59,7 @@ class Reflector implements ReflectorInterface
 
             $func->setReturnType($tags['return']);
             $func->setParams(array_values($params));
+            $func->isStatic($methodReflection->isStatic());
             $func->setVisibility( $methodReflection->isPublic() ? 'public':'protected');
 
             if( $methodReflection->isAbstract() ) {
@@ -97,7 +98,7 @@ class Reflector implements ReflectorInterface
 
         $def = false;
         $type = 'mixed';
-        $docs['type'] = empty($docs['type']) ? $this->getParamType($reflection) : $docs['type'].'/'.$this->getParamType($reflection);
+        $docs['type'] = empty($docs['type']) ? self::getParamType($reflection) : $docs['type'].'/'.self::getParamType($reflection);
 
         try {
             $def = $reflection->getDefaultValue();
@@ -141,9 +142,8 @@ class Reflector implements ReflectorInterface
         return $param;
     }
 
-    function getParamType(\ReflectionParameter $refParam)
+    static function getParamType(\ReflectionParameter $refParam)
     {
-
         $export = \ReflectionParameter::export(
             array(
                 $refParam->getDeclaringClass()->name,

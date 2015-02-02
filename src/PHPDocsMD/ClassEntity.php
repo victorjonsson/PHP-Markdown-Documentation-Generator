@@ -38,7 +38,6 @@ class ClassEntity extends CodeEntity {
      */
     private $interfaces = array();
 
-
     /**
      * @param null|bool $toggle
      */

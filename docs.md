@@ -60,6 +60,7 @@
 | public | <strong>getVisibility()</strong> : <em>string</em> |
 | public | <strong>hasParams()</strong> : <em>bool</em> |
 | public | <strong>isAbstract(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
+| public | <strong>isStatic(<em>mixed</em> <strong>$toggle=null)</strong> : <em>bool</em> |
 | public | <strong>setParams(<em>array</em> <strong>$params)</strong> : <em>void</em> |
 | public | <strong>setReturnType(<em>mixed</em> <strong>$returnType)</strong> : <em>void</em> |
 | public | <strong>setVisibility(<em>mixed</em> <strong>$visibility)</strong> : <em>void</em> |
@@ -100,7 +101,7 @@
 |:-----------|:---------|
 | public | <strong>__construct(<em>mixed</em> <strong>$className)</strong> : <em>void</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| public | <strong>getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>mixed</em> |
+| public static | <strong>getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>mixed</em> |
 
 <hr /> 
 ### Interface: PHPDocsMD\ReflectorInterface
@@ -110,7 +111,6 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | abstract getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| public | abstract getParamType(<em>\ReflectionParameter</em> <strong>$refParam)</strong> : <em>string</em><br />Get declared type of a parameter. Will return empty string if not |
 
 <hr /> 
 ### Class: PHPDocsMD\Console\CLI

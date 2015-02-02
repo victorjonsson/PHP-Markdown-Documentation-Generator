@@ -28,6 +28,23 @@ class FunctionEntity extends CodeEntity {
      */
     private $abstract = false;
 
+    /**
+     * @var bool
+     */
+    private $isStatic = false;
+
+
+    /**
+     * @param null|bool $toggle
+     */
+    public function isStatic($toggle=null)
+    {
+        if ( $toggle === null ) {
+            return $this->isStatic;
+        } else {
+            $this->isStatic = (bool)$toggle;
+        }
+    }
 
     /**
      * @param null|bool $toggle

@@ -60,7 +60,9 @@ class MDTableGenerator {
 
         $str = str_replace(array('</strong><strong>', '</strong></strong> '), '', trim($str));
 
-        $this->add('| '.$func->getVisibility().' | '.$str.' |');
+        $firstCol =  $func->getVisibility() . ($func->isStatic() ? ' static':'');
+
+        $this->add('| '.$firstCol.' | '.$str.' |');
     }
 
     /**
