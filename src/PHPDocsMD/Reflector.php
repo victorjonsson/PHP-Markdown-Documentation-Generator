@@ -103,10 +103,14 @@ class Reflector implements ReflectorInterface
         $type = 'mixed';
         $declaredType = self::getParamType($reflection);
         if( $declaredType && !($declaredType=='array' && substr($docs['type'], -2) == '[]') && $declaredType != $docs['type']) {
-            $posClassA = current(end(explode('\\', $docs['type'])));
-            $posClassB = current(end(explode('\\', $declaredType)));
-            if( $posClassA == $posClassB ) {
-                $docs['type'] = $declaredType;
+            if( $declaredType && $docs['type'] ) {
+                $posClassA = end(explode('\\', $docs['type']));
+                $posClassB = end(explode('\\', $declaredType));
+                if( $posClassA == $posClassB ) {
+                    $docs['type'] = $declaredType;
+                } else {
+                    $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'/'.$declaredType;
+                }
             } else {
                 $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'/'.$declaredType;
             }
@@ -159,6 +163,12 @@ class Reflector implements ReflectorInterface
         return $param;
     }
 
+    /**
+     * Tries to find out if the type of the given parameter is defined in the code. Will
+     * return empty string if not so.
+     * @param \ReflectionParameter $refParam
+     * @return string
+     */
     static function getParamType(\ReflectionParameter $refParam)
     {
         $export = \ReflectionParameter::export(

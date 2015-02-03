@@ -1,27 +1,3 @@
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
-
-Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
 ## Table of contents
 
 - [PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)
@@ -125,7 +101,7 @@ Warning: current() expects parameter 1 to be array, string given in /Application
 | protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>ClassEntity</em> |
 | protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool|FunctionEntity</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>mixed</em> |
+| public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>string</em><br /><em>Tries to find out if the type of the given parameter is defined in the code. Will return empty string if not so.</em> |
 | protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool</em> |
 
 *This class implements [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
