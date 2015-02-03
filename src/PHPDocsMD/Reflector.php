@@ -103,7 +103,13 @@ class Reflector implements ReflectorInterface
         $type = 'mixed';
         $declaredType = self::getParamType($reflection);
         if( $declaredType && !($declaredType=='array' && substr($docs['type'], -2) == '[]') && $declaredType != $docs['type']) {
-            $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'/'.$declaredType;
+            $posClassA = current(end(explode('\\', $docs['type'])));
+            $posClassB = current(end(explode('\\', $declaredType)));
+            if( $posClassA == $posClassB ) {
+                $docs['type'] = $declaredType;
+            } else {
+                $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'aaaa/'.$declaredType;
+            }
         }
 
         try {
@@ -128,7 +134,11 @@ class Reflector implements ReflectorInterface
                 $type = false;
             }
             if( $type && $def && !empty($docs['type']) && $docs['type'] != $type && strpos($docs['type'], '|') === false) {
-                $docs['type'] = $type.'/'.$docs['type'];
+                if( substr($docs['type'], strpos($docs['type'], '\\')) == substr($declaredType, strpos($declaredType, '\\')) ) {
+                    $docs['type'] = $declaredType;
+                } else {
+                    $docs['type'] = $type.'/'.$docs['type'];
+                }
             } elseif( $type && empty($docs['type']) ) {
                 $docs['type'] = $type;
             }

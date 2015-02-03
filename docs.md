@@ -1,3 +1,27 @@
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 106
+
+Warning: current() expects parameter 1 to be array, string given in /Applications/MAMP/htdocs/PHP-Markdown-Documentation-Generator/src/PHPDocsMD/Reflector.php on line 107
 ## Table of contents
 
 - [PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)
@@ -72,7 +96,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>addFunc(</strong><em>FunctionEntity/\PHPDocsMD\FunctionEntity</em> <strong>$func</strong>)</strong> : <em>void</em> |
+| public | <strong>addFunc(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> <strong>$func</strong>)</strong> : <em>void</em> |
 | public | <strong>getTable()</strong> : <em>string</em> |
 | public | <strong>openTable()</strong> : <em>void</em> |
 
@@ -99,7 +123,7 @@
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
 | protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>ClassEntity</em> |
-| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity/\PHPDocsMD\ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool|FunctionEntity</em> |
+| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool|FunctionEntity</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>mixed</em> |
 | protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool</em> |
@@ -123,7 +147,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>run(</strong><em>\Symfony\Component\Console\Input\InputInterface</em> <strong>$input=null</strong>, <em>\Symfony\Component\Console\Input\OutputInterface/\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output=null</strong>)</strong> : <em>int</em> |
+| public | <strong>run(</strong><em>\Symfony\Component\Console\Input\InputInterface</em> <strong>$input=null</strong>, <em>\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output=null</strong>)</strong> : <em>int</em> |
 
 *This class extends Symfony\Component\Console\Application*
 
