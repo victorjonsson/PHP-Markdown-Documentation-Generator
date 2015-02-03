@@ -80,15 +80,15 @@ class Reflector implements ReflectorInterface
 
     /**
      * @param array $tags
-     * @param \ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $method
      * @param ClassEntity $class
      * @return bool
      */
-    protected function shouldIgnoreFunction($tags, \ReflectionMethod $methodReflection, $class)
+    protected function shouldIgnoreFunction($tags, \ReflectionMethod $method, $class)
     {
         return isset($tags['ignore']) ||
-                $methodReflection->isPrivate() ||
-                $methodReflection->getDeclaringClass()->getName() != $class->getName();
+                $method->isPrivate() ||
+                $method->getDeclaringClass()->getName() != $class->getName();
     }
 
     /**
@@ -238,7 +238,7 @@ class Reflector implements ReflectorInterface
     private function createEntity($reflection, $class)
     {
         $comment = $this->getCleanDocComment($reflection);
-        $tags = $this->extractTagsFromComment($comment);
+        $tags = $this->extractTagsFromComment($comment, 'description', $reflection);
         $class->setName($reflection->getName());
         $class->setDescription($tags['description']);
         if( $tags['deprecated'] ) {
@@ -261,10 +261,12 @@ class Reflector implements ReflectorInterface
     /**
      * @param string $comment
      * @param string $current_tag
+     * @param \ReflectionMethod|\ReflectionClass $reflection
      * @return array
      */
-    private function extractTagsFromComment($comment, $current_tag='description')
+    private function extractTagsFromComment($comment, $current_tag='description', $reflection)
     {
+        $ns = $reflection instanceof \ReflectionClass ? $reflection->getNamespaceName() : $reflection->getDeclaringClass()->getNamespaceName();
         $tags = array($current_tag=>'');
         foreach(explode(PHP_EOL, $comment) as $line) {
             $line = trim($line);
@@ -286,6 +288,11 @@ class Reflector implements ReflectorInterface
                 if( count($words) > 1 ) {
                     $param_desc = join(' ', $words);
                 }
+
+                if( $this->shouldPrefixWithNamespace($param_type) ) {
+                    $param_type = '\\'.trim($ns, '\\').'\\'.$param_type;
+                }
+
                 $tags['params'][$param_name] = array(
                     'description' => $param_desc,
                     'name' => $param_name,
@@ -314,6 +321,16 @@ class Reflector implements ReflectorInterface
         }
 
         return $tags;
+    }
+
+    /**
+     * @param string $param_type
+     * @return bool
+     */
+    private function shouldPrefixWithNamespace($param_type)
+    {
+        $natives = array('mixed', 'string', 'int', 'number', 'bool', 'boolean', 'object', 'mixed', 'false', 'true', 'null', 'array', 'void');
+        return strpos($param_type, '\\') !== 0 && !in_array(strtolower($param_type), $natives);
     }
 
     /**

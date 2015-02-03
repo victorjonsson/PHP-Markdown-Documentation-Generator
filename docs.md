@@ -22,9 +22,9 @@
 | public | <strong>getExtends()</strong> : <em>string</em> |
 | public | <strong>getFunctions()</strong> : <em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> |
 | public | <strong>getInterfaces()</strong> : <em>array</em> |
-| public | <strong>hasIgnoreTag(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isAbstract(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isInterface(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>hasIgnoreTag(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isAbstract(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isInterface(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>setExtends(</strong><em>string</em> <strong>$extends</strong>)</strong> : <em>void</em> |
 | public | <strong>setFunctions(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> <strong>$functions</strong>)</strong> : <em>void</em> |
 | public | <strong>setInterfaces(</strong><em>array</em> <strong>$implements</strong>)</strong> : <em>void</em> |
@@ -41,7 +41,7 @@
 | public | <strong>getDeprecationMessage()</strong> : <em>string</em> |
 | public | <strong>getDescription()</strong> : <em>string</em> |
 | public | <strong>getName()</strong> : <em>string</em> |
-| public | <strong>isDeprecated(</strong><em>bool/null</em> <strong>$toggle=null</strong>)</strong> : <em>void|bool</em> |
+| public | <strong>isDeprecated(</strong><em>\PHPDocsMD\bool/null</em> <strong>$toggle=null</strong>)</strong> : <em>void|bool</em> |
 | public | <strong>setDeprecationMessage(</strong><em>string</em> <strong>$deprecationMessage</strong>)</strong> : <em>void</em> |
 | public | <strong>setDescription(</strong><em>string</em> <strong>$description</strong>)</strong> : <em>void</em> |
 | public | <strong>setName(</strong><em>string</em> <strong>$name</strong>)</strong> : <em>void</em> |
@@ -57,8 +57,8 @@
 | public | <strong>getReturnType()</strong> : <em>string</em> |
 | public | <strong>getVisibility()</strong> : <em>string</em> |
 | public | <strong>hasParams()</strong> : <em>bool</em> |
-| public | <strong>isAbstract(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isStatic(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isAbstract(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isStatic(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>setParams(</strong><em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]</em> <strong>$params</strong>)</strong> : <em>void</em> |
 | public | <strong>setReturnType(</strong><em>string</em> <strong>$returnType</strong>)</strong> : <em>void</em> |
 | public | <strong>setVisibility(</strong><em>string</em> <strong>$visibility</strong>)</strong> : <em>void</em> |
@@ -102,7 +102,7 @@
 | protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool|FunctionEntity</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>string</em><br /><em>Tries to find out if the type of the given parameter. Will return empty string if not possible.</em> |
-| protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool</em> |
+| protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool</em> |
 
 *This class implements [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
 
