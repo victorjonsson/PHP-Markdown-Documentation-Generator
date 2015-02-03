@@ -164,8 +164,8 @@ class Reflector implements ReflectorInterface
     }
 
     /**
-     * Tries to find out if the type of the given parameter is defined in the code. Will
-     * return empty string if not so.
+     * Tries to find out if the type of the given parameter. Will
+     * return empty string if not possible.
      * @param \ReflectionParameter $refParam
      * @return string
      */
