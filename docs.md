@@ -26,8 +26,8 @@
 | public | <strong>isAbstract(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>isInterface(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>setExtends(</strong><em>string</em> <strong>$extends</strong>)</strong> : <em>void</em> |
-| public | <strong>setFunctions(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]/array</em> <strong>$functions</strong>)</strong> : <em>void</em> |
-| public | <strong>setInterfaces(</strong><em>array/array</em> <strong>$implements</strong>)</strong> : <em>void</em> |
+| public | <strong>setFunctions(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> <strong>$functions</strong>)</strong> : <em>void</em> |
+| public | <strong>setInterfaces(</strong><em>array</em> <strong>$implements</strong>)</strong> : <em>void</em> |
 
 *This class extends [PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
@@ -59,7 +59,7 @@
 | public | <strong>hasParams()</strong> : <em>bool</em> |
 | public | <strong>isAbstract(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>isStatic(</strong><em>null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>setParams(</strong><em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]/array</em> <strong>$params</strong>)</strong> : <em>void</em> |
+| public | <strong>setParams(</strong><em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]</em> <strong>$params</strong>)</strong> : <em>void</em> |
 | public | <strong>setReturnType(</strong><em>string</em> <strong>$returnType</strong>)</strong> : <em>void</em> |
 | public | <strong>setVisibility(</strong><em>string</em> <strong>$visibility</strong>)</strong> : <em>void</em> |
 
@@ -98,11 +98,11 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
-| protected | <strong>createClassEntity(</strong><em>\ReflectionClass/\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>ClassEntity</em> |
-| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod/\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity/\PHPDocsMD\ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool|FunctionEntity</em> |
+| protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>ClassEntity</em> |
+| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity/\PHPDocsMD\ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool|FunctionEntity</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>mixed</em> |
-| protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod/\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool</em> |
+| protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$methodReflection</strong>, <em>ClassEntity</em> <strong>$class</strong>)</strong> : <em>bool</em> |
 
 *This class implements [PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
 
@@ -123,7 +123,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>__construct()</strong> : <em>void</em> |
-| public | <strong>run(</strong><em>\Symfony\Component\Console\Input\InputInterface/\Symfony\Component\Console\Input\InputInterface</em> <strong>$input=null</strong>, <em>\Symfony\Component\Console\Input\OutputInterface/\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output=null</strong>)</strong> : <em>int</em> |
+| public | <strong>run(</strong><em>\Symfony\Component\Console\Input\InputInterface</em> <strong>$input=null</strong>, <em>\Symfony\Component\Console\Input\OutputInterface/\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output=null</strong>)</strong> : <em>int</em> |
 
 *This class extends Symfony\Component\Console\Application*
 

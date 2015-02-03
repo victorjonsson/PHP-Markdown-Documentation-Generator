@@ -102,7 +102,7 @@ class Reflector implements ReflectorInterface
         $def = false;
         $type = 'mixed';
         $declaredType = self::getParamType($reflection);
-        if( $declaredType ) {
+        if( $declaredType && !($declaredType=='array' && substr($docs['type'], -2) == '[]') && $declaredType != $docs['type']) {
             $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'/'.$declaredType;
         }
 
