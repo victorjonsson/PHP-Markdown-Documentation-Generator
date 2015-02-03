@@ -108,7 +108,7 @@ class Reflector implements ReflectorInterface
             if( $posClassA == $posClassB ) {
                 $docs['type'] = $declaredType;
             } else {
-                $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'aaaa/'.$declaredType;
+                $docs['type'] = empty($docs['type']) ? $declaredType : $docs['type'].'/'.$declaredType;
             }
         }
 
