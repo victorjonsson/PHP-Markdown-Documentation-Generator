@@ -42,21 +42,21 @@ class Reflector implements ReflectorInterface
     }
 
     /**
-     * @param \ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $method
      * @param ClassEntity $class
      * @return bool|FunctionEntity
      */
-    protected function createFunctionEntity(\ReflectionMethod $methodReflection, ClassEntity $class)
+    protected function createFunctionEntity(\ReflectionMethod $method, ClassEntity $class)
     {
         $func = new FunctionEntity();
-        $tags = $this->createEntity($methodReflection, $func);
+        $tags = $this->createEntity($method, $func);
 
-        if( $this->shouldIgnoreFunction($tags, $methodReflection, $class) ) {
+        if( $this->shouldIgnoreFunction($tags, $method, $class) ) {
             return false;
         }
 
         $params = array();
-        foreach ($methodReflection->getParameters() as $param) {
+        foreach ($method->getParameters() as $param) {
             $paramName = '$'.$param->getName();
             $docs = isset($tags['params'][$paramName]) ? $tags['params'][$paramName] : array();
             $params[$param->getName()] = $this->createParameterEntity($param, $docs);
@@ -68,10 +68,10 @@ class Reflector implements ReflectorInterface
 
         $func->setReturnType($tags['return']);
         $func->setParams(array_values($params));
-        $func->isStatic($methodReflection->isStatic());
-        $func->setVisibility($methodReflection->isPublic() ? 'public' : 'protected');
+        $func->isStatic($method->isStatic());
+        $func->setVisibility($method->isPublic() ? 'public' : 'protected');
 
-        if ($methodReflection->isAbstract()) {
+        if ($method->isAbstract()) {
             $func->isAbstract(true);
             return $func;
         }
