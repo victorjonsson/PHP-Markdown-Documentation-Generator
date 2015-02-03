@@ -4,7 +4,7 @@
     "minimum-stability": "dev",
     "homepage" : "https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator",
     "license" : "MIT",
-    "version" : "1.0.0",
+    "version" : "1.1.0",
     "authors": [{
         "name": "Victor Jonsson",
         "email": "kontakt@victorjonsson.se"
@@ -18,5 +18,10 @@
     },
     "autoload": {
         "psr-0": {"PHPDocsMD": "src/"}
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "\\PHPDocsMD\\Console\\CLI::install"
+        ]
     }
 }

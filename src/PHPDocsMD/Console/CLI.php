@@ -7,7 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 
 /**
- * Command line interface for extracting markdown-formatted class documentation
+ * Command line interface used to extract markdown-formatted documentation from classes
  * @package PHPDocsMD\Console
  */
 class CLI extends Application {
@@ -29,4 +29,15 @@ class CLI extends Application {
         return parent::run($input, $output);
     }
 
+    /**
+     * Moves a copy of phpdoc-md to project root
+     * @ignore
+     */
+    public static function install()
+    {
+        $phpdocExec = __DIR__.'/../../../phpdoc-md';
+        $projExec = getcwd().'/phpdoc-md';
+        copy($phpdocExec, $projExec);
+        chmod($projExec, 0755);
+    }
 }
