@@ -18,7 +18,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>generateAnchor()</strong> : <em>string</em><br /><em>Generates an anchor link out of the generated title (see generateTitle)</em> |
-| public | <strong>generateTitle(</strong><em>string</em> <strong>$format=`%label%: %name% %extra%`</strong>)</strong> : <em>string</em><br /><em>Generate a title describing the class this object is referring to</em> |
+| public | <strong>generateTitle(</strong><em>string</em> <strong>$format=`'%label%: %name% %extra%'`</strong>)</strong> : <em>string</em><br /><em>Generate a title describing the class this object is referring to</em> |
 | public | <strong>getExtends()</strong> : <em>string</em> |
 | public | <strong>getFunctions()</strong> : <em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> |
 | public | <strong>getInterfaces()</strong> : <em>array</em> |
