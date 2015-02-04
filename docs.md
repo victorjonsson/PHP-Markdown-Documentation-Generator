@@ -18,14 +18,14 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>generateAnchor()</strong> : <em>string</em><br /><em>Generates an anchor link out of the generated title (see generateTitle)</em> |
-| public | <strong>generateTitle(</strong><em>string</em> <strong>$format='%label%: %name% %extra%'</strong>)</strong> : <em>string</em><br /><em>Generate a title describing the class this object is referring to</em> |
+| public | <strong>generateTitle(</strong><em>string</em> <strong>$format=`'%label%: %name% %extra%'`</strong>)</strong> : <em>string</em><br /><em>Generate a title describing the class this object is referring to</em> |
 | public | <strong>getExtends()</strong> : <em>string</em> |
 | public | <strong>getFunctions()</strong> : <em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> |
 | public | <strong>getInterfaces()</strong> : <em>array</em> |
-| public | <strong>hasIgnoreTag(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isAbstract(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isInterface(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isSame(</strong><em>\PHPDocsMD\string/object</em> <strong>$class</strong>)</strong> : <em>bool</em><br /><em>Check whether this object is referring to given class name or object instance</em> |
+| public | <strong>hasIgnoreTag(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isAbstract(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isInterface(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isSame(</strong><em>string/object</em> <strong>$class</strong>)</strong> : <em>bool</em><br /><em>Check whether this object is referring to given class name or object instance</em> |
 | public static | <strong>sanitizeClassName(</strong><em>string</em> <strong>$name</strong>)</strong> : <em>string</em> |
 | public | <strong>setExtends(</strong><em>string</em> <strong>$extends</strong>)</strong> : <em>void</em> |
 | public | <strong>setFunctions(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> <strong>$functions</strong>)</strong> : <em>void</em> |
@@ -44,7 +44,7 @@
 | public | <strong>getDeprecationMessage()</strong> : <em>string</em> |
 | public | <strong>getDescription()</strong> : <em>string</em> |
 | public | <strong>getName()</strong> : <em>string</em> |
-| public | <strong>isDeprecated(</strong><em>\PHPDocsMD\bool/null</em> <strong>$toggle=null</strong>)</strong> : <em>\PHPDocsMD\void|bool</em> |
+| public | <strong>isDeprecated(</strong><em>mixed/bool/null</em> <strong>$toggle=null</strong>)</strong> : <em>void/bool</em> |
 | public | <strong>setDeprecationMessage(</strong><em>string</em> <strong>$deprecationMessage</strong>)</strong> : <em>void</em> |
 | public | <strong>setDescription(</strong><em>string</em> <strong>$description</strong>)</strong> : <em>void</em> |
 | public | <strong>setName(</strong><em>string</em> <strong>$name</strong>)</strong> : <em>void</em> |
@@ -60,8 +60,8 @@
 | public | <strong>getReturnType()</strong> : <em>string</em> |
 | public | <strong>getVisibility()</strong> : <em>string</em> |
 | public | <strong>hasParams()</strong> : <em>bool</em> |
-| public | <strong>isAbstract(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
-| public | <strong>isStatic(</strong><em>\PHPDocsMD\null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isAbstract(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>isStatic(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>setParams(</strong><em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]</em> <strong>$params</strong>)</strong> : <em>void</em> |
 | public | <strong>setReturnType(</strong><em>string</em> <strong>$returnType</strong>)</strong> : <em>void</em> |
 | public | <strong>setVisibility(</strong><em>string</em> <strong>$visibility</strong>)</strong> : <em>void</em> |
@@ -102,7 +102,7 @@
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
 | protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>\PHPDocsMD\bool|FunctionEntity</em> |
+| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool/\PHPDocsMD\FunctionEntity</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>string</em><br /><em>Tries to find out if the type of the given parameter. Will return empty string if not possible.</em> |
 | protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool</em> |
@@ -138,7 +138,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | protected | <strong>configure()</strong> : <em>void</em> |
-| protected | <strong>execute(</strong><em>\Symfony\Component\Console\Input\InputInterface</em> <strong>$input</strong>, <em>\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output</strong>)</strong> : <em>\PHPDocsMD\Console\int|null|void</em> |
+| protected | <strong>execute(</strong><em>\Symfony\Component\Console\Input\InputInterface</em> <strong>$input</strong>, <em>\Symfony\Component\Console\Output\OutputInterface</em> <strong>$output</strong>)</strong> : <em>int/null/void</em> |
 | public | <strong>extractClassNameFromLine(</strong><em>string</em> <strong>$type</strong>, <em>string</em> <strong>$line</strong>)</strong> : <em>string</em> |
 
 *This class extends \Symfony\Component\Console\Command\Command*
