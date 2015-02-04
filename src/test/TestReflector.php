@@ -24,10 +24,10 @@ class TestReflector extends PHPUnit_Framework_TestCase {
 
     function testClass()
     {
-        $this->assertEquals('Acme\\ExampleClass', $this->class->getName());
+        $this->assertEquals('\\Acme\\ExampleClass', $this->class->getName());
         $this->assertEquals('This is a description of this class', $this->class->getDescription());
-        $this->assertEquals('Class: Acme\\ExampleClass (abstract)', $this->class->generateTitle());
-        $this->assertEquals('class-acmeexampleclass', $this->class->generateAnchor());
+        $this->assertEquals('Class: \\Acme\\ExampleClass (abstract)', $this->class->generateTitle());
+        $this->assertEquals('class-acmeexampleclass-abstract', $this->class->generateAnchor());
         $this->assertFalse($this->class->isDeprecated());
         $this->assertFalse($this->class->hasIgnoreTag());
 

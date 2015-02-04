@@ -66,6 +66,8 @@ class Reflector implements ReflectorInterface
             $tags['return'] = $this->guessReturnTypeFromFuncName($func->getName());
         }
 
+        $tags['return'] = $this->sanitizeDeclaration($tags['return'], $method->getDeclaringClass()->getNamespaceName());
+
         $func->setReturnType($tags['return']);
         $func->setParams(array_values($params));
         $func->isStatic($method->isStatic());
@@ -88,7 +90,7 @@ class Reflector implements ReflectorInterface
     {
         return isset($tags['ignore']) ||
                 $method->isPrivate() ||
-                $method->getDeclaringClass()->getName() != $class->getName();
+                !$class->isSame($method->getDeclaringClass()->getName());
     }
 
     /**
@@ -120,7 +122,7 @@ class Reflector implements ReflectorInterface
             $def = $reflection->getDefaultValue();
             $type = $this->getTypeFromVal($def);
             if( is_string($def) ) {
-                $def = "'$def'";
+                $def = "`'$def'`";
             } elseif( is_bool($def) ) {
                 $def = $def ? 'true':'false';
             } elseif( is_null($def) ) {
@@ -156,10 +158,10 @@ class Reflector implements ReflectorInterface
         }
 
         $param = new ParamEntity();
-        $param->setDescription($docs['description']);
+        $param->setDescription(isset($docs['description']) ? $docs['description']:'');
         $param->setName($varName);
         $param->setDefault($docs['default']);
-        $param->setType(empty($docs['type']) ? 'mixed':str_replace('|', '/', $docs['type']));
+        $param->setType(empty($docs['type']) ? 'mixed':str_replace(array('|', '\\\\'), array('/', '\\'), $docs['type']));
         return $param;
     }
 
@@ -240,8 +242,8 @@ class Reflector implements ReflectorInterface
         $comment = $this->getCleanDocComment($reflection);
         $tags = $this->extractTagsFromComment($comment, 'description', $reflection);
         $class->setName($reflection->getName());
-        $class->setDescription($tags['description']);
-        if( $tags['deprecated'] ) {
+        $class->setDescription(!empty($tags['description']) ? $tags['description']:'');
+        if( !empty($tags['deprecated']) ) {
             $class->isDeprecated(true);
             $class->setDeprecationMessage($tags['deprecated']);
         }
@@ -279,26 +281,26 @@ class Reflector implements ReflectorInterface
                     $param_name = $words[1];
                     $param_type = 'mixed';
                     array_splice($words, 0, 2);
-                } else {
+                } elseif( isset($words[2]) ) {
                     $param_name = $words[2];
                     $param_type = $words[1];
                     array_splice($words, 0, 3);
                 }
-                $param_name = current(explode('=', $param_name));
-                if( count($words) > 1 ) {
-                    $param_desc = join(' ', $words);
-                }
+                if( !empty($param_name) ) {
+                    $param_name = current(explode('=', $param_name));
+                    if( count($words) > 1 ) {
+                        $param_desc = join(' ', $words);
+                    }
 
-                if( $this->shouldPrefixWithNamespace($param_type) ) {
-                    $param_type = '\\'.trim($ns, '\\').'\\'.$param_type;
-                }
+                    $param_type = $this->sanitizeDeclaration($param_type, $ns, '|');
 
-                $tags['params'][$param_name] = array(
-                    'description' => $param_desc,
-                    'name' => $param_name,
-                    'type' => $param_type,
-                    'default' => false
-                );
+                    $tags['params'][$param_name] = array(
+                        'description' => $param_desc,
+                        'name' => $param_name,
+                        'type' => $param_type,
+                        'default' => false
+                    );
+                }
             } else {
                 $current_tag = substr($words[0], 1);
                 array_splice($words, 0 ,1);
@@ -329,8 +331,17 @@ class Reflector implements ReflectorInterface
      */
     private function shouldPrefixWithNamespace($param_type)
     {
+        return strpos($param_type, '\\') !== 0 && $this->isClassReference($param_type);
+    }
+
+    /**
+     * @param string $str
+     * @return bool
+     */
+    private function isClassReference($str)
+    {
         $natives = array('mixed', 'string', 'int', 'number', 'bool', 'boolean', 'object', 'mixed', 'false', 'true', 'null', 'array', 'void');
-        return strpos($param_type, '\\') !== 0 && !in_array(strtolower($param_type), $natives);
+        return !in_array(trim(strtolower($str)), $natives) && strpos($str, ' ') === false;
     }
 
     /**
@@ -352,5 +363,24 @@ class Reflector implements ReflectorInterface
             return $class;
         }
         return $class;
+    }
+
+    /**
+     * @param $param_type
+     * @param $ns
+     * @return string
+     */
+    private function sanitizeDeclaration($param_type, $ns, $delim='|')
+    {
+        $parts = explode($delim, $param_type);
+        foreach($parts as $i=>$p) {
+            if ($this->shouldPrefixWithNamespace($p)) {
+                $p = ClassEntity::sanitizeClassName('\\' . trim($ns, '\\') . '\\' . $p);
+            } elseif ($this->isClassReference($p)) {
+                $p = ClassEntity::sanitizeClassName($p);
+            }
+            $parts[$i] = $p;
+        }
+        return implode('/', $parts);
     }
 }

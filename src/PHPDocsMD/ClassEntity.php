@@ -81,7 +81,7 @@ class ClassEntity extends CodeEntity {
      */
     public function setExtends($extends)
     {
-        $this->extends = $extends;
+        $this->extends = self::sanitizeClassName($extends);
     }
 
     /**
@@ -105,7 +105,10 @@ class ClassEntity extends CodeEntity {
      */
     public function setInterfaces(array $implements)
     {
-        $this->interfaces = $implements;
+        $this->interfaces = array();
+        foreach($implements as $interface) {
+            $this->interfaces[] = self::sanitizeClassName($interface);
+        }
     }
 
     /**
@@ -125,21 +128,65 @@ class ClassEntity extends CodeEntity {
     }
 
     /**
-     * Generate a descriptive title for this class
+     * @param string $name
+     */
+    function setName($name)
+    {
+        parent::setName(self::sanitizeClassName($name));
+    }
+
+    /**
+     * Check whether this object is referring to given class name or object instance
+     * @param string|object $class
+     * @return bool
+     */
+    function isSame($class)
+    {
+        $className = is_object($class) ? get_class($class) : $class;
+        return self::sanitizeClassName($className) == $this->getName();
+    }
+
+    /**
+     * @param string $name
      * @return string
      */
-    function generateTitle() {
-        $label = $this->isInterface() ? 'Interface' : 'Class';
-        $abstractTag = $this->isAbstract() && !$this->isInterface() ? ' (abstract)' : '';
-        return $label .': '. $this->getName() .$abstractTag;
+    public static function sanitizeClassName($name)
+    {
+        return '\\'.trim($name, ' \\');
+    }
+
+    /**
+     * Generate a title describing the class this object is referring to
+     * @param string $format
+     * @return string
+     */
+    function generateTitle($format='%label%: %name% %extra%')
+    {
+        $translate = array(
+            '%label%' => $this->isInterface() ? 'Interface' : 'Class',
+            '%name%' => substr_count($this->getName(), '\\') == 1 ? substr($this->getName(), 1) : $this->getName(),
+            '%extra%' => ''
+        );
+
+        if( strpos($format, '%label%') === false ) {
+            if( $this->isInterface() )
+                $translate['%extra%'] = '(interface)';
+            elseif( $this->isAbstract() )
+                $translate['%extra%'] = '(abstract)';
+        } else {
+            $translate['%extra%'] = $this->isAbstract() && !$this->isInterface() ? '(abstract)' : '';
+        }
+
+        return trim(strtr($format, $translate));
     }
 
     /**
      * Generates an anchor link out of the generated title (see generateTitle)
      * @return string
      */
-    function generateAnchor() {
-        $title = current(explode(' (', $this->generateTitle()));
-        return strtolower(str_replace(array(':', ' ', '\\'), array('', '-', ''), $title));
+    function generateAnchor()
+    {
+        $title = $this->generateTitle();
+        return strtolower(str_replace(array(':', ' ', '\\', '(', ')'), array('', '-', '', '', ''), $title));
     }
 }
