@@ -107,7 +107,7 @@
 | public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>string</em><br /><em>Tries to find out if the type of the given parameter. Will return empty string if not possible.</em> |
 | protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool</em> |
 
-*This class implements PHPDocsMD\ReflectorInterface*
+*This class implements [\PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
 
 <hr /> 
 ### Interface: \PHPDocsMD\ReflectorInterface
