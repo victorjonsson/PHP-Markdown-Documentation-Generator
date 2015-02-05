@@ -1,6 +1,3 @@
-
-![Travis](https://travis-ci.org/victorjonsson/PHP-Markdown-Documentation-Generator.svg)
-
 # PHP-Markdown-Documentation-Generator
 
 The documentation is just as important as the code it's refering to. With this command line tool 
@@ -8,6 +5,8 @@ you will be able to write your documentation once, and only once!
 
 Write your code documentation following the standard set by [phpdoc](http://www.phpdoc.org/) and generate a markdown-formatted
 documentation by calling `phpdocs-md` in your console.
+
+![Travis](https://travis-ci.org/victorjonsson/PHP-Markdown-Documentation-Generator.svg)
 
 ### Example
 
