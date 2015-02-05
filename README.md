@@ -6,6 +6,8 @@ you will be able to write your documentation once, and only once!
 Write your code documentation following the standard set by [phpdoc](http://www.phpdoc.org/) and generate a markdown-formatted
 documentation by calling `phpdocs-md` in your console.
 
+![Travis](https://travis-ci.org/victorjonsson/PHP-Markdown-Documentation-Generator.svg)
+
 ### Example
 
 Let's say you have your PHP classes in a directory named "src". Each class has its own file named the same way as the class.
