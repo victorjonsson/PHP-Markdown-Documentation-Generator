@@ -1,3 +1,6 @@
+
+![Travis](https://travis-ci.org/victorjonsson/PHP-Markdown-Documentation-Generator.svg)
+
 # PHP-Markdown-Documentation-Generator
 
 The documentation is just as important as the code it's refering to. With this command line tool 
