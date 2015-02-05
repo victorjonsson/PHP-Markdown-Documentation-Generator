@@ -70,14 +70,21 @@ $ ./phpdocs-md generate Acme\\NS\\MyClass,Acme\\OtherNS\\OtherClass
 
 # Generate docs for all classes in a source directory
 $ ./phpdocs-md generate includes/src
+
+# Generate docs for all classes in a source directory and send output to the file docs.md
+$ ./phpdocs-md generate includes/src > docs.md
 ```
 
 *Note that the classes has to be loadable using the autoloader provided by composer.*
 
 ##### Bootstrapping 
 
-Maybe your not using the autloader provided by composer or maybe there is something else that needs to be done before your classes can be instantiated. In that case you can tell the command line tool to load a php-file before 
+Maybe your not using the autloader provided by composer or maybe there is something else that needs to be done before your classes can be instantiated. In that case you can tell the command line tool to load a php-file before generating the docs
+
+`$ ./phpdocs-md generate --bootstrap=includes/init.php includes/src > docs.md`
 
 ######  Excluding directories
 
-Lorem te ipsum
+You can tell the command line tool to ignore certain directories in your class path by using the ignore-option.
+
+`$ ./phpdocs-md generate --ignore=test,mustasche includes/src > docs.md`
