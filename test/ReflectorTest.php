@@ -1,9 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../vendor/autoload.php';
-
-
-class TestReflector extends PHPUnit_Framework_TestCase {
+class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @var \PHPDocsMD\Reflector
@@ -17,7 +14,7 @@ class TestReflector extends PHPUnit_Framework_TestCase {
 
     protected function setUp()
     {
-        require_once __DIR__.'/ExampleClass.php';
+        require_once __DIR__ . '/ExampleClass.php';
         $this->reflector = new \PHPDocsMD\Reflector('Acme\\ExampleClass');
         $this->class = $this->reflector->getClassEntity();
     }
