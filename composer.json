@@ -20,7 +20,7 @@
         "psr-0": {"PHPDocsMD": "src/"}
     },
     "scripts": {
-        "post-package-install": [
+        "post-install-cmd": [
             "\\PHPDocsMD\\Console\\CLI::install"
         ]
     }

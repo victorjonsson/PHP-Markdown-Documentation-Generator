@@ -35,7 +35,7 @@ class CLI extends Application {
      */
     public static function install()
     {
-        $phpdocExec = __DIR__.'/../../../phpdoc-md';
+        $phpdocExec = __DIR__.'/../../../bin/phpdoc-md';
         $projExec = getcwd().'/phpdoc-md';
         copy($phpdocExec, $projExec);
         chmod($projExec, 0755);
