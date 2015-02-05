@@ -57,7 +57,7 @@ Only public and protected functions will be a part of the documentation but you 
 
 This command line tool can be installed using [composer](https://getcomposer.org/). Add `"victorjonsson/markdowndocs": "1.2.4"` to composer.json and run install/update. Now you can choose to use `vendor/victorjonsson/markdowndocs/bin/phpdocs-md` directly as an executable or copy it to your project root by calling `$ cp vendor/victorjonsson/markdowndocs/bin/phpdocs-md phpdocs-md`
 
-##### Generating docs
+###### Generating docs
 
 To generate the documentation you use the command `generate`. The command line tool also needs to know whether you want to generate docs for a certain class or if it should search through a directory after class files.
 
@@ -77,7 +77,7 @@ $ ./phpdocs-md generate includes/src > docs.md
 
 *Note that the classes has to be loadable using the autoloader provided by composer.*
 
-##### Bootstrapping 
+###### Bootstrapping 
 
 Maybe your not using the autloader provided by composer or maybe there is something else that needs to be done before your classes can be instantiated. In that case you can tell the command line tool to load a php-file before generating the docs
 
