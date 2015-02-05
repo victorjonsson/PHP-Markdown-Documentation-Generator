@@ -4,13 +4,7 @@ php:
   - 5.4
   - 5.5
 
-branches:
-  only:
-    - master
-
-before_script:
+script:
   - composer self-update
   - composer install --no-interaction --prefer-source --dev
-
-script:
   - phpunit
