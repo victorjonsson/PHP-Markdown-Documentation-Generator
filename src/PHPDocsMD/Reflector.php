@@ -104,6 +104,9 @@ class Reflector implements ReflectorInterface
         $def = false;
         $type = 'mixed';
         $declaredType = self::getParamType($reflection);
+        if( !isset($docs['type']) )
+            $docs['type'] = '';
+
         if( $declaredType && !($declaredType=='array' && substr($docs['type'], -2) == '[]') && $declaredType != $docs['type']) {
             if( $declaredType && $docs['type'] ) {
                 $posClassA = end(explode('\\', $docs['type']));
