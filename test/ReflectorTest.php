@@ -59,26 +59,27 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('void', $functions[1]->getReturnType());
         $this->assertEquals('public', $functions[1]->getVisibility());
 
-        $this->assertEquals('Description of c', $functions[2]->getDescription());
-        $this->assertEquals(true, $functions[2]->isDeprecated());
-        $this->assertEquals('This one is deprecated', $functions[2]->getDeprecationMessage());
-        $this->assertEquals('funcC', $functions[2]->getName());
-        $this->assertEquals('\\Acme\\ExampleClass', $functions[2]->getReturnType());
-        $this->assertEquals('protected', $functions[2]->getVisibility());
-
-        $this->assertEquals('', $functions[3]->getDescription());
-        $this->assertEquals('funcD', $functions[3]->getName());
-        $this->assertEquals('void', $functions[3]->getReturnType());
-        $this->assertEquals('public', $functions[3]->getVisibility());
-        $this->assertEquals(false, $functions[3]->isDeprecated());
+        $this->assertEquals('', $functions[2]->getDescription());
+        $this->assertEquals('funcD', $functions[2]->getName());
+        $this->assertEquals('void', $functions[2]->getReturnType());
+        $this->assertEquals('public', $functions[2]->getVisibility());
+        $this->assertEquals(false, $functions[2]->isDeprecated());
 
         // These function does not declare return type but the return
         // type should be guessable
-        $this->assertEquals('mixed', $functions[4]->getReturnType());
+        $this->assertEquals('mixed', $functions[3]->getReturnType());
+        $this->assertEquals('bool', $functions[4]->getReturnType());
         $this->assertEquals('bool', $functions[5]->getReturnType());
-        $this->assertEquals('bool', $functions[6]->getReturnType());
-        $this->assertTrue($functions[6]->isAbstract());
+        $this->assertTrue($functions[5]->isAbstract());
         $this->assertTrue($this->class->isAbstract());
+
+        // Protected function have been put last
+        $this->assertEquals('Description of c', $functions[6]->getDescription());
+        $this->assertEquals(true, $functions[6]->isDeprecated());
+        $this->assertEquals('This one is deprecated', $functions[6]->getDeprecationMessage());
+        $this->assertEquals('funcC', $functions[6]->getName());
+        $this->assertEquals('\\Acme\\ExampleClass', $functions[6]->getReturnType());
+        $this->assertEquals('protected', $functions[6]->getVisibility());
 
         $this->assertTrue( empty($functions[7]) ); // Should be skipped since tagged with @ignore */
     }
@@ -98,10 +99,10 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('\\Acme\\ExampleInterface', $typeA);
 
         $functions = $this->class->getFunctions();
-        $params = $functions[3]->getParams();
+        $params = $functions[2]->getParams();
 
-        $this->assertTrue($functions[3]->hasParams());
-        $this->assertFalse($functions[6]->hasParams());
+        $this->assertTrue($functions[2]->hasParams());
+        $this->assertFalse($functions[5]->hasParams());
         $this->assertEquals(4, count($params));
 
         $this->assertEquals(false, $params[0]->getDefault());

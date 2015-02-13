@@ -84,11 +84,11 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $classCollection = array();
         if( strpos($classes, ',') !== false ) {
             foreach(explode(',', $classes) as $class) {
-                if( class_exists($class) )
+                if( class_exists($class) || interface_exists($class) )
                     $classCollection[0][] = $class;
             }
         }
-        elseif( class_exists($classes) ) {
+        elseif( class_exists($classes) || interface_exists($classes) ) {
             $classCollection[] = array($classes);
             $requestingOneClass = true;
         } elseif( is_dir($classes) ) {

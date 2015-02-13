@@ -28,15 +28,22 @@ class Reflector implements ReflectorInterface
         $classReflection = new \ReflectionClass($this->className);
         $class = $this->createClassEntity($classReflection);
 
-        $functions = array();
+        $publicFunctions = array();
+        $protectedFunctions = array();
+
         foreach($classReflection->getMethods() as $methodReflection) {
             $func = $this->createFunctionEntity($methodReflection, $class);
             if( $func ) {
-                $functions[$func->getName()] =  $func;
+                if( $func->getVisibility() == 'public' ) {
+                    $publicFunctions[$func->getName()] =  $func;
+                } else {
+                    $protectedFunctions[$func->getName()] = $func;
+                }
             }
         }
-        ksort($functions);
-        $class->setFunctions(array_values($functions));
+        ksort($publicFunctions);
+        ksort($protectedFunctions);
+        $class->setFunctions(array_values(array_merge($publicFunctions, $protectedFunctions)));
 
         return $class;
     }
