@@ -53,6 +53,38 @@ Only public and protected functions will be a part of the documentation but you 
 - Reflection activated in php.ini
 - Each class in its own file with the file name being the same as the class name.
 
-### Installation
+### Installation / Usage
 
-This command line tool can be installed using [composer](https://getcomposer.org/). Add `"victorjonsson/markdowndocs": "1.2.3"` to compoer.json...
+This command line tool can be installed using [composer](https://getcomposer.org/). Add `"victorjonsson/markdowndocs": "1.2.4"` to composer.json and run install/update. Now you can choose to use `vendor/victorjonsson/markdowndocs/bin/phpdocs-md` directly as an executable or copy it to your project root by calling `$ cp vendor/victorjonsson/markdowndocs/bin/phpdocs-md phpdocs-md`
+
+###### Generating docs
+
+To generate the documentation you use the command `generate`. The command line tool also needs to know whether you want to generate docs for a certain class or if it should search through a directory after class files.
+
+```
+# Generate docs for a certain class
+$ ./phpdocs-md generate Acme\\NS\\MyClass 
+
+# Generate docs for several classes (comma separated)
+$ ./phpdocs-md generate Acme\\NS\\MyClass,Acme\\OtherNS\\OtherClass 
+
+# Generate docs for all classes in a source directory
+$ ./phpdocs-md generate includes/src
+
+# Generate docs for all classes in a source directory and send output to the file docs.md
+$ ./phpdocs-md generate includes/src > docs.md
+```
+
+*Note that the classes has to be loadable using the autoloader provided by composer.*
+
+###### Bootstrapping 
+
+Maybe your not using the autloader provided by composer or maybe there is something else that needs to be done before your classes can be instantiated. In that case you can tell the command line tool to load a php-file before generating the docs
+
+`$ ./phpdocs-md generate --bootstrap=includes/init.php includes/src > docs.md`
+
+######  Excluding directories
+
+You can tell the command line tool to ignore certain directories in your class path by using the ignore-option.
+
+`$ ./phpdocs-md generate --ignore=test,mustasche includes/src > docs.md`
