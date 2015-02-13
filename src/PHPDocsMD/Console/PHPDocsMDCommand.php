@@ -119,13 +119,15 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $tableGenerator->addFunc($func);
                 }
 
-                $docs = ($requestingOneClass ? '':'<hr /> ').PHP_EOL.'### '.$class->generateTitle().PHP_EOL;
+                $docs = ($requestingOneClass ? '':'<hr /> ').PHP_EOL;
 
                 if( $class->isDeprecated() ) {
-                    $docs .= PHP_EOL.'> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
+                    $docs .= '### <strike>'.$class->generateTitle().'</strike>'.PHP_EOL.PHP_EOL.
+                            '> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
                 }
                 elseif( $class->getDescription() ) {
-                    $docs .= PHP_EOL.'> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                    $docs .= '### '.$class->generateTitle().PHP_EOL.PHP_EOL.
+                            '> '.$class->getDescription().PHP_EOL.PHP_EOL;
                 }
 
                 $docs .= $tableGenerator->getTable().PHP_EOL;
@@ -170,7 +172,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             $docString = str_replace($find, $replace, $docString);
         }
 
-        $output->writeln(PHP_EOL . $docString);
+        $output->writeln($docString);
     }
 
     /**

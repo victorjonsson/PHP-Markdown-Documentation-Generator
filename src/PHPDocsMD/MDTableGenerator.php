@@ -13,20 +13,23 @@ class MDTableGenerator {
     /**
      * @var string
      */
-    private $md = '';
+    private $markdown = '';
 
     /**
      *
      */
     function openTable()
     {
-        $this->md = ''; // Clear table
+        $this->markdown = ''; // Clear table
         $this->add('| Visibility | Function |');
         $this->add('|:-----------|:---------|');
     }
 
     /**
+     * Generates a markdown formatted table row with information about given function. Then adds the
+     * row to the table and returns the markdown formatted string
      * @param FunctionEntity $func
+     * @return string
      */
     function addFunc(FunctionEntity $func)
     {
@@ -64,8 +67,10 @@ class MDTableGenerator {
         $str = str_replace(array('</strong><strong>', '</strong></strong> '), array('','</strong>'), trim($str));
 
         $firstCol =  $func->getVisibility() . ($func->isStatic() ? ' static':'');
+        $markDown = '| '.$firstCol.' | '.$str.' |';
 
-        $this->add('| '.$firstCol.' | '.$str.' |');
+        $this->add($markDown);
+        return $markDown;
     }
 
     /**
@@ -73,7 +78,7 @@ class MDTableGenerator {
      */
     function getTable()
     {
-        return trim($this->md);
+        return trim($this->markdown);
     }
 
     /**
@@ -81,6 +86,6 @@ class MDTableGenerator {
      */
     private function add($str)
     {
-        $this->md .= $str .PHP_EOL;
+        $this->markdown .= $str .PHP_EOL;
     }
 }
