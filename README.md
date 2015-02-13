@@ -55,7 +55,7 @@ Only public and protected functions will be a part of the documentation but you 
 
 ### Installation / Usage
 
-This command line tool can be installed using [composer](https://getcomposer.org/). Add `"victorjonsson/markdowndocs": "1.2.4"` to composer.json and run install/update. Now you can choose to use `vendor/victorjonsson/markdowndocs/bin/phpdocs-md` directly as an executable or copy it to your project root by calling `$ cp vendor/victorjonsson/markdowndocs/bin/phpdocs-md phpdocs-md`
+This command line tool can be installed using [composer](https://getcomposer.org/). Add `"victorjonsson/markdowndocs": "1.2.6"` to composer.json and run install/update. Now you can choose to use `vendor/victorjonsson/markdowndocs/bin/phpdocs-md` directly as an executable or copy it to your project root by calling `$ cp vendor/victorjonsson/markdowndocs/bin/phpdocs-md phpdocs-md`
 
 ###### Generating docs
 
