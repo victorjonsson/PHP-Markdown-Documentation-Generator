@@ -158,7 +158,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             throw new \InvalidArgumentException('No classes found');
         } elseif( !$requestingOneClass ) {
             $output->writeln('## Table of contents'.PHP_EOL);
-            $output->writeln(implode(PHP_EOL, $tableOfContent).PHP_EOL);
+            $output->writeln(implode(PHP_EOL, $tableOfContent));
         }
 
         // Convert references to classes into links
@@ -172,7 +172,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             $docString = str_replace($find, $replace, $docString);
         }
 
-        $output->writeln($docString);
+        $output->writeln(PHP_EOL.$docString);
     }
 
     /**
