@@ -116,7 +116,7 @@
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| public static | <hr /> 
+| public static |  <strong>aFunc()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em>
 ```php
 <?php
            $reflector = new \\ReflectionClass('MyClass');
