@@ -119,14 +119,14 @@ class MDTableGenerator {
         $tbl = trim($this->markdown);
         if( $this->appendExamples && !empty($this->examples) ) {
             foreach($this->examples as $func => $example) {
-                $tbl .= PHP_EOL . '#### Examples in '.$func.PHP_EOL . self::formatExampleComment($example);
+                $tbl .= PHP_EOL . '#### Examples of '.$func.PHP_EOL . self::formatExampleComment($example);
             }
         }
         return $tbl;
     }
 
     /**
-     * Create a markdown-formatted code example out of an example comment
+     * Create a markdown-formatted code view out of an example comment
      * @param string $example
      * @return string
      */
@@ -138,14 +138,15 @@ class MDTableGenerator {
             $example = current( array_slice(explode('<code>', $example), 1) );
         }
 
-        $example = str_replace("\t", '   ', $example);
+        $example = str_replace('  ', ' ', $example);
+        $example = preg_replace('/(\n     )/', "\n", $example);
         $type = '';
 
-        // This is a very naive analysis of type of programming language
+        // A very naive analysis of the programming language used in the comment
         if( strpos($example, '<?php') !== false ) {
             $type = 'php';
         }
-        elseif( strpos($example, 'var ') !== false ) {
+        elseif( strpos($example, 'var ') !== false && strpos($example, '</') === false ) {
             $type = 'js';
         }
 

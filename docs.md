@@ -78,19 +78,19 @@
 ###### Example
 ```php
 <?php
-      $generator = new PHPDocs\\MDTableGenerator();
-      $generator->openTable();
-      foreach($classEntity->getFunctions() as $func)
-          $generator->addFunc( $func );
+   $generator = new PHPDocs\\MDTableGenerator();
+   $generator->openTable();
+   foreach($classEntity->getFunctions() as $func)
+$generator->addFunc( $func );
  
-      echo $generator->getTable();
+   echo $generator->getTable();
 ````
 
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>addFunc(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> <strong>$func</strong>)</strong> : <em>string</em><br /><em>Generates a markdown formatted table row with information about given function. Then adds the row to the table and returns the markdown formatted string.</em> |
 | public | <strong>appendExamplesToEndOfTable(</strong><em>bool</em> <strong>$toggle</strong>)</strong> : <em>void</em><br /><em>All example comments found while generating the table will be appended to the end of the table. Set $toggle to false to prevent this behaviour</em> |
-| public static | <strong>formatExampleComment(</strong><em>string</em> <strong>$example</strong>)</strong> : <em>string</em><br /><em>Create a markdown-formatted code example out of an example comment</em> |
+| public static | <strong>formatExampleComment(</strong><em>string</em> <strong>$example</strong>)</strong> : <em>string</em><br /><em>Create a markdown-formatted code view out of an example comment</em> |
 | public | <strong>getTable()</strong> : <em>string</em> |
 | public | <strong>openTable()</strong> : <em>void</em><br /><em>St</em> |
 
@@ -121,17 +121,17 @@
 | protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
 | protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool</em> |
-#### Examples in getParamType
+#### Examples of getParamType
 ```php
 <?php
-           $reflector = new \\ReflectionClass('MyClass');
-           foreach($reflector->getMethods() as $method ) {
-               foreach($method->getParameters() as $param) {
-                   $name = $param->getName();
-                   $type = Reflector::getParamType($param);
-                   printf("%s = %s\n", $name, $type);
-               }
-           }
+ $reflector = new \\ReflectionClass('MyClass');
+ foreach($reflector->getMethods() as $method ) {
+   foreach($method->getParameters() as $param) {
+     $name = $param->getName();
+     $type = Reflector::getParamType($param);
+     printf("%s = %s\n", $name, $type);
+   }
+ }
 ````
 
 *This class implements [\PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
