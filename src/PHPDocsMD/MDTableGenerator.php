@@ -122,6 +122,7 @@ class MDTableGenerator {
                 $tbl .= PHP_EOL . '#### Examples in '.$func.PHP_EOL . self::formatExampleComment($example);
             }
         }
+        return $tbl;
     }
 
     /**
