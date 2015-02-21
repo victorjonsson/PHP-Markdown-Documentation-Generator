@@ -139,7 +139,10 @@ class MDTableGenerator {
             $example = current( array_slice(explode('<code>', $example), 1) );
         }
 
-        if( preg_match('/(\n    )/', $example) ) {
+        if( preg_match('/(\n       )/', $example) ) {
+            $example = preg_replace('/(\n       )/', "\n", $example);
+        }
+        elseif( preg_match('/(\n    )/', $example) ) {
             $example = preg_replace('/(\n    )/', "\n", $example);
         } else {
             $example = preg_replace('/(\n   )/', "\n", $example);
