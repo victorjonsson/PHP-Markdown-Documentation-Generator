@@ -116,7 +116,8 @@
 |:-----------|:---------|
 | public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| public static | <hr /> ```php
+| public static | <hr /> 
+```php
 <?php
            $reflector = new \\ReflectionClass('MyClass');
            foreach($reflector->getMethods() as $method ) {
