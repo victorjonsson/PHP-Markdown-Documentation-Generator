@@ -192,7 +192,17 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             $example = current( array_slice(explode('<code>', $example), 1) );
         }
 
-        return '```' .PHP_EOL. trim($example) .PHP_EOL.'```';
+        $type = '';
+
+        // This is a very naive analysis of type of programming language
+        if( strpos($example, '<?php') !== false ) {
+            $type = 'php';
+        }
+        elseif( strpos($example, 'var ') !== false ) {
+            $type = 'js';
+        }
+
+        return sprintf("```%s\n%s\n````", $type, trim($example));
     }
 
     /**

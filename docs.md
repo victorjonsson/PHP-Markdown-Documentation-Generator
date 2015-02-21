@@ -76,7 +76,7 @@
 > Class that can create a markdown-formatted table describing class functions referred to via FunctionEntity objects
 
 ##### Example
-```
+```php
 <?php
       $generator = new PHPDocs\\MDTableGenerator();
       $generator->openTable();
@@ -84,7 +84,7 @@
           $generator->addFunc( $func );
  
       echo $generator->getTable();
-```
+````
 
 | Visibility | Function |
 |:-----------|:---------|
