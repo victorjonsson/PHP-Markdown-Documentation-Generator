@@ -28,6 +28,11 @@ class CodeEntity {
      */
     private $deprecationMessage = '';
 
+    /**
+     * @var string
+     */
+    private $example = '';
+
 
     /**
      * @param bool|null $toggle
@@ -88,5 +93,21 @@ class CodeEntity {
     public function getDeprecationMessage()
     {
         return $this->deprecationMessage;
+    }
+
+    /**
+     * @param string $example
+     */
+    public function setExample($example)
+    {
+        $this->example = $example;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExample()
+    {
+        return $this->example;
     }
 }

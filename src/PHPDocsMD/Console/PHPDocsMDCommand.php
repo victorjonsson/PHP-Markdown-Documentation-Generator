@@ -125,9 +125,14 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $docs .= '### <strike>'.$class->generateTitle().'</strike>'.PHP_EOL.PHP_EOL.
                             '> **DEPRECATED** '.$class->getDeprecationMessage().PHP_EOL.PHP_EOL;
                 }
-                elseif( $class->getDescription() ) {
-                    $docs .= '### '.$class->generateTitle().PHP_EOL.PHP_EOL.
-                            '> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                else {
+                    $docs .= '### '.$class->generateTitle().PHP_EOL.PHP_EOL;
+                    if( $class->getDescription() )
+                        $docs .= '> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                }
+
+                if( $example = $class->getExample() ) {
+                    $docs .= '##### Example' . PHP_EOL . $this->formatExampleComment($example).PHP_EOL.PHP_EOL;
                 }
 
                 $docs .= $tableGenerator->getTable().PHP_EOL;
@@ -173,6 +178,21 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         }
 
         $output->writeln(PHP_EOL.$docString);
+    }
+
+    /**
+     * @param string $example
+     * @return mixed
+     */
+    private function formatExampleComment($example)
+    {
+        // Remove possible code tag
+        if( strpos($example, '<code>') !== false ) {
+            $example = current( array_slice(explode('</code>', $example), -2) );
+            $example = current( array_slice(explode('<code>', $example), 1) );
+        }
+
+        return '```' .PHP_EOL. trim($example) .PHP_EOL.'```';
     }
 
     /**

@@ -43,10 +43,12 @@
 |:-----------|:---------|
 | public | <strong>getDeprecationMessage()</strong> : <em>string</em> |
 | public | <strong>getDescription()</strong> : <em>string</em> |
+| public | <strong>getExample()</strong> : <em>string</em> |
 | public | <strong>getName()</strong> : <em>string</em> |
 | public | <strong>isDeprecated(</strong><em>mixed/bool/null</em> <strong>$toggle=null</strong>)</strong> : <em>void/bool</em> |
 | public | <strong>setDeprecationMessage(</strong><em>string</em> <strong>$deprecationMessage</strong>)</strong> : <em>void</em> |
 | public | <strong>setDescription(</strong><em>string</em> <strong>$description</strong>)</strong> : <em>void</em> |
+| public | <strong>setExample(</strong><em>string</em> <strong>$example</strong>)</strong> : <em>void</em> |
 | public | <strong>setName(</strong><em>string</em> <strong>$name</strong>)</strong> : <em>void</em> |
 
 <hr /> 
@@ -72,6 +74,17 @@
 ### Class: \PHPDocsMD\MDTableGenerator
 
 > Class that can create a markdown-formatted table describing class functions referred to via FunctionEntity objects
+
+##### Example
+```
+<?php
+      $generator = new PHPDocs\\MDTableGenerator();
+      $generator->openTable();
+      foreach($classEntity->getFunctions() as $func)
+          $generator->addFunc( $func );
+ 
+      echo $generator->getTable();
+```
 
 | Visibility | Function |
 |:-----------|:---------|

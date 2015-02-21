@@ -59,6 +59,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('void', $functions[1]->getReturnType());
         $this->assertEquals('public', $functions[1]->getVisibility());
 
+
         $this->assertEquals('', $functions[2]->getDescription());
         $this->assertEquals('funcD', $functions[2]->getName());
         $this->assertEquals('void', $functions[2]->getReturnType());

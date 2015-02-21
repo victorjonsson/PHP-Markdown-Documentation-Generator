@@ -33,6 +33,14 @@ abstract class ExampleClass implements \Reflector {
 
     /**
      * Description of b
+     *
+     * @example
+     * <code>
+     *  <?php
+     *      $lorem = 'te';
+     *      $ipsum = 'dolor';
+     * </code>
+     *
      * @param $arg
      * @param array $arr
      * @param int $bool

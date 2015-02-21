@@ -244,19 +244,22 @@ class Reflector implements ReflectorInterface
 
     /**
      * @param \ReflectionClass|\ReflectionMethod $reflection
-     * @param CodeEntity $class
+     * @param CodeEntity $code
      * @return array
      */
-    private function createEntity($reflection, $class)
+    private function createEntity($reflection, $code)
     {
         $comment = $this->getCleanDocComment($reflection);
         $tags = $this->extractTagsFromComment($comment, 'description', $reflection);
-        $class->setName($reflection->getName());
-        $class->setDescription(!empty($tags['description']) ? $tags['description']:'');
+        $code->setName($reflection->getName());
+        $code->setDescription(!empty($tags['description']) ? $tags['description']:'');
+        $code->setExample( !empty($tags['example']) ? $tags['example']:'');
+
         if( !empty($tags['deprecated']) ) {
-            $class->isDeprecated(true);
-            $class->setDeprecationMessage($tags['deprecated']);
+            $code->isDeprecated(true);
+            $code->setDeprecationMessage($tags['deprecated']);
         }
+
         return $tags;
     }
 
@@ -280,38 +283,28 @@ class Reflector implements ReflectorInterface
     {
         $ns = $reflection instanceof \ReflectionClass ? $reflection->getNamespaceName() : $reflection->getDeclaringClass()->getNamespaceName();
         $tags = array($current_tag=>'');
+
         foreach(explode(PHP_EOL, $comment) as $line) {
-            $line = trim($line);
-            $words = explode(' ', $line);
+
+            if( $current_tag != 'example' )
+                $line = trim($line);
+
+            $words = explode(' ', trim($line));
+
             if( strpos($words[0], '@') === false ) {
-                $tags[$current_tag] .= ' '. $line;
-            } elseif( $words[0] == '@param' ) {
-                $param_desc = '';
-                if( strpos($words[1], '$') === 0) {
-                    $param_name = $words[1];
-                    $param_type = 'mixed';
-                    array_splice($words, 0, 2);
-                } elseif( isset($words[2]) ) {
-                    $param_name = $words[2];
-                    $param_type = $words[1];
-                    array_splice($words, 0, 3);
+                // Append to tag
+                $joinWith = $current_tag == 'example' ? PHP_EOL : ' ';
+                $tags[$current_tag] .= $joinWith . $line;
+            }
+            elseif( $words[0] == '@param' ) {
+                // Get parameter declaration
+                if( $paramData = $this->figureOutParamDeclaration($words, $ns) ) {
+                    list($name, $data) = $paramData;
+                    $tags['params'][$name] = $data;
                 }
-                if( !empty($param_name) ) {
-                    $param_name = current(explode('=', $param_name));
-                    if( count($words) > 1 ) {
-                        $param_desc = join(' ', $words);
-                    }
-
-                    $param_type = $this->sanitizeDeclaration($param_type, $ns, '|');
-
-                    $tags['params'][$param_name] = array(
-                        'description' => $param_desc,
-                        'name' => $param_name,
-                        'type' => $param_type,
-                        'default' => false
-                    );
-                }
-            } else {
+            }
+            else {
+                // Start new tag
                 $current_tag = substr($words[0], 1);
                 array_splice($words, 0 ,1);
                 if( empty($tags[$current_tag]) ) {
@@ -333,6 +326,41 @@ class Reflector implements ReflectorInterface
         }
 
         return $tags;
+    }
+
+    private function figureOutParamDeclaration($words, $ns)
+    {
+        $param_desc = '';
+        $param_type = '';
+        
+        if( strpos($words[1], '$') === 0) {
+            $param_name = $words[1];
+            $param_type = 'mixed';
+            array_splice($words, 0, 2);
+        } elseif( isset($words[2]) ) {
+            $param_name = $words[2];
+            $param_type = $words[1];
+            array_splice($words, 0, 3);
+        }
+
+        if( !empty($param_name) ) {
+            $param_name = current(explode('=', $param_name));
+            if( count($words) > 1 ) {
+                $param_desc = join(' ', $words);
+            }
+
+            $param_type = $this->sanitizeDeclaration($param_type, $ns, '|');
+            $data = array(
+                'description' => $param_desc,
+                'name' => $param_name,
+                'type' => $param_type,
+                'default' => false
+            );
+
+            return array($param_name, $data);
+        }
+
+        return false;
     }
 
     /**
@@ -362,7 +390,6 @@ class Reflector implements ReflectorInterface
     {
         $class = new ClassEntity();
         $classTags = $this->createEntity($reflection, $class);
-
         $class->isInterface($reflection->isInterface());
         $class->isAbstract($reflection->isAbstract());
         $class->hasIgnoreTag(isset($classTags['ignore']));
