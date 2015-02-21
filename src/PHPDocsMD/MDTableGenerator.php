@@ -8,11 +8,12 @@ namespace PHPDocsMD;
  *
  * @example
  * <code>
- *  <?php
- *     $generator = new PHPDocs\\MDTableGenerator();
- *     $generator->openTable();
- *     foreach($classEntity->getFunctions() as $func)
- *         $generator->addFunc( $func );
+ * <?php
+ *      $generator = new PHPDocs\\MDTableGenerator();
+ *      $generator->openTable();
+ *      foreach($classEntity->getFunctions() as $func) {
+ *          $generator->addFunc( $func );
+ *      }
  *
  *     echo $generator->getTable();
  * </code>
