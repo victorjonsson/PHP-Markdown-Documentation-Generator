@@ -132,7 +132,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 }
 
                 if( $example = $class->getExample() ) {
-                    $docs .= '##### Example' . PHP_EOL . $this->formatExampleComment($example).PHP_EOL.PHP_EOL;
+                    $docs .= '###### Example' . PHP_EOL . MDTableGenerator::formatExampleComment($example) .PHP_EOL.PHP_EOL;
                 }
 
                 $docs .= $tableGenerator->getTable().PHP_EOL;
@@ -178,31 +178,6 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         }
 
         $output->writeln(PHP_EOL.$docString);
-    }
-
-    /**
-     * @param string $example
-     * @return mixed
-     */
-    private function formatExampleComment($example)
-    {
-        // Remove possible code tag
-        if( strpos($example, '<code>') !== false ) {
-            $example = current( array_slice(explode('</code>', $example), -2) );
-            $example = current( array_slice(explode('<code>', $example), 1) );
-        }
-
-        $type = '';
-
-        // This is a very naive analysis of type of programming language
-        if( strpos($example, '<?php') !== false ) {
-            $type = 'php';
-        }
-        elseif( strpos($example, 'var ') !== false ) {
-            $type = 'js';
-        }
-
-        return sprintf("```%s\n%s\n````", $type, trim($example));
     }
 
     /**

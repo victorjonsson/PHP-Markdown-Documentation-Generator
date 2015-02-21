@@ -178,6 +178,20 @@ class Reflector implements ReflectorInterface
     /**
      * Tries to find out if the type of the given parameter. Will
      * return empty string if not possible.
+     *
+     * @example
+     * <code>
+     *  <?php
+     *      $reflector = new \\ReflectionClass('MyClass');
+     *      foreach($reflector->getMethods() as $method ) {
+     *          foreach($method->getParameters() as $param) {
+     *              $name = $param->getName();
+     *              $type = Reflector::getParamType($param);
+     *              printf("%s = %s\n", $name, $type);
+     *          }
+     *      }
+     * </code>
+     *
      * @param \ReflectionParameter $refParam
      * @return string
      */

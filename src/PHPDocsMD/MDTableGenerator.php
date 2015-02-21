@@ -27,10 +27,33 @@ class MDTableGenerator {
     private $markdown = '';
 
     /**
+     * @var array
+     */
+    private $examples = array();
+
+    /**
+     * @var bool
+     */
+    private $appendExamples = true;
+
+    /**
+     * All example comments found while generating the table will be
+     * appended to the end of the table. Set $toggle to false to
+     * prevent this behaviour
      *
+     * @param bool $toggle
+     */
+    function appendExamplesToEndOfTable($toggle)
+    {
+        $this->appendExamples = (bool)$toggle;
+    }
+
+    /**
+     * St
      */
     function openTable()
     {
+        $this->examples = array();
         $this->markdown = ''; // Clear table
         $this->add('| Visibility | Function |');
         $this->add('|:-----------|:---------|');
@@ -38,7 +61,8 @@ class MDTableGenerator {
 
     /**
      * Generates a markdown formatted table row with information about given function. Then adds the
-     * row to the table and returns the markdown formatted string
+     * row to the table and returns the markdown formatted string.
+     *
      * @param FunctionEntity $func
      * @return string
      */
@@ -77,6 +101,9 @@ class MDTableGenerator {
 
         $str = str_replace(array('</strong><strong>', '</strong></strong> '), array('','</strong>'), trim($str));
 
+        if( $func->getExample() )
+            $this->examples[$func->getName()] = $func->getExample();
+
         $firstCol =  $func->getVisibility() . ($func->isStatic() ? ' static':'');
         $markDown = '| '.$firstCol.' | '.$str.' |';
 
@@ -89,7 +116,38 @@ class MDTableGenerator {
      */
     function getTable()
     {
-        return trim($this->markdown);
+        $tbl = trim($this->markdown);
+        if( $this->appendExamples && !empty($this->examples) ) {
+            foreach($this->examples as $func => $example) {
+                $tbl .= PHP_EOL . '#### Examples in '.$func.PHP_EOL . self::formatExampleComment($example);
+            }
+        }
+    }
+
+    /**
+     * Create a markdown-formatted code example out of an example comment
+     * @param string $example
+     * @return string
+     */
+    public static function formatExampleComment($example)
+    {
+        // Remove possible code tag
+        if( strpos($example, '<code>') !== false ) {
+            $example = current( array_slice(explode('</code>', $example), -2) );
+            $example = current( array_slice(explode('<code>', $example), 1) );
+        }
+
+        $type = '';
+
+        // This is a very naive analysis of type of programming language
+        if( strpos($example, '<?php') !== false ) {
+            $type = 'php';
+        }
+        elseif( strpos($example, 'var ') !== false ) {
+            $type = 'js';
+        }
+
+        return sprintf("```%s\n%s\n````", $type, trim($example));
     }
 
     /**
