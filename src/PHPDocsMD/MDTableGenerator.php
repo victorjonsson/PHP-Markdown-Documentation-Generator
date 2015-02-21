@@ -139,8 +139,11 @@ class MDTableGenerator {
             $example = current( array_slice(explode('<code>', $example), 1) );
         }
 
-        $example = str_replace('  ', ' ', $example);
-        $example = preg_replace('/(\n     )/', "\n", $example);
+        if( preg_match('/(\n    )/', $example) ) {
+            $example = preg_replace('/(\n    )/', "\n", $example);
+        } else {
+            $example = preg_replace('/(\n   )/', "\n", $example);
+        }
         $type = '';
 
         // A very naive analysis of the programming language used in the comment
