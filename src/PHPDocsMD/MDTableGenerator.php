@@ -138,6 +138,7 @@ class MDTableGenerator {
             $example = current( array_slice(explode('<code>', $example), 1) );
         }
 
+        $example = str_replace("\t", '   ', $example);
         $type = '';
 
         // This is a very naive analysis of type of programming language
