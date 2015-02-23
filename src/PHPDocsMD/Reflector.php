@@ -284,7 +284,7 @@ class Reflector implements ReflectorInterface
     private function getCleanDocComment($reflection)
     {
         $comment = str_replace(array('/*', '*/'), '', $reflection->getDocComment());
-        return trim(str_replace('*', '', $comment));
+        return trim(trim(preg_replace('/([\s|^]\*\s)/', '', $comment)), '*');
     }
 
     /**

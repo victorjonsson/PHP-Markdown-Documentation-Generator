@@ -31,7 +31,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $refl = new \PHPDocsMD\Reflector('Acme\\ExampleClassDepr');
         $class = $refl->getClassEntity();
         $this->assertTrue($class->isDeprecated());
-        $this->assertEquals('This one is deprecated  Lorem te ipsum', $class->getDeprecationMessage());
+        $this->assertEquals('This one is deprecated Lorem te ipsum', $class->getDeprecationMessage());
         $this->assertFalse($class->hasIgnoreTag());
 
         $refl = new \PHPDocsMD\Reflector('Acme\\ExampleInterface');
@@ -47,7 +47,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 
         $this->assertNotEmpty($functions);
 
-        $this->assertEquals('Description of a', $functions[0]->getDescription());
+        $this->assertEquals('Description of a*a', $functions[0]->getDescription());
         $this->assertEquals(false, $functions[0]->isDeprecated());
         $this->assertEquals('funcA', $functions[0]->getName());
         $this->assertEquals('void', $functions[0]->getReturnType());

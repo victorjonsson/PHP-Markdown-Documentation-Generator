@@ -8,14 +8,13 @@ namespace PHPDocsMD;
  *
  * @example
  * <code>
- * <?php
- *      $generator = new PHPDocs\\MDTableGenerator();
+ *  <?php
+ *      $generator = new PHPDocs\MDTableGenerator();
  *      $generator->openTable();
  *      foreach($classEntity->getFunctions() as $func) {
- *          $generator->addFunc( $func );
+ *              $generator->addFunc( $func );
  *      }
- *
- *     echo $generator->getTable();
+ *      echo $generator->getTable();
  * </code>
  *
  * @package PHPDocsMD
@@ -50,7 +49,7 @@ class MDTableGenerator {
     }
 
     /**
-     * St
+     * Begin generating a new markdown-formatted table
      */
     function openTable()
     {

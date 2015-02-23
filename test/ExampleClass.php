@@ -10,7 +10,7 @@ namespace Acme;
 abstract class ExampleClass implements \Reflector {
 
     /**
-     * Description of a
+     * Description of a*a
      * @param $arg
      * @param array $arr
      * @param int $bool
