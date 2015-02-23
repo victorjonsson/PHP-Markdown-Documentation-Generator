@@ -78,13 +78,12 @@
 ###### Example
 ```php
 <?php
-$generator = new PHPDocs\\MDTableGenerator();
-$generator->openTable();
-foreach($classEntity->getFunctions() as $func) {
-    $generator->addFunc( $func );
-}
- 
-      echo $generator->getTable();
+     $generator = new PHPDocs\\MDTableGenerator();
+     $generator->openTable();
+     foreach($classEntity->getFunctions() as $func) {
+  $generator->addFunc( $func );
+     }
+    echo $generator->getTable();
 ````
 
 | Visibility | Function |
@@ -125,14 +124,14 @@ foreach($classEntity->getFunctions() as $func) {
 #### Examples of getParamType
 ```php
 <?php
-    $reflector = new \\ReflectionClass('MyClass');
-    foreach($reflector->getMethods() as $method ) {
-        foreach($method->getParameters() as $param) {
-            $name = $param->getName();
-            $type = Reflector::getParamType($param);
-            printf("%s = %s\n", $name, $type);
-        }
-    }
+  $reflector = new \\ReflectionClass('MyClass');
+  foreach($reflector->getMethods() as $method ) {
+      foreach($method->getParameters() as $param) {
+          $name = $param->getName();
+          $type = Reflector::getParamType($param);
+          printf("%s = %s\n", $name, $type);
+      }
+  }
 ````
 
 *This class implements [\PHPDocsMD\ReflectorInterface](#interface-phpdocsmdreflectorinterface)*
