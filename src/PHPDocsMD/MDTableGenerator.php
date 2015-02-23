@@ -127,7 +127,7 @@ class MDTableGenerator {
         if( $this->appendExamples && !empty($this->examples) ) {
             $className = end( explode('\\', $this->class) );
             foreach($this->examples as $funcName => $example) {
-                $tbl .= sprintf("\n #### Examples of %s::%s()\n%s", $className, $funcName, self::formatExampleComment($example));
+                $tbl .= sprintf("\n###### Examples of %s::%s()\n%s", $className, $funcName, self::formatExampleComment($example));
             }
         }
         return $tbl;
