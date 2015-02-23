@@ -92,7 +92,7 @@
 | public | <strong>appendExamplesToEndOfTable(</strong><em>bool</em> <strong>$toggle</strong>)</strong> : <em>void</em><br /><em>All example comments found while generating the table will be appended to the end of the table. Set $toggle to false to prevent this behaviour</em> |
 | public static | <strong>formatExampleComment(</strong><em>string</em> <strong>$example</strong>)</strong> : <em>string</em><br /><em>Create a markdown-formatted code view out of an example comment</em> |
 | public | <strong>getTable()</strong> : <em>string</em> |
-| public | <strong>openTable()</strong> : <em>void</em><br /><em>St</em> |
+| public | <strong>openTable()</strong> : <em>void</em><br /><em>Begin generating a new markdown-formatted table</em> |
 
 <hr /> 
 ### Class: \PHPDocsMD\ParamEntity
