@@ -79,11 +79,9 @@ class Reflector implements ReflectorInterface
         $func->setParams(array_values($params));
         $func->isStatic($method->isStatic());
         $func->setVisibility($method->isPublic() ? 'public' : 'protected');
+        $func->isAbstract($method->isAbstract());
+        $func->setClass($class->getName());
 
-        if ($method->isAbstract()) {
-            $func->isAbstract(true);
-            return $func;
-        }
         return $func;
     }
 

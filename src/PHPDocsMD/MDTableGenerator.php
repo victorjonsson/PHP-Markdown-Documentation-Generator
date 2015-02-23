@@ -24,6 +24,11 @@ class MDTableGenerator {
     /**
      * @var string
      */
+    private $class = '';
+
+    /**
+     * @var string
+     */
     private $markdown = '';
 
     /**
@@ -68,6 +73,8 @@ class MDTableGenerator {
      */
     function addFunc(FunctionEntity $func)
     {
+        $this->class = $func->getClass();
+
         $str = '<strong>';
 
         if( $func->isAbstract() )
@@ -118,8 +125,9 @@ class MDTableGenerator {
     {
         $tbl = trim($this->markdown);
         if( $this->appendExamples && !empty($this->examples) ) {
-            foreach($this->examples as $func => $example) {
-                $tbl .= PHP_EOL . '#### Examples of '.$func.PHP_EOL . self::formatExampleComment($example);
+            $className = end( explode('\\', $this->class) );
+            foreach($this->examples as $funcName => $example) {
+                $tbl = sprintf("\n #### Examples of %s::%s()\n%s", $className, $funcName, self::formatExampleComment($example));
             }
         }
         return $tbl;

@@ -58,12 +58,14 @@
 
 | Visibility | Function |
 |:-----------|:---------|
+| public | <strong>getClass()</strong> : <em>string</em> |
 | public | <strong>getParams()</strong> : <em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]</em> |
 | public | <strong>getReturnType()</strong> : <em>string</em> |
 | public | <strong>getVisibility()</strong> : <em>string</em> |
 | public | <strong>hasParams()</strong> : <em>bool</em> |
 | public | <strong>isAbstract(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>isStatic(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
+| public | <strong>setClass(</strong><em>string</em> <strong>$class</strong>)</strong> : <em>void</em> |
 | public | <strong>setParams(</strong><em>[\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)[]</em> <strong>$params</strong>)</strong> : <em>void</em> |
 | public | <strong>setReturnType(</strong><em>string</em> <strong>$returnType</strong>)</strong> : <em>void</em> |
 | public | <strong>setVisibility(</strong><em>string</em> <strong>$visibility</strong>)</strong> : <em>void</em> |
@@ -78,7 +80,7 @@
 ###### Example
 ```php
 <?php
-     $generator = new PHPDocs\\MDTableGenerator();
+     $generator = new PHPDocs\MDTableGenerator();
      $generator->openTable();
      foreach($classEntity->getFunctions() as $func) {
       $generator->addFunc( $func );
@@ -113,15 +115,8 @@
 
 > Class that can compute ClassEntity objects out of real classes
 
-| Visibility | Function |
-|:-----------|:---------|
-| public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
-| public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>string</em><br /><em>Tries to find out if the type of the given parameter. Will return empty string if not possible.</em> |
-| protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
-| protected | <strong>createFunctionEntity(</strong><em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
-| protected | <strong>shouldIgnoreFunction(</strong><em>array</em> <strong>$tags</strong>, <em>\ReflectionMethod</em> <strong>$method</strong>, <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> <strong>$class</strong>)</strong> : <em>bool</em> |
-#### Examples of getParamType
+
+ #### Examples of Reflector::getParamType()
 ```php
 <?php
   $reflector = new \\ReflectionClass('MyClass');

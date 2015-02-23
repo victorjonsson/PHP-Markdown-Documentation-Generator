@@ -33,6 +33,10 @@ class FunctionEntity extends CodeEntity {
      */
     private $isStatic = false;
 
+    /**
+     * @var string
+     */
+    private $class = '';
 
     /**
      * @param null|bool $toggle
@@ -114,5 +118,20 @@ class FunctionEntity extends CodeEntity {
         return $this->visibility;
     }
 
+    /**
+     * @param string $class
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
 }
 
