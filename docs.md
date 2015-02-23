@@ -81,7 +81,7 @@
      $generator = new PHPDocs\\MDTableGenerator();
      $generator->openTable();
      foreach($classEntity->getFunctions() as $func) {
-  $generator->addFunc( $func );
+      $generator->addFunc( $func );
      }
     echo $generator->getTable();
 ````
