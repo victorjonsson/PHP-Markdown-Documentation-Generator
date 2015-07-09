@@ -3,7 +3,7 @@ namespace PHPDocsMD;
 
 
 /**
- * Object describing a class or a interface
+ * Object describing a class or an interface
  * @package PHPDocsMD
  */
 class ClassEntity extends CodeEntity {
