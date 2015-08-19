@@ -100,12 +100,15 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('\\Acme\\ExampleInterface', $typeA);
 
         $functions = $this->class->getFunctions();
-        $params = $functions[2]->getParams();
 
         $this->assertTrue($functions[2]->hasParams());
         $this->assertFalse($functions[5]->hasParams());
-        $this->assertEquals(4, count($params));
 
+        $params = $functions[1]->getParams();
+        $this->assertEquals('int', $params[0]->getType());
+
+        $params = $functions[2]->getParams();
+        $this->assertEquals(4, count($params));
         $this->assertEquals(false, $params[0]->getDefault());
         $this->assertEquals('$arg', $params[0]->getName());
         $this->assertEquals('mixed', $params[0]->getType());

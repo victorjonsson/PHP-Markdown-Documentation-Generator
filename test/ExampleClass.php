@@ -41,7 +41,7 @@ abstract class ExampleClass implements \Reflector {
      *      $ipsum = 'dolor';
      * </code>
      *
-     * @param $arg
+     * @param  int   $arg
      * @param array $arr
      * @param int $bool
      */

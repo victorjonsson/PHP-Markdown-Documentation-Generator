@@ -56,7 +56,7 @@ class Reflector implements ReflectorInterface
     protected function createFunctionEntity(\ReflectionMethod $method, ClassEntity $class)
     {
         $func = new FunctionEntity();
-        $tags = $this->createEntity($method, $func);
+        $tags = $this->extractEntityData($method, $func);
 
         if( $this->shouldIgnoreFunction($tags, $method, $class) ) {
             return false;
@@ -259,7 +259,7 @@ class Reflector implements ReflectorInterface
      * @param CodeEntity $code
      * @return array
      */
-    private function createEntity($reflection, $code)
+    private function extractEntityData($reflection, $code)
     {
         $comment = $this->getCleanDocComment($reflection);
         $tags = $this->extractTagsFromComment($comment, 'description', $reflection);
@@ -301,7 +301,9 @@ class Reflector implements ReflectorInterface
             if( $current_tag != 'example' )
                 $line = trim($line);
 
-            $words = explode(' ', trim($line));
+            $words = $this->getWordsFromLine($line);
+            if( empty($words) )
+                continue;
 
             if( strpos($words[0], '@') === false ) {
                 // Append to tag
@@ -390,8 +392,8 @@ class Reflector implements ReflectorInterface
      */
     private function isClassReference($str)
     {
-        $natives = array('mixed', 'string', 'int', 'number', 'bool', 'boolean', 'object', 'mixed', 'false', 'true', 'null', 'array', 'void');
-        return !in_array(trim(strtolower($str)), $natives) && strpos($str, ' ') === false;
+        $natives = array('mixed', 'string', 'int', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void');
+        return !in_array(rtrim(trim(strtolower($str)), '[]'), $natives) && strpos($str, ' ') === false;
     }
 
     /**
@@ -401,7 +403,7 @@ class Reflector implements ReflectorInterface
     protected function createClassEntity(\ReflectionClass $reflection)
     {
         $class = new ClassEntity();
-        $classTags = $this->createEntity($reflection, $class);
+        $classTags = $this->extractEntityData($reflection, $class);
         $class->isInterface($reflection->isInterface());
         $class->isAbstract($reflection->isAbstract());
         $class->hasIgnoreTag(isset($classTags['ignore']));
@@ -431,5 +433,19 @@ class Reflector implements ReflectorInterface
             $parts[$i] = $p;
         }
         return implode('/', $parts);
+    }
+
+    /**
+     * @param $line
+     * @return array
+     */
+    private function getWordsFromLine($line)
+    {
+        $words = array();
+        foreach(explode(' ', trim($line)) as $w) {
+            if( !empty($w) )
+                $words[] = $w;
+        }
+        return $words;
     }
 }
