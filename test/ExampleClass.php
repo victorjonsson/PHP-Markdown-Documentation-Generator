@@ -67,6 +67,7 @@ abstract class ExampleClass implements \Reflector {
     private function privFunc() {
 
     }
+
 }
 
 /**
@@ -88,5 +89,17 @@ class ExampleClassDepr {
 interface ExampleInterface {
 
     public function func($arg='a');
+
+}
+
+
+class ClassWithStaticFunc {
+
+    /**
+     * @return float
+     */
+    static function somStaticFunc() {
+
+    }
 
 }

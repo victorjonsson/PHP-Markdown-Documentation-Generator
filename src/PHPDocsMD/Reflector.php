@@ -392,7 +392,7 @@ class Reflector implements ReflectorInterface
      */
     private function isClassReference($str)
     {
-        $natives = array('mixed', 'string', 'int', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void');
+        $natives = array('mixed', 'string', 'int', 'float', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void');
         return !in_array(rtrim(trim(strtolower($str)), '[]'), $natives) && strpos($str, ' ') === false;
     }
 
@@ -417,13 +417,14 @@ class Reflector implements ReflectorInterface
     }
 
     /**
-     * @param $param_type
-     * @param $ns
+     * @param string $param_type
+     * @param string $ns
+     * @param string $delimiter
      * @return string
      */
-    private function sanitizeDeclaration($param_type, $ns, $delim='|')
+    private function sanitizeDeclaration($param_type, $ns, $delimiter='|')
     {
-        $parts = explode($delim, $param_type);
+        $parts = explode($delimiter, $param_type);
         foreach($parts as $i=>$p) {
             if ($this->shouldPrefixWithNamespace($p)) {
                 $p = ClassEntity::sanitizeClassName('\\' . trim($ns, '\\') . '\\' . $p);

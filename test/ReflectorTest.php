@@ -85,6 +85,19 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue( empty($functions[7]) ); // Should be skipped since tagged with @ignore */
     }
 
+    function testStaticFunc() {
+        $reflector = new \PHPDocsMD\Reflector('Acme\\ClassWithStaticFunc');
+        $functions = $reflector->getClassEntity()->getFunctions();
+        $this->assertNotEmpty($functions);
+        $this->assertEquals('', $functions[0]->getDescription());
+        $this->assertEquals(false, $functions[0]->isDeprecated());
+        $this->assertEquals(true, $functions[0]->isStatic());
+        $this->assertEquals('', $functions[0]->getDeprecationMessage());
+        $this->assertEquals('somStaticFunc', $functions[0]->getName());
+        $this->assertEquals('public', $functions[0]->getVisibility());
+        $this->assertEquals('float', $functions[0]->getReturnType());
+    }
+
     function testParams()
     {
         $paramA = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 2);
