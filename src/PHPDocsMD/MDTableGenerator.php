@@ -24,7 +24,7 @@ class MDTableGenerator {
     /**
      * @var string
      */
-    private $class = '';
+    private $fullClassName = '';
 
     /**
      * @var string
@@ -40,6 +40,21 @@ class MDTableGenerator {
      * @var bool
      */
     private $appendExamples = true;
+
+    /**
+     * @param $example
+     * @return mixed
+     */
+    private static function stripCodeTags($example)
+    {
+        if (strpos($example, '<code') !== false) {
+            $parts = array_slice(explode('</code>', $example), -2);
+            $example = current($parts);
+            $parts = array_slice(explode('<code>', $example), 1);
+            $example = current($parts);
+        }
+        return $example;
+    }
 
     /**
      * All example comments found while generating the table will be
@@ -73,7 +88,7 @@ class MDTableGenerator {
      */
     function addFunc(FunctionEntity $func)
     {
-        $this->class = $func->getClass();
+        $this->fullClassName = $func->getClass();
 
         $str = '<strong>';
 
@@ -125,7 +140,7 @@ class MDTableGenerator {
     {
         $tbl = trim($this->markdown);
         if( $this->appendExamples && !empty($this->examples) ) {
-            $className = end( explode('\\', $this->class) );
+            $className = Utils::getClassBaseName($this->fullClassName);
             foreach($this->examples as $funcName => $example) {
                 $tbl .= sprintf("\n###### Examples of %s::%s()\n%s", $className, $funcName, self::formatExampleComment($example));
             }
@@ -141,10 +156,7 @@ class MDTableGenerator {
     public static function formatExampleComment($example)
     {
         // Remove possible code tag
-        if( strpos($example, '<code>') !== false ) {
-            $example = current( array_slice(explode('</code>', $example), -2) );
-            $example = current( array_slice(explode('<code>', $example), 1) );
-        }
+        $example = self::stripCodeTags($example);
 
         if( preg_match('/(\n       )/', $example) ) {
             $example = preg_replace('/(\n       )/', "\n", $example);

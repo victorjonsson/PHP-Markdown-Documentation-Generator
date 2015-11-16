@@ -7,6 +7,7 @@
 - [\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)
 - [\PHPDocsMD\Reflector](#class-phpdocsmdreflector)
 - [\PHPDocsMD\ReflectorInterface (interface)](#interface-phpdocsmdreflectorinterface)
+- [\PHPDocsMD\Utils](#class-phpdocsmdutils)
 - [\PHPDocsMD\Console\CLI](#class-phpdocsmdconsolecli)
 - [\PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
 
@@ -146,6 +147,13 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public | <strong>abstract getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
+
+<hr /> 
+### Class: \PHPDocsMD\Utils
+
+| Visibility | Function |
+|:-----------|:---------|
+| public static | <strong>getClassBaseName(</strong><em>string</em> <strong>$fullClassName</strong>)</strong> : <em>string</em> |
 
 <hr /> 
 ### Class: \PHPDocsMD\Console\CLI

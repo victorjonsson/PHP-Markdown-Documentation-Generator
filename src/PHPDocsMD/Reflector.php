@@ -114,8 +114,8 @@ class Reflector implements ReflectorInterface
 
         if( $declaredType && !($declaredType=='array' && substr($docs['type'], -2) == '[]') && $declaredType != $docs['type']) {
             if( $declaredType && $docs['type'] ) {
-                $posClassA = end(explode('\\', $docs['type']));
-                $posClassB = end(explode('\\', $declaredType));
+                $posClassA = Utils::getClassBaseName($docs['type']);
+                $posClassB = Utils::getClassBaseName($declaredType);
                 if( $posClassA == $posClassB ) {
                     $docs['type'] = $declaredType;
                 } else {
