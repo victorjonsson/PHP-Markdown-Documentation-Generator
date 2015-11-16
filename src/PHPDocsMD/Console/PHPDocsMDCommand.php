@@ -115,6 +115,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
                 // generate function table
                 $tableGenerator->openTable();
+                $tableGenerator->doDeclareAbstraction(!$class->isInterface());
                 foreach($class->getFunctions() as $func) {
                     $tableGenerator->addFunc($func);
                 }

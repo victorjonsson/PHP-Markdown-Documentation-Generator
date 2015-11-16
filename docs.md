@@ -93,6 +93,7 @@
 |:-----------|:---------|
 | public | <strong>addFunc(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> <strong>$func</strong>)</strong> : <em>string</em><br /><em>Generates a markdown formatted table row with information about given function. Then adds the row to the table and returns the markdown formatted string.</em> |
 | public | <strong>appendExamplesToEndOfTable(</strong><em>bool</em> <strong>$toggle</strong>)</strong> : <em>void</em><br /><em>All example comments found while generating the table will be appended to the end of the table. Set $toggle to false to prevent this behaviour</em> |
+| public | <strong>doDeclareAbstraction(</strong><em>bool</em> <strong>$toggle</strong>)</strong> : <em>void</em><br /><em>Toggle whether or not methods being abstract (or part of an interface) should be declared as abstract in the table</em> |
 | public static | <strong>formatExampleComment(</strong><em>string</em> <strong>$example</strong>)</strong> : <em>string</em><br /><em>Create a markdown-formatted code view out of an example comment</em> |
 | public | <strong>getTable()</strong> : <em>string</em> |
 | public | <strong>openTable()</strong> : <em>void</em><br /><em>Begin generating a new markdown-formatted table</em> |
@@ -146,7 +147,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>abstract getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
+| public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 
 <hr /> 
 ### Class: \PHPDocsMD\Utils

@@ -42,6 +42,11 @@ class MDTableGenerator {
     private $appendExamples = true;
 
     /**
+     * @var bool
+     */
+    private $declareAbstraction = true;
+
+    /**
      * @param $example
      * @return mixed
      */
@@ -75,8 +80,18 @@ class MDTableGenerator {
     {
         $this->examples = array();
         $this->markdown = ''; // Clear table
+        $this->declareAbstraction = true;
         $this->add('| Visibility | Function |');
         $this->add('|:-----------|:---------|');
+    }
+
+    /**
+     * Toggle whether or not methods being abstract (or part of an interface)
+     * should be declared as abstract in the table
+     * @param bool $toggle
+     */
+    function doDeclareAbstraction($toggle) {
+        $this->declareAbstraction = (bool)$toggle;
     }
 
     /**
@@ -92,7 +107,7 @@ class MDTableGenerator {
 
         $str = '<strong>';
 
-        if( $func->isAbstract() )
+        if( $this->declareAbstraction && $func->isAbstract() )
             $str .= 'abstract ';
 
         $str .=  $func->getName().'(';

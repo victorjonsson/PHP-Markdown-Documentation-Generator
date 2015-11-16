@@ -91,4 +91,33 @@ class MDTableGeneratorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expect, $tblMarkdown);
     }
 
+    function testToggleDeclaringAbstraction()
+    {
+        $tbl = new \PHPDocsMD\MDTableGenerator();
+        $tbl->openTable();
+
+        $func = new \PHPDocsMD\FunctionEntity();
+        $func->isAbstract(true);
+        $func->setName('someFunc');
+
+        $tbl->addFunc($func);
+        $tblMarkdown = $tbl->getTable();
+        $expect = '| Visibility | Function |'.PHP_EOL.
+            '|:-----------|:---------|'.PHP_EOL.
+            '| public | <strong>abstract someFunc()</strong> : <em>void</em> |';
+
+        $this->assertEquals($expect, $tblMarkdown);
+
+        $tbl->openTable();
+        $tbl->doDeclareAbstraction(false);
+        $tbl->addFunc($func);
+
+        $tblMarkdown = $tbl->getTable();
+        $expect = '| Visibility | Function |'.PHP_EOL.
+            '|:-----------|:---------|'.PHP_EOL.
+            '| public | <strong>someFunc()</strong> : <em>void</em> |';
+
+        $this->assertEquals($expect, $tblMarkdown);
+    }
+
 }
