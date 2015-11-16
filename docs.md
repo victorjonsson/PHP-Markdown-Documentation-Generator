@@ -27,7 +27,6 @@
 | public | <strong>isAbstract(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>isInterface(</strong><em>mixed/null/bool</em> <strong>$toggle=null</strong>)</strong> : <em>bool</em> |
 | public | <strong>isSame(</strong><em>string/object</em> <strong>$class</strong>)</strong> : <em>bool</em><br /><em>Check whether this object is referring to given class name or object instance</em> |
-| public static | <strong>sanitizeClassName(</strong><em>string</em> <strong>$name</strong>)</strong> : <em>string</em> |
 | public | <strong>setExtends(</strong><em>string</em> <strong>$extends</strong>)</strong> : <em>void</em> |
 | public | <strong>setFunctions(</strong><em>[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)[]</em> <strong>$functions</strong>)</strong> : <em>void</em> |
 | public | <strong>setInterfaces(</strong><em>array</em> <strong>$implements</strong>)</strong> : <em>void</em> |
@@ -155,6 +154,7 @@
 | Visibility | Function |
 |:-----------|:---------|
 | public static | <strong>getClassBaseName(</strong><em>string</em> <strong>$fullClassName</strong>)</strong> : <em>string</em> |
+| public static | <strong>sanitizeClassName(</strong><em>string</em> <strong>$name</strong>)</strong> : <em>string</em> |
 
 <hr /> 
 ### Class: \PHPDocsMD\Console\CLI
