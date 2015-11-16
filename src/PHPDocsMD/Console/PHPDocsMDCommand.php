@@ -5,6 +5,7 @@ use PHPDocsMD\MDTableGenerator;
 use PHPDocsMD\ClassEntity;
 use PHPDocsMD\Reflector;
 
+use PHPDocsMD\Utils;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -210,7 +211,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             if ( strpos($line, '*') === false ) {
                 if( strpos($line, 'namespace') !== false ) {
                     $ns = trim(current(array_slice(explode('namespace', $line), 1)), '; ');
-                    $ns = ClassEntity::sanitizeClassName($ns);
+                    $ns = Utils::sanitizeClassName($ns);
                 } elseif( strpos($line, 'class') !== false ) {
                     $class = $this->extractClassNameFromLine('class', $line);
                     break;

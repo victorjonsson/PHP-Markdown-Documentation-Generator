@@ -8,6 +8,15 @@ class Utils
 {
 
     /**
+     * @param string $name
+     * @return string
+     */
+    public static function sanitizeClassName($name)
+    {
+        return '\\'.trim($name, ' \\');
+    }
+
+    /**
      * @param string $fullClassName
      * @return string
      */

@@ -81,7 +81,7 @@ class ClassEntity extends CodeEntity {
      */
     public function setExtends($extends)
     {
-        $this->extends = self::sanitizeClassName($extends);
+        $this->extends = Utils::sanitizeClassName($extends);
     }
 
     /**
@@ -107,7 +107,7 @@ class ClassEntity extends CodeEntity {
     {
         $this->interfaces = array();
         foreach($implements as $interface) {
-            $this->interfaces[] = self::sanitizeClassName($interface);
+            $this->interfaces[] = Utils::sanitizeClassName($interface);
         }
     }
 
@@ -132,7 +132,7 @@ class ClassEntity extends CodeEntity {
      */
     function setName($name)
     {
-        parent::setName(self::sanitizeClassName($name));
+        parent::setName(Utils::sanitizeClassName($name));
     }
 
     /**
@@ -143,16 +143,7 @@ class ClassEntity extends CodeEntity {
     function isSame($class)
     {
         $className = is_object($class) ? get_class($class) : $class;
-        return self::sanitizeClassName($className) == $this->getName();
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    public static function sanitizeClassName($name)
-    {
-        return '\\'.trim($name, ' \\');
+        return Utils::sanitizeClassName($className) == $this->getName();
     }
 
     /**

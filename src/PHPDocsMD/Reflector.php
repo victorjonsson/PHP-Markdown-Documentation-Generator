@@ -427,9 +427,9 @@ class Reflector implements ReflectorInterface
         $parts = explode($delimiter, $param_type);
         foreach($parts as $i=>$p) {
             if ($this->shouldPrefixWithNamespace($p)) {
-                $p = ClassEntity::sanitizeClassName('\\' . trim($ns, '\\') . '\\' . $p);
+                $p = Utils::sanitizeClassName('\\' . trim($ns, '\\') . '\\' . $p);
             } elseif ($this->isClassReference($p)) {
-                $p = ClassEntity::sanitizeClassName($p);
+                $p = Utils::sanitizeClassName($p);
             }
             $parts[$i] = $p;
         }
