@@ -80,8 +80,8 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>find(</strong><em>mixed</em> <strong>$methodName</strong>, <em>mixed</em> <strong>$className</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
-| public | <strong>findInClasses(</strong><em>mixed</em> <strong>$methodName</strong>, <em>mixed</em> <strong>$classes</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
+| public | <strong>find(</strong><em>string</em> <strong>$methodName</strong>, <em>string</em> <strong>$className</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
+| public | <strong>findInClasses(</strong><em>string</em> <strong>$methodName</strong>, <em>array</em> <strong>$classes</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
 
 <hr /> 
 ### Class: \PHPDocsMD\MDTableGenerator

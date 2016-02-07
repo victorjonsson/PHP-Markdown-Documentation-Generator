@@ -14,11 +14,14 @@ namespace PHPDocsMD;
  */
 class FunctionFinder
 {
+    /**
+     * @var array
+     */
     private $cache = array();
 
     /**
-     * @param $methodName
-     * @param $classes
+     * @param string $methodName
+     * @param array $classes
      * @return bool|FunctionEntity
      */
     public function findInClasses($methodName, $classes)
@@ -33,8 +36,8 @@ class FunctionFinder
     }
 
     /**
-     * @param $methodName
-     * @param $className
+     * @param string $methodName
+     * @param string $className
      * @return bool|FunctionEntity
      */
     public function find($methodName, $className)
