@@ -3,6 +3,7 @@
 - [\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)
 - [\PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)
 - [\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)
+- [\PHPDocsMD\FunctionFinder](#class-phpdocsmdfunctionfinder)
 - [\PHPDocsMD\MDTableGenerator](#class-phpdocsmdmdtablegenerator)
 - [\PHPDocsMD\ParamEntity](#class-phpdocsmdparamentity)
 - [\PHPDocsMD\Reflector](#class-phpdocsmdreflector)
@@ -73,6 +74,16 @@
 *This class extends [\PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
 <hr /> 
+### Class: \PHPDocsMD\FunctionFinder
+
+> Find a specific function in a class or an array of classes
+
+| Visibility | Function |
+|:-----------|:---------|
+| public | <strong>find(</strong><em>mixed</em> <strong>$methodName</strong>, <em>mixed</em> <strong>$className</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
+| public | <strong>findInClasses(</strong><em>mixed</em> <strong>$methodName</strong>, <em>mixed</em> <strong>$classes</strong>)</strong> : <em>bool/[\PHPDocsMD\FunctionEntity](#class-phpdocsmdfunctionentity)</em> |
+
+<hr /> 
 ### Class: \PHPDocsMD\MDTableGenerator
 
 > Class that can create a markdown-formatted table describing class functions referred to via FunctionEntity objects
@@ -80,7 +91,7 @@
 ###### Example
 ```php
 <?php
-     $generator = new PHPDocs\MDTableGenerator();
+     $generator = new PHPDocsMD\MDTableGenerator();
      $generator->openTable();
      foreach($classEntity->getFunctions() as $func) {
       $generator->addFunc( $func );
@@ -118,7 +129,7 @@
 
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>)</strong> : <em>void</em> |
+| public | <strong>__construct(</strong><em>string</em> <strong>$className</strong>, <em>[\PHPDocsMD\FunctionFinder](#class-phpdocsmdfunctionfinder)</em> <strong>$functionFinder=null</strong>)</strong> : <em>void</em> |
 | public | <strong>getClassEntity()</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
 | public static | <strong>getParamType(</strong><em>\ReflectionParameter</em> <strong>$refParam</strong>)</strong> : <em>string</em><br /><em>Tries to find out if the type of the given parameter. Will return empty string if not possible.</em> |
 | protected | <strong>createClassEntity(</strong><em>\ReflectionClass</em> <strong>$reflection</strong>)</strong> : <em>[\PHPDocsMD\ClassEntity](#class-phpdocsmdclassentity)</em> |
