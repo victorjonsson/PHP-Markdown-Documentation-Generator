@@ -88,9 +88,35 @@ class ExampleClassDepr {
  */
 interface ExampleInterface {
 
+    /**
+     * @param string $arg
+     * @return \stdClass
+     */
     public function func($arg='a');
 
 }
+
+class SomeClass {
+
+    /**
+     * @return int
+     */
+    public function aMethod() {}
+
+}
+
+class ClassImplementingInterface extends SomeClass implements ExampleInterface {
+    /**
+     * @inheritdoc
+     */
+    public function func($arg='a') {}
+
+    /**
+     * @inheritDoc
+     */
+    public function aMethod() {}
+}
+
 
 
 class ClassWithStaticFunc {

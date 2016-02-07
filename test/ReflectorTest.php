@@ -132,4 +132,16 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('$depr', $params[2]->getName());
         $this->assertEquals('\\Acme\\ExampleInterface', $params[2]->getType());
     }
+
+    function testInheritedDocs()
+    {
+        $reflector = new \PHPDocsMD\Reflector('Acme\\ClassImplementingInterface');
+        $functions = $reflector->getClassEntity()->getFunctions();
+        $this->assertEquals(2, count($functions));
+        $this->assertEquals('aMethod', $functions[0]->getName());
+        $this->assertEquals('int', $functions[0]->getReturnType());
+        $this->assertEquals('func', $functions[1]->getName());
+        $this->assertEquals('\\stdClass', $functions[1]->getReturnType());
+    }
+
 }

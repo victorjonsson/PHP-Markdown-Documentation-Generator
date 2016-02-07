@@ -8,17 +8,23 @@ namespace PHPDocsMD;
  */
 class Reflector implements ReflectorInterface
 {
-
     /**
      * @var string
      */
     private $className;
 
     /**
-     * @param string $className
+     * @var FunctionFinder
      */
-    function __construct($className) {
+    private $functionFinder;
+
+    /**
+     * @param string $className
+     * @param FunctionFinder $functionFinder
+     */
+    function __construct($className, FunctionFinder $functionFinder=null) {
         $this->className = $className;
+        $this->functionFinder = is_null($functionFinder) ? new FunctionFinder():$functionFinder;
     }
 
     /**
@@ -58,31 +64,50 @@ class Reflector implements ReflectorInterface
         $func = new FunctionEntity();
         $tags = $this->extractEntityData($method, $func);
 
-        if( $this->shouldIgnoreFunction($tags, $method, $class) ) {
+        if ($this->shouldIgnoreFunction($tags, $method, $class)) {
             return false;
         }
 
-        $params = array();
-        foreach ($method->getParameters() as $param) {
-            $paramName = '$'.$param->getName();
-            $docs = isset($tags['params'][$paramName]) ? $tags['params'][$paramName] : array();
-            $params[$param->getName()] = $this->createParameterEntity($param, $docs);
+        if ($this->shouldInheritDocs($tags)) {
+            return $this->findInheritedFunctionDeclaration($func, $class);
         }
 
-        if (empty($tags['return'])) {
-            $tags['return'] = $this->guessReturnTypeFromFuncName($func->getName());
-        }
-
-        $tags['return'] = $this->sanitizeDeclaration($tags['return'], $method->getDeclaringClass()->getNamespaceName());
-
-        $func->setReturnType($tags['return']);
-        $func->setParams(array_values($params));
+        $func->setReturnType($this->getReturnType($tags, $method, $func));
+        $func->setParams($this->getParams($method, $tags));
         $func->isStatic($method->isStatic());
         $func->setVisibility($method->isPublic() ? 'public' : 'protected');
         $func->isAbstract($method->isAbstract());
         $func->setClass($class->getName());
 
         return $func;
+    }
+
+    /**
+     * @param $tags
+     * @param \ReflectionMethod $method
+     * @param FunctionEntity $func
+     * @return string
+     */
+    private function getReturnType($tags, \ReflectionMethod $method, FunctionEntity $func)
+    {
+        $returnType = empty($tags['return']) ? '':$tags['return'];
+        if (empty($returnType)) {
+            $returnType = $this->guessReturnTypeFromFuncName($func->getName());
+        }
+
+        return $this->sanitizeDeclaration(
+            $returnType,
+            $method->getDeclaringClass()->getNamespaceName()
+        );
+    }
+
+    /**
+     * @param array $docTags
+     * @return bool
+     */
+    private function shouldInheritDocs(array $docTags)
+    {
+        return isset($docTags['inheritDoc']) || isset($docTags['inheritdoc']);
     }
 
     /**
@@ -286,6 +311,7 @@ class Reflector implements ReflectorInterface
     }
 
     /**
+     * @todo Put this in its own class together with figureOutParamDeclaration()
      * @param string $comment
      * @param string $current_tag
      * @param \ReflectionMethod|\ReflectionClass $reflection
@@ -342,6 +368,12 @@ class Reflector implements ReflectorInterface
         return $tags;
     }
 
+    /**
+     * @todo Put this in its own class together with extractTagsFromComment()
+     * @param $words
+     * @param $ns
+     * @return array|bool
+     */
     private function figureOutParamDeclaration($words, $ns)
     {
         $param_desc = '';
@@ -448,5 +480,47 @@ class Reflector implements ReflectorInterface
                 $words[] = $w;
         }
         return $words;
+    }
+
+    /**
+     * @param FunctionEntity $func
+     * @param ClassEntity $class
+     * @return FunctionEntity
+     */
+    private function findInheritedFunctionDeclaration(FunctionEntity $func, ClassEntity $class)
+    {
+        $funcName = $func->getName();
+        $inheritedFuncDeclaration = $this->functionFinder->find(
+            $funcName,
+            $class->getExtends()
+        );
+        if (!$inheritedFuncDeclaration) {
+            $inheritedFuncDeclaration = $this->functionFinder->findInClasses(
+                $funcName,
+                $class->getInterfaces()
+            );
+            if (!$inheritedFuncDeclaration) {
+                throw new \RuntimeException(
+                    'Function '.$funcName.' tries to inherit docs but no parent method is found'
+                );
+            }
+        }
+        return $inheritedFuncDeclaration;
+    }
+
+    /**
+     * @param \ReflectionMethod $method
+     * @param array $tags
+     * @return array
+     */
+    private function getParams(\ReflectionMethod $method, $tags)
+    {
+        $params = array();
+        foreach ($method->getParameters() as $param) {
+            $paramName = '$' . $param->getName();
+            $docs = isset($tags['params'][$paramName]) ? $tags['params'][$paramName] : array();
+            $params[$param->getName()] = $this->createParameterEntity($param, $docs);
+        }
+        return array_values($params);
     }
 }
