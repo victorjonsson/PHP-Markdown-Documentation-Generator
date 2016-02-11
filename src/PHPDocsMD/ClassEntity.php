@@ -11,7 +11,7 @@ class ClassEntity extends CodeEntity {
     /**
      * @var \PHPDocsMD\FunctionEntity[]
      */
-    private $functions = array();
+    private $functions = [];
 
     /**
      * @var bool
@@ -36,7 +36,7 @@ class ClassEntity extends CodeEntity {
     /**
      * @var array
      */
-    private $interfaces = array();
+    private $interfaces = [];
 
     /**
      * @param null|bool $toggle
@@ -105,7 +105,7 @@ class ClassEntity extends CodeEntity {
      */
     public function setInterfaces(array $implements)
     {
-        $this->interfaces = array();
+        $this->interfaces = [];
         foreach($implements as $interface) {
             $this->interfaces[] = Utils::sanitizeClassName($interface);
         }
@@ -153,11 +153,11 @@ class ClassEntity extends CodeEntity {
      */
     function generateTitle($format='%label%: %name% %extra%')
     {
-        $translate = array(
+        $translate = [
             '%label%' => $this->isInterface() ? 'Interface' : 'Class',
             '%name%' => substr_count($this->getName(), '\\') == 1 ? substr($this->getName(), 1) : $this->getName(),
             '%extra%' => ''
-        );
+        ];
 
         if( strpos($format, '%label%') === false ) {
             if( $this->isInterface() )
@@ -178,6 +178,6 @@ class ClassEntity extends CodeEntity {
     function generateAnchor()
     {
         $title = $this->generateTitle();
-        return strtolower(str_replace(array(':', ' ', '\\', '(', ')'), array('', '-', '', '', ''), $title));
+        return strtolower(str_replace([':', ' ', '\\', '(', ')'], ['', '-', '', '', ''], $title));
     }
 }

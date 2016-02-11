@@ -11,7 +11,7 @@ class FunctionEntity extends CodeEntity {
     /**
      * @var \PHPDocsMD\ParamEntity[]
      */
-    private $params = array();
+    private $params = [];
 
     /**
      * @var string

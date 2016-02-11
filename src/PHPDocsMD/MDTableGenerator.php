@@ -34,7 +34,7 @@ class MDTableGenerator {
     /**
      * @var array
      */
-    private $examples = array();
+    private $examples = [];
 
     /**
      * @var bool
@@ -78,7 +78,7 @@ class MDTableGenerator {
      */
     function openTable()
     {
-        $this->examples = array();
+        $this->examples = [];
         $this->markdown = ''; // Clear table
         $this->declareAbstraction = true;
         $this->add('| Visibility | Function |');
@@ -113,7 +113,7 @@ class MDTableGenerator {
         $str .=  $func->getName().'(';
 
         if( $func->hasParams() ) {
-            $params = array();
+            $params = [];
             foreach($func->getParams() as $param) {
                 $paramStr = '<em>'.$param->getType().'</em> <strong>'.$param->getName();
                 if( $param->getDefault() ) {
@@ -136,7 +136,7 @@ class MDTableGenerator {
             $str .= '<br /><em>'.$func->getDescription().'</em>';
         }
 
-        $str = str_replace(array('</strong><strong>', '</strong></strong> '), array('','</strong>'), trim($str));
+        $str = str_replace(['</strong><strong>', '</strong></strong> '], ['','</strong>'], trim($str));
 
         if( $func->getExample() )
             $this->examples[$func->getName()] = $func->getExample();

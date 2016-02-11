@@ -10,7 +10,7 @@ class FunctionFinder
     /**
      * @var array
      */
-    private $cache = array();
+    private $cache = [];
 
     /**
      * @param string $methodName

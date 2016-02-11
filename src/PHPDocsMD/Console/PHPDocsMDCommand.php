@@ -25,7 +25,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     /**
      * @var array
      */
-    private $memory = array();
+    private $memory = [];
 
     /**
      * @param $name
@@ -82,7 +82,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             require_once strpos($bootstrap,'/') === 0 ? $bootstrap : getcwd().'/'.$bootstrap;
         }
 
-        $classCollection = array();
+        $classCollection = [];
         if( strpos($classes, ',') !== false ) {
             foreach(explode(',', $classes) as $class) {
                 if( class_exists($class) || interface_exists($class) )
@@ -93,15 +93,15 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             $classCollection[] = array($classes);
             $requestingOneClass = true;
         } elseif( is_dir($classes) ) {
-            $classCollection = $this->findClassesInDir($classes, array(), $ignore);
+            $classCollection = $this->findClassesInDir($classes, [], $ignore);
         } else {
             throw new \InvalidArgumentException('Given input is neither a class nor a source directory');
         }
 
         $tableGenerator = new MDTableGenerator();
-        $tableOfContent = array();
-        $body = array();
-        $classLinks = array();
+        $tableOfContent = [];
+        $body = [];
+        $classLinks = [];
 
         foreach($classCollection as $ns => $classes) {
             foreach($classes as $className) {
@@ -149,7 +149,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 }
 
                 if( $interfaces = $class->getInterfaces() ) {
-                    $interfaceNames = array();
+                    $interfaceNames = [];
                     foreach($interfaces as $interface) {
                         $anchor = $this->getAnchorFromClassCollection($classCollection, $interface);
                         $interfaceNames[] = $anchor ? sprintf('[%s](#%s)', $interface, $anchor) : $interface;
@@ -241,7 +241,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
      * @param array $ignores
      * @return array
      */
-    private function findClassesInDir($dir, $collection=array(), $ignores=array())
+    private function findClassesInDir($dir, $collection=[], $ignores=[])
     {
         foreach(new \FilesystemIterator($dir) as $f) {
             /** @var \SplFileInfo $f */

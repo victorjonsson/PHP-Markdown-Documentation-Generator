@@ -84,8 +84,8 @@ class Reflector implements ReflectorInterface
     {
         $classUseStatements = $this->useInspector->getUseStatements($reflectionClass->getFileName());
 
-        $publicFunctions = array();
-        $protectedFunctions = array();
+        $publicFunctions = [];
+        $protectedFunctions = [];
 
         foreach($reflectionClass->getMethods() as $methodReflection) {
 
@@ -255,19 +255,19 @@ class Reflector implements ReflectorInterface
                 $docs['type'] = $type;
             }
         } else {
-            $docs = array(
+            $docs = [
                 'descriptions'=>'',
                 'name' => $varName,
                 'default' => $def,
                 'type' => $type
-            );
+            ];
         }
 
         $param = new ParamEntity();
         $param->setDescription(isset($docs['description']) ? $docs['description']:'');
         $param->setName($varName);
         $param->setDefault($docs['default']);
-        $param->setType(empty($docs['type']) ? 'mixed':str_replace(array('|', '\\\\'), array('/', '\\'), $docs['type']));
+        $param->setType(empty($docs['type']) ? 'mixed':str_replace(['|', '\\\\'], ['/', '\\'], $docs['type']));
         return $param;
     }
 
@@ -293,11 +293,10 @@ class Reflector implements ReflectorInterface
      */
     static function getParamType(\ReflectionParameter $refParam)
     {
-        $export = \ReflectionParameter::export(
-            array(
+        $export = \ReflectionParameter::export([
                 $refParam->getDeclaringClass()->name,
                 $refParam->getDeclaringFunction()->name
-            ),
+            ],
             $refParam->name,
             true
         );
@@ -322,8 +321,8 @@ class Reflector implements ReflectorInterface
      */
     private function guessReturnTypeFromFuncName($name)
     {
-        $mixed = array('get', 'load', 'fetch', 'find', 'create');
-        $bool = array('is', 'can', 'has', 'have', 'should');
+        $mixed = ['get', 'load', 'fetch', 'find', 'create'];
+        $bool = ['is', 'can', 'has', 'have', 'should'];
         foreach($mixed as $prefix) {
             if( strpos($name, $prefix) === 0 )
                 return 'mixed';
@@ -385,7 +384,7 @@ class Reflector implements ReflectorInterface
      */
     private function getParams(ReflectionMethod $method, $docInfo)
     {
-        $params = array();
+        $params = [];
         foreach ($method->getParameters() as $param) {
             $paramName = '$' . $param->getName();
             $params[$param->getName()] = $this->createParameterEntity(

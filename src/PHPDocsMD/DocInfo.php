@@ -12,7 +12,7 @@ class DocInfo
     /**
      * @var array
      */
-    private $data = array();
+    private $data = [];
 
 
     /**
@@ -20,14 +20,13 @@ class DocInfo
      */
     public function __construct(array $data)
     {
-        $this->data = array_merge(
-            array(
-                'return' => '',
-                'params' => array(),
-                'description' => '',
-                'example' => false,
-                'deprecated' => false
-            ), $data);
+        $this->data = array_merge([
+            'return' => '',
+            'params' => [],
+            'description' => '',
+            'example' => false,
+            'deprecated' => false
+        ], $data);
     }
 
     /**
@@ -55,7 +54,7 @@ class DocInfo
         if (isset($this->data['params'][$name])) {
             return $this->data['params'][$name];
         }
-        return array();
+        return [];
     }
 
     /**

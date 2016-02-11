@@ -13,7 +13,7 @@ class UseInspector
      */
     public function getUseStatementsInString($content)
     {
-        $usages = array();
+        $usages = [];
 
         $chunks = array_slice(preg_split('/use[\s+]/', $content), 1);
         foreach ($chunks as $chunk) {

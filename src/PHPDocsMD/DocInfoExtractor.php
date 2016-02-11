@@ -41,7 +41,7 @@ class DocInfoExtractor
      */
     private function getCleanDocComment($reflection)
     {
-        $comment = str_replace(array('/*', '*/'), '', $reflection->getDocComment());
+        $comment = str_replace(['/*', '*/'], '', $reflection->getDocComment());
         return trim(trim(preg_replace('/([\s|^]\*\s)/', '', $comment)), '*');
     }
 
@@ -54,7 +54,7 @@ class DocInfoExtractor
     private function extractInfoFromComment($comment, $reflection, $current_tag='description')
     {
         $currentNamespace = $this->getNameSpace($reflection);
-        $tags = array($current_tag=>'');
+        $tags = [$current_tag=>''];
 
         foreach(explode(PHP_EOL, $comment) as $line) {
 
@@ -121,7 +121,7 @@ class DocInfoExtractor
      */
     private function getWordsFromLine($line)
     {
-        $words = array();
+        $words = [];
         foreach(explode(' ', trim($line)) as $w) {
             if( !empty($w) ) {
                 $words[] = $w;
@@ -159,14 +159,14 @@ class DocInfoExtractor
 
             $type = Utils::sanitizeDeclaration($type, $currentNameSpace);
 
-            $data = array(
+            $data = [
                 'description' => $description,
                 'name' => $name,
                 'type' => $type,
                 'default' => false
-            );
+            ];
 
-            return array($name, $data);
+            return [$name, $data];
         }
 
         return false;

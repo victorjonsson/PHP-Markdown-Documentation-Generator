@@ -61,7 +61,7 @@ class Utils
      */
     public static function isClassReference($typeDeclaration)
     {
-        $natives = array('mixed', 'string', 'int', 'float', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void');
+        $natives = ['mixed', 'string', 'int', 'float', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void'];
         $sanitizedTypeDeclaration = rtrim(trim(strtolower($typeDeclaration)), '[]');
 
         return !in_array($sanitizedTypeDeclaration, $natives) &&
