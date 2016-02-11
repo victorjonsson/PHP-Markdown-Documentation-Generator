@@ -129,3 +129,14 @@ class ClassWithStaticFunc {
     }
 
 }
+
+use PHPDocsMD\Console\CLI;
+
+interface InterfaceReferingToImportedClass {
+
+    /**
+     * @return CLI
+     */
+    function theFunc();
+
+}

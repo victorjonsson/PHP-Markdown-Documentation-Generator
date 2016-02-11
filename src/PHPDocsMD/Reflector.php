@@ -1,6 +1,8 @@
 <?php
 namespace PHPDocsMD;
 
+use ReflectionMethod;
+
 
 /**
  * Class that can compute ClassEntity objects out of real classes
@@ -19,26 +21,81 @@ class Reflector implements ReflectorInterface
     private $functionFinder;
 
     /**
+     * @var DocInfoExtractor
+     */
+    private $docInfoExtractor;
+    /**
+     * @var ClassEntityFactory
+     */
+    private $classEntityFactory;
+    /**
+     * @var UseInspector
+     */
+    private $useInspector;
+
+    /**
      * @param string $className
      * @param FunctionFinder $functionFinder
+     * @param DocInfoExtractor $docInfoExtractor
+     * @param UseInspector $useInspector
+     * @param ClassEntityFactory $classEntityFactory
      */
-    function __construct($className, FunctionFinder $functionFinder=null) {
+    function __construct(
+        $className,
+        FunctionFinder $functionFinder = null,
+        DocInfoExtractor $docInfoExtractor = null,
+        UseInspector $useInspector = null,
+        ClassEntityFactory $classEntityFactory = null
+    ) {
         $this->className = $className;
-        $this->functionFinder = is_null($functionFinder) ? new FunctionFinder():$functionFinder;
+        $this->functionFinder = $this->loadIfNull($functionFinder, FunctionFinder::class);
+        $this->docInfoExtractor = $this->loadIfNull($docInfoExtractor, DocInfoExtractor::class);
+        $this->useInspector = $this->loadIfNull($useInspector, UseInspector::class);
+        $this->classEntityFactory = $this->loadIfNull(
+            $classEntityFactory,
+            ClassEntityFactory::class,
+            $this->docInfoExtractor
+        );
     }
-
+    
+    private function loadIfNull($obj, $className, $in=null)
+    {
+        return is_object($obj) ? $obj : new $className($in);
+    }
+    
     /**
      * @return \PHPDocsMD\ClassEntity
      */
     function getClassEntity() {
         $classReflection = new \ReflectionClass($this->className);
-        $class = $this->createClassEntity($classReflection);
+        $classEntity = $this->classEntityFactory->create($classReflection);
+
+        $classEntity->setFunctions($this->getClassFunctions($classEntity, $classReflection));
+
+        return $classEntity;
+    }
+
+    /**
+     * @param ClassEntity $classEntity
+     * @param \ReflectionClass $reflectionClass
+     * @return FunctionEntity[]
+     */
+    private function getClassFunctions(ClassEntity $classEntity, \ReflectionClass $reflectionClass)
+    {
+        $classUseStatements = $this->useInspector->getUseStatements($reflectionClass->getFileName());
 
         $publicFunctions = array();
         $protectedFunctions = array();
 
-        foreach($classReflection->getMethods() as $methodReflection) {
-            $func = $this->createFunctionEntity($methodReflection, $class);
+        foreach($reflectionClass->getMethods() as $methodReflection) {
+
+            $func = $this->createFunctionEntity(
+                $methodReflection,
+                $classEntity,
+                $classUseStatements
+            );
+
+
             if( $func ) {
                 if( $func->getVisibility() == 'public' ) {
                     $publicFunctions[$func->getName()] =  $func;
@@ -47,33 +104,35 @@ class Reflector implements ReflectorInterface
                 }
             }
         }
+
         ksort($publicFunctions);
         ksort($protectedFunctions);
-        $class->setFunctions(array_values(array_merge($publicFunctions, $protectedFunctions)));
 
-        return $class;
+        return array_values(array_merge($publicFunctions, $protectedFunctions));
     }
 
     /**
-     * @param \ReflectionMethod $method
+     * @param ReflectionMethod $method
      * @param ClassEntity $class
+     * @param array $useStatements
      * @return bool|FunctionEntity
      */
-    protected function createFunctionEntity(\ReflectionMethod $method, ClassEntity $class)
+    protected function createFunctionEntity(ReflectionMethod $method, ClassEntity $class, $useStatements)
     {
         $func = new FunctionEntity();
-        $tags = $this->extractEntityData($method, $func);
+        $docInfo = $this->docInfoExtractor->extractInfo($method);
+        $this->docInfoExtractor->applyInfoToEntity($method, $docInfo, $func);
 
-        if ($this->shouldIgnoreFunction($tags, $method, $class)) {
-            return false;
-        }
-
-        if ($this->shouldInheritDocs($tags)) {
+        if ($docInfo->shouldInheritDoc()) {
             return $this->findInheritedFunctionDeclaration($func, $class);
         }
 
-        $func->setReturnType($this->getReturnType($tags, $method, $func));
-        $func->setParams($this->getParams($method, $tags));
+        if ($this->shouldIgnoreFunction($docInfo, $method, $class)) {
+            return false;
+        }
+
+        $func->setReturnType($this->getReturnType($docInfo, $method, $func, $useStatements));
+        $func->setParams($this->getParams($method, $docInfo));
         $func->isStatic($method->isStatic());
         $func->setVisibility($method->isPublic() ? 'public' : 'protected');
         $func->isAbstract($method->isAbstract());
@@ -83,47 +142,61 @@ class Reflector implements ReflectorInterface
     }
 
     /**
-     * @param $tags
-     * @param \ReflectionMethod $method
+     * @param DocInfo $docInfo
+     * @param ReflectionMethod $method
      * @param FunctionEntity $func
+     * @param array $useStatements
      * @return string
      */
-    private function getReturnType($tags, \ReflectionMethod $method, FunctionEntity $func)
-    {
-        $returnType = empty($tags['return']) ? '':$tags['return'];
+    private function getReturnType(
+        DocInfo $docInfo,
+        ReflectionMethod $method,
+        FunctionEntity $func,
+        array $useStatements
+    ) {
+        $returnType = $docInfo->getReturnType();
         if (empty($returnType)) {
             $returnType = $this->guessReturnTypeFromFuncName($func->getName());
+        } elseif(Utils::isClassReference($returnType) && !class_exists($returnType)) {
+            $className = $this->stripAwayNamespace($returnType);
+            foreach ($useStatements as $usedClass) {
+                if ($this->stripAwayNamespace($usedClass) == $className) {
+                    $returnType = $usedClass;
+                    break;
+                }
+            }
         }
 
-        return $this->sanitizeDeclaration(
+        return Utils::sanitizeDeclaration(
             $returnType,
             $method->getDeclaringClass()->getNamespaceName()
         );
     }
 
     /**
-     * @param array $docTags
-     * @return bool
+     * @param string $className
+     * @return string
      */
-    private function shouldInheritDocs(array $docTags)
+    private function stripAwayNamespace($className)
     {
-        return isset($docTags['inheritDoc']) || isset($docTags['inheritdoc']);
+        return trim(substr($className, strrpos($className, '\\')), '\\');
     }
 
     /**
-     * @param array $tags
-     * @param \ReflectionMethod $method
+     * @param DocInfo $info
+     * @param ReflectionMethod $method
      * @param ClassEntity $class
      * @return bool
      */
-    protected function shouldIgnoreFunction($tags, \ReflectionMethod $method, $class)
+    protected function shouldIgnoreFunction($info, ReflectionMethod $method, $class)
     {
-        return isset($tags['ignore']) ||
+        return $info->shouldBeIgnored() ||
                 $method->isPrivate() ||
                 !$class->isSame($method->getDeclaringClass()->getName());
     }
 
     /**
+     * @todo Turn this into a class "FunctionEntityFactory"
      * @param \ReflectionParameter $reflection
      * @param array $docs
      * @return FunctionEntity
@@ -280,209 +353,6 @@ class Reflector implements ReflectorInterface
     }
 
     /**
-     * @param \ReflectionClass|\ReflectionMethod $reflection
-     * @param CodeEntity $code
-     * @return array
-     */
-    private function extractEntityData($reflection, $code)
-    {
-        $comment = $this->getCleanDocComment($reflection);
-        $tags = $this->extractTagsFromComment($comment, 'description', $reflection);
-        $code->setName($reflection->getName());
-        $code->setDescription(!empty($tags['description']) ? $tags['description']:'');
-        $code->setExample( !empty($tags['example']) ? $tags['example']:'');
-
-        if( !empty($tags['deprecated']) ) {
-            $code->isDeprecated(true);
-            $code->setDeprecationMessage($tags['deprecated']);
-        }
-
-        return $tags;
-    }
-
-    /**
-     * @param \ReflectionClass $reflection
-     * @return string
-     */
-    private function getCleanDocComment($reflection)
-    {
-        $comment = str_replace(array('/*', '*/'), '', $reflection->getDocComment());
-        return trim(trim(preg_replace('/([\s|^]\*\s)/', '', $comment)), '*');
-    }
-
-    /**
-     * @todo Put this in its own class together with figureOutParamDeclaration()
-     * @param string $comment
-     * @param string $current_tag
-     * @param \ReflectionMethod|\ReflectionClass $reflection
-     * @return array
-     */
-    private function extractTagsFromComment($comment, $current_tag='description', $reflection)
-    {
-        $ns = $reflection instanceof \ReflectionClass ? $reflection->getNamespaceName() : $reflection->getDeclaringClass()->getNamespaceName();
-        $tags = array($current_tag=>'');
-
-        foreach(explode(PHP_EOL, $comment) as $line) {
-
-            if( $current_tag != 'example' )
-                $line = trim($line);
-
-            $words = $this->getWordsFromLine($line);
-            if( empty($words) )
-                continue;
-
-            if( strpos($words[0], '@') === false ) {
-                // Append to tag
-                $joinWith = $current_tag == 'example' ? PHP_EOL : ' ';
-                $tags[$current_tag] .= $joinWith . $line;
-            }
-            elseif( $words[0] == '@param' ) {
-                // Get parameter declaration
-                if( $paramData = $this->figureOutParamDeclaration($words, $ns) ) {
-                    list($name, $data) = $paramData;
-                    $tags['params'][$name] = $data;
-                }
-            }
-            else {
-                // Start new tag
-                $current_tag = substr($words[0], 1);
-                array_splice($words, 0 ,1);
-                if( empty($tags[$current_tag]) ) {
-                    $tags[$current_tag] = '';
-                }
-                $tags[$current_tag] .= trim(join(' ', $words));
-            }
-        }
-
-        foreach($tags as $name => $val) {
-            if( is_array($val) ) {
-                foreach($val as $subName=>$subVal) {
-                    if( is_string($subVal) )
-                        $tags[$name][$subName] = trim($subVal);
-                }
-            } else {
-                $tags[$name] = trim($val);
-            }
-        }
-
-        return $tags;
-    }
-
-    /**
-     * @todo Put this in its own class together with extractTagsFromComment()
-     * @param $words
-     * @param $ns
-     * @return array|bool
-     */
-    private function figureOutParamDeclaration($words, $ns)
-    {
-        $param_desc = '';
-        $param_type = '';
-        
-        if( strpos($words[1], '$') === 0) {
-            $param_name = $words[1];
-            $param_type = 'mixed';
-            array_splice($words, 0, 2);
-        } elseif( isset($words[2]) ) {
-            $param_name = $words[2];
-            $param_type = $words[1];
-            array_splice($words, 0, 3);
-        }
-
-        if( !empty($param_name) ) {
-            $param_name = current(explode('=', $param_name));
-            if( count($words) > 1 ) {
-                $param_desc = join(' ', $words);
-            }
-
-            $param_type = $this->sanitizeDeclaration($param_type, $ns, '|');
-            $data = array(
-                'description' => $param_desc,
-                'name' => $param_name,
-                'type' => $param_type,
-                'default' => false
-            );
-
-            return array($param_name, $data);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string $param_type
-     * @return bool
-     */
-    private function shouldPrefixWithNamespace($param_type)
-    {
-        return strpos($param_type, '\\') !== 0 && $this->isClassReference($param_type);
-    }
-
-    /**
-     * @param string $str
-     * @return bool
-     */
-    private function isClassReference($str)
-    {
-        $natives = array('mixed', 'string', 'int', 'float', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void');
-        return !in_array(rtrim(trim(strtolower($str)), '[]'), $natives) && strpos($str, ' ') === false;
-    }
-
-    /**
-     * @param \ReflectionClass $reflection
-     * @return ClassEntity
-     */
-    protected function createClassEntity(\ReflectionClass $reflection)
-    {
-        $class = new ClassEntity();
-        $classTags = $this->extractEntityData($reflection, $class);
-        $class->isInterface($reflection->isInterface());
-        $class->isAbstract($reflection->isAbstract());
-        $class->hasIgnoreTag(isset($classTags['ignore']));
-        $class->setInterfaces(array_keys($reflection->getInterfaces()));
-
-        if ($reflection->getParentClass()) {
-            $class->setExtends($reflection->getParentClass()->getName());
-            return $class;
-        }
-        return $class;
-    }
-
-    /**
-     * @param string $param_type
-     * @param string $ns
-     * @param string $delimiter
-     * @return string
-     */
-    private function sanitizeDeclaration($param_type, $ns, $delimiter='|')
-    {
-        $parts = explode($delimiter, $param_type);
-        foreach($parts as $i=>$p) {
-            if ($this->shouldPrefixWithNamespace($p)) {
-                $p = Utils::sanitizeClassName('\\' . trim($ns, '\\') . '\\' . $p);
-            } elseif ($this->isClassReference($p)) {
-                $p = Utils::sanitizeClassName($p);
-            }
-            $parts[$i] = $p;
-        }
-        return implode('/', $parts);
-    }
-
-    /**
-     * @param $line
-     * @return array
-     */
-    private function getWordsFromLine($line)
-    {
-        $words = array();
-        foreach(explode(' ', trim($line)) as $w) {
-            if( !empty($w) )
-                $words[] = $w;
-        }
-        return $words;
-    }
-
-    /**
      * @param FunctionEntity $func
      * @param ClassEntity $class
      * @return FunctionEntity
@@ -509,17 +379,19 @@ class Reflector implements ReflectorInterface
     }
 
     /**
-     * @param \ReflectionMethod $method
-     * @param array $tags
+     * @param ReflectionMethod $method
+     * @param DocInfo $docInfo
      * @return array
      */
-    private function getParams(\ReflectionMethod $method, $tags)
+    private function getParams(ReflectionMethod $method, $docInfo)
     {
         $params = array();
         foreach ($method->getParameters() as $param) {
             $paramName = '$' . $param->getName();
-            $docs = isset($tags['params'][$paramName]) ? $tags['params'][$paramName] : array();
-            $params[$param->getName()] = $this->createParameterEntity($param, $docs);
+            $params[$param->getName()] = $this->createParameterEntity(
+                $param,
+                $docInfo->getParameterInfo($paramName)
+            );
         }
         return array_values($params);
     }

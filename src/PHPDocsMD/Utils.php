@@ -26,4 +26,45 @@ class Utils
         return end($parts);
     }
 
+    /**
+     * @param string $typeDeclaration
+     * @param string $currentNameSpace
+     * @param string $delimiter
+     * @return string
+     */
+    public static function sanitizeDeclaration($typeDeclaration, $currentNameSpace, $delimiter='|')
+    {
+        $parts = explode($delimiter, $typeDeclaration);
+        foreach($parts as $i=>$p) {
+            if (self::shouldPrefixWithNamespace($p)) {
+                $p = self::sanitizeClassName('\\' . trim($currentNameSpace, '\\') . '\\' . $p);
+            } elseif (self::isClassReference($p)) {
+                $p = self::sanitizeClassName($p);
+            }
+            $parts[$i] = $p;
+        }
+        return implode('/', $parts);
+    }
+
+    /**
+     * @param string $typeDeclaration
+     * @return bool
+     */
+    private static function shouldPrefixWithNameSpace($typeDeclaration)
+    {
+        return strpos($typeDeclaration, '\\') !== 0 && self::isClassReference($typeDeclaration);
+    }
+
+    /**
+     * @param string $typeDeclaration
+     * @return bool
+     */
+    public static function isClassReference($typeDeclaration)
+    {
+        $natives = array('mixed', 'string', 'int', 'float', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void');
+        $sanitizedTypeDeclaration = rtrim(trim(strtolower($typeDeclaration)), '[]');
+
+        return !in_array($sanitizedTypeDeclaration, $natives) &&
+            strpos($typeDeclaration, ' ') === false;
+    }
 }

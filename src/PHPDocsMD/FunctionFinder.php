@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: victorjonsson
- * Date: 07/02/16
- * Time: 22:10
- */
-
 namespace PHPDocsMD;
 
 /**
