@@ -147,8 +147,9 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     function testReferenceToImportedClass()
     {
-        $reflector = new \PHPDocsMD\Reflector('Acme\\InterfaceReferingToImportedClass');
-        $function = $reflector->getClassEntity()->getFunctions()[0];
-        $this->assertEquals('\\PHPDocsMD\\Console\\CLI', $function->getReturnType());
+        $reflector = new \PHPDocsMD\Reflector('Acme\\InterfaceReferringToImportedClass');
+        $functions = $reflector->getClassEntity()->getFunctions();
+        $this->assertEquals('\\PHPDocsMD\\Console\\CLI', $functions[1]->getReturnType());
+        $this->assertEquals('\\PHPDocsMD\\Console\\CLI[]', $functions[0]->getReturnType());
     }
 }

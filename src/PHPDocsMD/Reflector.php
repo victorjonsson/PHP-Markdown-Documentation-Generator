@@ -156,7 +156,11 @@ class Reflector implements ReflectorInterface
         $returnType = $docInfo->getReturnType();
         if (empty($returnType)) {
             $returnType = $this->guessReturnTypeFromFuncName($func->getName());
-        } elseif(Utils::isClassReference($returnType) && !class_exists($returnType)) {
+        } elseif(Utils::isClassReference($returnType) && !self::classExists($returnType)) {
+            $isReferenceToArrayOfObjects = substr($returnType, -2) == '[]' ? '[]':'';
+            if ($isReferenceToArrayOfObjects) {
+                $returnType = substr($returnType, 0, strlen($returnType)-2);
+            }
             $className = $this->stripAwayNamespace($returnType);
             foreach ($useStatements as $usedClass) {
                 if ($this->stripAwayNamespace($usedClass) == $className) {
@@ -164,12 +168,24 @@ class Reflector implements ReflectorInterface
                     break;
                 }
             }
+            if ($isReferenceToArrayOfObjects) {
+                $returnType .= '[]';
+            }
         }
 
         return Utils::sanitizeDeclaration(
             $returnType,
             $method->getDeclaringClass()->getNamespaceName()
         );
+    }
+
+    /**
+     * @param string $classRef
+     * @return bool
+     */
+    private function classExists($classRef)
+    {
+        return class_exists(trim($classRef, '[]'));
     }
 
     /**
