@@ -82,8 +82,7 @@ class Reflector implements ReflectorInterface
      */
     private function getClassFunctions(ClassEntity $classEntity, \ReflectionClass $reflectionClass)
     {
-        $classUseStatements = $this->useInspector->getUseStatements($reflectionClass->getFileName());
-
+        $classUseStatements = $this->useInspector->getUseStatements($reflectionClass);
         $publicFunctions = [];
         $protectedFunctions = [];
 

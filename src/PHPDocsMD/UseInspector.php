@@ -7,6 +7,7 @@ namespace PHPDocsMD;
  */
 class UseInspector
 {
+
     /**
      * @param string $content
      * @return string[]
@@ -14,7 +15,6 @@ class UseInspector
     public function getUseStatementsInString($content)
     {
         $usages = [];
-
         $chunks = array_slice(preg_split('/use[\s+]/', $content), 1);
         foreach ($chunks as $chunk) {
                 $usage = trim(current(explode(';', $chunk)));
@@ -26,11 +26,25 @@ class UseInspector
 
     /**
      * @param string $filePath
-     * @return \string[]
+     * @return array
      */
-    public function getUseStatements($filePath)
+    public function getUseStatementsInFile($filePath)
     {
         return $this->getUseStatementsInString(file_get_contents($filePath));
+    }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     * @return array
+     */
+    public function getUseStatements(\ReflectionClass $reflectionClass)
+    {
+        $classUseStatements = [];
+        $classFile = $reflectionClass->getFileName();
+        if ($classFile) {
+            $classUseStatements = $this->getUseStatementsInFile($classFile);
+        }
+        return $classUseStatements;
     }
 
 }
