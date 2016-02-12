@@ -4,7 +4,7 @@
     "minimum-stability": "dev",
     "homepage" : "https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator",
     "license" : "MIT",
-    "version" : "1.3.2",
+    "version" : "1.3.4",
     "authors": [{
         "name": "Victor Jonsson",
         "email": "kontakt@victorjonsson.se"

@@ -191,7 +191,7 @@ class MDTableGenerator {
             $type = 'js';
         }
 
-        return sprintf("```%s\n%s\n````", $type, trim($example));
+        return sprintf("```%s\n%s\n```", $type, trim($example));
     }
 
     /**
