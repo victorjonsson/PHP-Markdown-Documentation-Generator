@@ -142,6 +142,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('int', $functions[0]->getReturnType());
         $this->assertEquals('func', $functions[1]->getName());
         $this->assertEquals('\\stdClass', $functions[1]->getReturnType());
+        $this->assertFalse($functions[1]->isAbstract());
     }
 
 

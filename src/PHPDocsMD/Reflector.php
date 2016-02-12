@@ -389,6 +389,9 @@ class Reflector implements ReflectorInterface
                 );
             }
         }
+        if (!$func->isAbstract() && !$class->isAbstract() && $inheritedFuncDeclaration->isAbstract()) {
+            $inheritedFuncDeclaration->isAbstract(false);
+        }
         return $inheritedFuncDeclaration;
     }
 
