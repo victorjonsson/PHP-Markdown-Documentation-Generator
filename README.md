@@ -83,7 +83,7 @@ Maybe your not using the autloader provided by composer or maybe there is someth
 
 `$ ./phpdocs-md generate --bootstrap=includes/init.php includes/src > docs.md`
 
-######  Excluding directories
+##### Excluding directories
 
 You can tell the command line tool to ignore certain directories in your class path by using the ignore-option.
 
