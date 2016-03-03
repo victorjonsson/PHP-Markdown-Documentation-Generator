@@ -87,4 +87,4 @@ Maybe your not using the autloader provided by composer or maybe there is someth
 
 You can tell the command line tool to ignore certain directories in your class path by using the ignore-option.
 
-`$ ./phpdocs-md generate --ignore=test,mustasche includes/src > docs.md`
+`$ ./phpdocs-md generate --ignore=test,vendor includes/src > docs.md`
