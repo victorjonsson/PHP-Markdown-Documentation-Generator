@@ -48,9 +48,9 @@ Only public and protected functions will be a part of the documentation, but you
 ### Requirements
 
 - PHP version >= 5.3.2
-- Reflection activated in php.ini
-- Each class in its own file with the file name being the same as the class name
-- composer.json file in your project
+- Reflection must be enabled in php.ini
+- Each class must be defined in its own file with the file name being the same as the class name
+- The project should use [Composer](https://getcomposer.org/)
 
 ### Installation / Usage
 
