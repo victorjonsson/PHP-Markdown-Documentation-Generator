@@ -41,7 +41,7 @@ class MyObject {
 
 Then, running `$ phpdocs-md generate src > api.md` will write your API documentation to the file api.md.
 
-[Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/blob/master/api.md)
+[Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/blob/master/docs.md)
 
 Only public and protected functions will be a part of the documentation, but you can also add `@ignore` to any function or class to exclude it from the docs. Phpdocs-md will try to guess the return type of functions that don't explicitly declare one. The program uses reflection to get as much information as possible out of the code so that functions that are missing DocBlock comments will still be included in the generated documentation.
 
