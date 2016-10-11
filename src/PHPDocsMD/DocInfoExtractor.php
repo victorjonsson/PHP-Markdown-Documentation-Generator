@@ -141,7 +141,7 @@ class DocInfoExtractor
         $type = '';
         $name = '';
 
-        if (strpos($words[1], '$') === 0) {
+        if (isset($words[1]) && strpos($words[1], '$') === 0) {
             $name = $words[1];
             $type = 'mixed';
             array_splice($words, 0, 2);
