@@ -16,12 +16,8 @@
     "require-dev" : {
         "phpunit/phpunit": "3.7.23"
     },
+    "bin":["bin/phpdoc-md"],
     "autoload": {
         "psr-0": {"PHPDocsMD": "src/"}
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "\\PHPDocsMD\\Console\\CLI::install"
-        ]
     }
 }

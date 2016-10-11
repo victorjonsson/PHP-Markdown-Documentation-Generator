@@ -28,16 +28,4 @@ class CLI extends Application {
         $this->add(new PHPDocsMDCommand());
         return parent::run($input, $output);
     }
-
-    /**
-     * Moves a copy of phpdoc-md to project root
-     * @ignore
-     */
-    public static function install()
-    {
-        $phpdocExec = __DIR__.'/../../../bin/phpdoc-md';
-        $projExec = getcwd().'/phpdoc-md';
-        copy($phpdocExec, $projExec);
-        chmod($projExec, 0755);
-    }
 }
