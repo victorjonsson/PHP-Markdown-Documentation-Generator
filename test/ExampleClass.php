@@ -115,6 +115,16 @@ class ClassImplementingInterface extends SomeClass implements ExampleInterface {
      * @inheritDoc
      */
     public function aMethod() {}
+
+    /**
+     * @return \FilesystemIterator
+     */
+    public function methodReturnNativeClass() {}
+
+    /**
+     * @return \FilesystemIterator[]
+     */
+    public function methodReturningArrayNativeClass() {}
 }
 
 

@@ -39,19 +39,25 @@ class ClassEntity extends CodeEntity {
     private $interfaces = [];
 
     /**
-     * @param null|bool $toggle
+     * @var bool
+     */
+    private $isNative;
+
+    /**
+     * @param bool $toggle
+     * @return bool
      */
     public function isAbstract($toggle=null)
     {
         if ( $toggle === null ) {
             return $this->abstract;
         } else {
-            $this->abstract = (bool)$toggle;
+            return $this->abstract = (bool)$toggle;
         }
     }
 
     /**
-     * @param null|bool $toggle
+     * @param bool $toggle
      * @return bool
      */
     public function hasIgnoreTag($toggle=null)
@@ -59,12 +65,12 @@ class ClassEntity extends CodeEntity {
         if( $toggle === null ) {
             return $this->hasIgnoreTag;
         } else {
-            $this->hasIgnoreTag = (bool)$toggle;
+            return $this->hasIgnoreTag = (bool)$toggle;
         }
     }
 
     /**
-     * @param null|bool $toggle
+     * @param bool $toggle
      * @return bool
      */
     public function isInterface($toggle=null)
@@ -72,7 +78,20 @@ class ClassEntity extends CodeEntity {
         if( $toggle === null ) {
             return $this->isInterface;
         } else {
-            $this->isInterface = (bool)$toggle;
+            return $this->isInterface = (bool)$toggle;
+        }
+    }
+
+    /**
+     * @param bool $toggle
+     * @return bool
+     */
+    public function isNative($toggle=null)
+    {
+        if( $toggle === null ) {
+            return $this->isNative;
+        } else {
+            return $this->isNative = (bool)$toggle;
         }
     }
 

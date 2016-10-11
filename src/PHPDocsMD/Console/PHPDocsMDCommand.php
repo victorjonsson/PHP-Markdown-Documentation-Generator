@@ -2,7 +2,6 @@
 namespace PHPDocsMD\Console;
 
 use PHPDocsMD\MDTableGenerator;
-use PHPDocsMD\ClassEntity;
 use PHPDocsMD\Reflector;
 
 use PHPDocsMD\Utils;
@@ -67,7 +66,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|null|void
+     * @return int|null
      * @throws \InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -112,12 +111,25 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
 
                 // Add to tbl of contents
                 $tableOfContent[] = sprintf('- [%s](#%s)', $class->generateTitle('%name% %extra%'), $class->generateAnchor());
-                $classLinks[$class->generateAnchor()] = $class->getName();
+
+                $classLinks[$class->getName()] = '#'.$class->generateAnchor();
 
                 // generate function table
                 $tableGenerator->openTable();
                 $tableGenerator->doDeclareAbstraction(!$class->isInterface());
                 foreach($class->getFunctions() as $func) {
+                    if ($func->isReturningNativeClass()) {
+                        $classLinks[$func->getReturnType()] = 'http://php.net/manual/en/class.'.
+                            strtolower(str_replace(array('[]', '\\'), '', $func->getReturnType())).
+                            '.php';
+                    }
+                    foreach($func->getParams() as $param) {
+                        if ($param->getNativeClassType()) {
+                            $classLinks[$param->getNativeClassType()] = 'http://php.net/manual/en/class.'.
+                                strtolower(str_replace(array('[]', '\\'), '', $param->getNativeClassType())).
+                                '.php';
+                        }
+                    }
                     $tableGenerator->addFunc($func);
                 }
 
@@ -172,8 +184,8 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         asort($classLinks);
         $classLinks = array_reverse($classLinks, true);
         $docString = implode(PHP_EOL, $body);
-        foreach($classLinks as $anchor => $className) {
-            $link = sprintf('[%s](#%s)', $className, $anchor);
+        foreach($classLinks as $className => $url) {
+            $link = sprintf('[%s](%s)', $className, $url);
             $find = array('<em>'.$className, '/'.$className);
             $replace = array('<em>'.$link, '/'.$link);
             $docString = str_replace($find, $replace, $docString);

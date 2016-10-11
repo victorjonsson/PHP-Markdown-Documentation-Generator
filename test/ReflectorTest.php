@@ -137,12 +137,16 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
     {
         $reflector = new \PHPDocsMD\Reflector('Acme\\ClassImplementingInterface');
         $functions = $reflector->getClassEntity()->getFunctions();
-        $this->assertEquals(2, count($functions));
+        $this->assertEquals(4, count($functions));
         $this->assertEquals('aMethod', $functions[0]->getName());
         $this->assertEquals('int', $functions[0]->getReturnType());
+        $this->assertFalse($functions[0]->isReturningNativeClass());
         $this->assertEquals('func', $functions[1]->getName());
         $this->assertEquals('\\stdClass', $functions[1]->getReturnType());
         $this->assertFalse($functions[1]->isAbstract());
+
+        $this->assertTrue($functions[2]->isReturningNativeClass());
+        $this->assertTrue($functions[3]->isReturningNativeClass());
     }
 
 

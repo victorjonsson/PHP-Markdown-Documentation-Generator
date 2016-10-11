@@ -130,12 +130,14 @@ class Reflector implements ReflectorInterface
             return false;
         }
 
-        $func->setReturnType($this->getReturnType($docInfo, $method, $func, $useStatements));
+        $returnType = $this->getReturnType($docInfo, $method, $func, $useStatements);
+        $func->setReturnType($returnType);
         $func->setParams($this->getParams($method, $docInfo));
         $func->isStatic($method->isStatic());
         $func->setVisibility($method->isPublic() ? 'public' : 'protected');
         $func->isAbstract($method->isAbstract());
         $func->setClass($class->getName());
+        $func->isReturningNativeClass(Utils::isNativeClassReference($returnType));
 
         return $func;
     }
@@ -264,7 +266,7 @@ class Reflector implements ReflectorInterface
                 if( substr($docs['type'], strpos($docs['type'], '\\')) == substr($declaredType, strpos($declaredType, '\\')) ) {
                     $docs['type'] = $declaredType;
                 } else {
-                    $docs['type'] = $type.'/'.$docs['type'];
+                    $docs['type'] = ($type == 'mixed' ? '':$type.'/').$docs['type'];
                 }
             } elseif( $type && empty($docs['type']) ) {
                 $docs['type'] = $type;

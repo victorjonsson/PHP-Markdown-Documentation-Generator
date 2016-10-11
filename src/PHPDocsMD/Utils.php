@@ -61,10 +61,36 @@ class Utils
      */
     public static function isClassReference($typeDeclaration)
     {
-        $natives = ['mixed', 'string', 'int', 'float', 'integer', 'number', 'bool', 'boolean', 'object', 'false', 'true', 'null', 'array', 'void'];
+        $natives = [
+            'mixed',
+            'string',
+            'int',
+            'float',
+            'integer',
+            'number',
+            'bool',
+            'boolean',
+            'object',
+            'false',
+            'true',
+            'null',
+            'array',
+            'void',
+            'callable'
+        ];
         $sanitizedTypeDeclaration = rtrim(trim(strtolower($typeDeclaration)), '[]');
 
         return !in_array($sanitizedTypeDeclaration, $natives) &&
             strpos($typeDeclaration, ' ') === false;
+    }
+
+    public static function isNativeClassReference($typeDeclaration)
+    {
+        $sanitizedType = str_replace('[]', '', $typeDeclaration);
+        if (Utils::isClassReference($typeDeclaration) && class_exists($sanitizedType, false)) {
+            $reflectionClass = new \ReflectionClass($sanitizedType);
+            return !$reflectionClass->getFileName();
+        }
+        return false;
     }
 }

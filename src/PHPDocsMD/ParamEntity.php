@@ -49,5 +49,18 @@ class ParamEntity extends CodeEntity {
     {
         return $this->type;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getNativeClassType()
+    {
+        foreach(explode('/', $this->type) as $typeDeclaration) {
+            if (Utils::isNativeClassReference($typeDeclaration)) {
+                return $typeDeclaration;
+            }
+        }
+        return null;
+    }
 }
 

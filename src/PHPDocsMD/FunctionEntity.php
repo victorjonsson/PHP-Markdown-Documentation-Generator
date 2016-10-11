@@ -39,26 +39,43 @@ class FunctionEntity extends CodeEntity {
     private $class = '';
 
     /**
-     * @param null|bool $toggle
+     * @var bool
+     */
+    private $isReturningNativeClass = false;
+
+    /**
+     * @param bool $toggle
      */
     public function isStatic($toggle=null)
     {
         if ( $toggle === null ) {
             return $this->isStatic;
         } else {
-            $this->isStatic = (bool)$toggle;
+            return $this->isStatic = (bool)$toggle;
         }
     }
 
     /**
-     * @param null|bool $toggle
+     * @param bool $toggle
      */
     public function isAbstract($toggle=null)
     {
         if ( $toggle === null ) {
             return $this->abstract;
         } else {
-            $this->abstract = (bool)$toggle;
+            return $this->abstract = (bool)$toggle;
+        }
+    }
+
+    /**
+     * @param bool $toggle
+     */
+    public function isReturningNativeClass($toggle=null)
+    {
+        if ( $toggle === null ) {
+            return $this->isReturningNativeClass;
+        } else {
+            return $this->isReturningNativeClass = (bool)$toggle;
         }
     }
 
