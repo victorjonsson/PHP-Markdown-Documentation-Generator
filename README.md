@@ -3,7 +3,7 @@
 Documentation is just as important as the code it's refering to. With this command line tool 
 you will be able to write your documentation once, and only once! 
 
-This project will write a single-page markdown-formatted API document based on the DocBlock comments in your source code. The [phpdoc](http://www.phpdoc.org/) standard is used.
+This project will write a single-page markdown-formatted API document based on the DocBlock comments in your source code. 
 
 ![Travis](https://travis-ci.org/victorjonsson/PHP-Markdown-Documentation-Generator.svg)
 
