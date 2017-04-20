@@ -17,6 +17,7 @@
 - [\PHPDocsMD\Console\PHPDocsMDCommand](#class-phpdocsmdconsolephpdocsmdcommand)
 
 <hr /> 
+
 ### Class: \PHPDocsMD\ClassEntity
 
 > Object describing a class or an interface
