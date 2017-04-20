@@ -42,6 +42,7 @@
 *This class extends [\PHPDocsMD\CodeEntity](#class-phpdocsmdcodeentity)*
 
 <hr /> 
+
 ### Class: \PHPDocsMD\ClassEntityFactory
 
 > Class capable of creating ClassEntity objects
@@ -52,6 +53,7 @@
 | public | <strong>create(</strong><em>[\ReflectionClass](http://php.net/manual/en/class.reflectionclass.php)</em> <strong>$reflection</strong>)</strong> : <em>mixed</em> |
 
 <hr /> 
+
 ### Class: \PHPDocsMD\CodeEntity
 
 > Object describing a piece of code
