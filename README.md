@@ -39,11 +39,11 @@ class MyObject {
 }
 ```
 
-Then, running `$ phpdocs-md generate src > api.md` will write your API documentation to the file api.md.
+Then, running `$ phpdoc-md generate src > api.md` will write your API documentation to the file api.md.
 
 [Here you can see a rendered example](https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator/blob/master/docs.md)
 
-Only public and protected functions will be a part of the documentation, but you can also add `@ignore` to any function or class to exclude it from the docs. Phpdocs-md will try to guess the return type of functions that don't explicitly declare one. The program uses reflection to get as much information as possible out of the code so that functions that are missing DocBlock comments will still be included in the generated documentation.
+Only public and protected functions will be a part of the documentation, but you can also add `@ignore` to any function or class to exclude it from the docs. Phpdoc-md will try to guess the return type of functions that don't explicitly declare one. The program uses reflection to get as much information as possible out of the code so that functions that are missing DocBlock comments will still be included in the generated documentation.
 
 ### Requirements
 
@@ -60,7 +60,7 @@ From the local working directory of the project that you would like to document,
 ```
 $ composer require --dev victorjonsson/markdowndocs
 ```
-This will add victorjonsson/markdowndocs to the `require-dev` section of your project's composer.json file.  The phpdocs-md executable will automatically be copied to your project's `vendor/bin` directory.
+This will add victorjonsson/markdowndocs to the `require-dev` section of your project's composer.json file.  The phpdoc-md executable will automatically be copied to your project's `vendor/bin` directory.
 
 ##### Generating docs
 
@@ -68,29 +68,29 @@ The `generate` command generates your project's API documentation file. The comm
 
 ```
 # Generate docs for a certain class
-$ ./vendor/bin/phpdocs-md generate Acme\\NS\\MyClass 
+$ ./vendor/bin/phpdoc-md generate Acme\\NS\\MyClass 
 
 # Generate docs for several classes (comma separated)
-$ ./vendor/bin/phpdocs-md generate Acme\\NS\\MyClass,Acme\\OtherNS\\OtherClass 
+$ ./vendor/bin/phpdoc-md generate Acme\\NS\\MyClass,Acme\\OtherNS\\OtherClass 
 
 # Generate docs for all classes in a source directory
-$ ./vendor/bin/phpdocs-md generate includes/src
+$ ./vendor/bin/phpdoc-md generate includes/src
 
 # Generate docs for all classes in a source directory and send output to the file api.md
-$ ./vendor/bin/phpdocs-md generate includes/src > api.md
+$ ./vendor/bin/phpdoc-md generate includes/src > api.md
 ```
 
 * Note that any class to be documented must be loadable using the autoloader provided by composer. *
 
 ##### Bootstrapping
 
-If you are not using the composer autoloader, or if there is something else that needs to be done before your classes can be instantiated, then you may request phpdocs-md to load a php bootstrap file prior to generating the docs
+If you are not using the composer autoloader, or if there is something else that needs to be done before your classes can be instantiated, then you may request phpdoc-md to load a php bootstrap file prior to generating the docs
 
-`$ ./vendor/bin/phpdocs-md generate --bootstrap=includes/init.php includes/src > api.md`
+`$ ./vendor/bin/phpdoc-md generate --bootstrap=includes/init.php includes/src > api.md`
 
 ##### Excluding directories
 
 You can tell the command line tool to ignore certain directories in your class path by using the `--ignore` option.
 
-`$ ./phpdocs-md generate --ignore=test,examples includes/src > api.md`
+`$ ./phpdoc-md generate --ignore=test,examples includes/src > api.md`
 
