@@ -133,7 +133,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $tableGenerator->addFunc($func);
                 }
 
-                $docs = ($requestingOneClass ? '':'<hr />'.PHP_EOL).PHP_EOL;
+                $docs = ($requestingOneClass ? '':'<hr /><a id="' . trim($classLinks[$class->getName()], '#') . '"></a>'.PHP_EOL);
 
                 if( $class->isDeprecated() ) {
                     $docs .= '### <strike>'.$class->generateTitle().'</strike>'.PHP_EOL.PHP_EOL.
