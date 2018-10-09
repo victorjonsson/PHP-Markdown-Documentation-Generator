@@ -20,6 +20,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     const ARG_CLASS = 'class';
     const OPT_BOOTSTRAP = 'bootstrap';
     const OPT_IGNORE = 'ignore';
+    const OPT_NO_INTERNAL = 'no-internal';
 
     /**
      * @var array
@@ -60,6 +61,12 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 InputOption::VALUE_REQUIRED,
                 'Directories to ignore',
                 ''
+            )
+            ->addOption(
+                self::OPT_NO_INTERNAL,
+                null,
+                InputOption::VALUE_NONE,
+                'Ignore entities marked @internal'
             );
     }
 
@@ -75,6 +82,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $classes = $input->getArgument(self::ARG_CLASS);
         $bootstrap = $input->getOption(self::OPT_BOOTSTRAP);
         $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
+        $noInternal = $input->getOption(self::OPT_NO_INTERNAL);
         $requestingOneClass = false;
 
         if( $bootstrap ) {
@@ -106,8 +114,10 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             foreach($classes as $className) {
                 $class = $this->getClassEntity($className);
 
-                if( $class->hasIgnoreTag() )
+                if ($class->hasIgnoreTag()
+                        || ($class->hasInternalTag() && $noInternal)) {
                     continue;
+                }
 
                 // Add to tbl of contents
                 $tableOfContent[] = sprintf('- [%s](#%s)', $class->generateTitle('%name% %extra%'), $class->generateAnchor());
@@ -118,6 +128,9 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 $tableGenerator->openTable();
                 $tableGenerator->doDeclareAbstraction(!$class->isInterface());
                 foreach($class->getFunctions() as $func) {
+                    if ($func->isInternal() && $noInternal) {
+                        continue;
+                    }
                     if ($func->isReturningNativeClass()) {
                         $classLinks[$func->getReturnType()] = 'http://php.net/manual/en/class.'.
                             strtolower(str_replace(array('[]', '\\'), '', $func->getReturnType())).
