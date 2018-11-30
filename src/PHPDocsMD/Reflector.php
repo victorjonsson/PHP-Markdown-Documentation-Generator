@@ -34,6 +34,16 @@ class Reflector implements ReflectorInterface
     private $useInspector;
 
     /**
+     * @var array
+     */
+    private $visibilityFilter = [];
+
+    /**
+     * @var string
+     */
+    private $methodRegex = '';
+
+    /**
      * @param string $className
      * @param FunctionFinder $functionFinder
      * @param DocInfoExtractor $docInfoExtractor
@@ -86,7 +96,22 @@ class Reflector implements ReflectorInterface
         $publicFunctions = [];
         $protectedFunctions = [];
 
-        foreach($reflectionClass->getMethods() as $methodReflection) {
+        if(!$this->visibilityFilter){
+            $methodReflections = $reflectionClass->getMethods();
+        } else {
+            foreach ($this->visibilityFilter as $filter){
+                $methodReflections[] = $reflectionClass->getMethods($this->translateVisibilityFilter($filter));
+            }
+            $methodReflections = array_merge(...$methodReflections);
+        }
+
+        if ($this->methodRegex !== '') {
+            $methodReflections = array_filter($methodReflections, function (ReflectionMethod $reflectionMethod) {
+                return preg_match($this->methodRegex, $reflectionMethod->name);
+            });
+        }
+
+        foreach($methodReflections as $methodReflection) {
 
             $func = $this->createFunctionEntity(
                 $methodReflection,
@@ -413,5 +438,27 @@ class Reflector implements ReflectorInterface
             );
         }
         return array_values($params);
+    }
+
+    private function translateVisibilityFilter($filter){
+        $map = [
+            'public' => ReflectionMethod::IS_PUBLIC,
+            'protected' => ReflectionMethod::IS_PROTECTED,
+            'private' => ReflectionMethod::IS_PRIVATE,
+            'abstract' => ReflectionMethod::IS_ABSTRACT,
+            'final' => ReflectionMethod::IS_FINAL,
+        ];
+
+        return isset($map[$filter]) ? $map[$filter] : null;
+    }
+
+    public function setVisibilityFilter( array $visibilityFilter )
+    {
+       $this->visibilityFilter = $visibilityFilter;
+    }
+
+    public function setMethodRegex($methodRegex)
+    {
+       $this->methodRegex = $methodRegex;
     }
 }

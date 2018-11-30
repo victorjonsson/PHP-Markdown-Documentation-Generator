@@ -20,11 +20,23 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     const ARG_CLASS = 'class';
     const OPT_BOOTSTRAP = 'bootstrap';
     const OPT_IGNORE = 'ignore';
+    const OPT_VISIBILITY = 'visibility';
+    const OPT_METHOD_REGEX = 'methodRegex';
 
     /**
      * @var array
      */
     private $memory = [];
+
+    /**
+     * @var array
+     */
+    private $visibilityFilter = [];
+
+    /**
+     * @var string
+     */
+    private $methodRegex = '';
 
     /**
      * @param $name
@@ -33,6 +45,12 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     private function getClassEntity($name) {
         if( !isset($this->memory[$name]) ) {
             $reflector = new Reflector($name);
+            if (!empty($this->visibilityFilter)) {
+                $reflector->setVisibilityFilter($this->visibilityFilter);
+            }
+            if (!empty($this->methodRegex)) {
+                $reflector->setMethodRegex($this->methodRegex);
+            }
             $this->memory[$name] = $reflector->getClassEntity();
         }
         return $this->memory[$name];
@@ -60,6 +78,20 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 InputOption::VALUE_REQUIRED,
                 'Directories to ignore',
                 ''
+            )
+            ->addOption(
+                self::OPT_VISIBILITY  ,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The visibility of the methods to import, a comma-separated list.',
+                ''
+            )
+            ->addOption(
+                self::OPT_METHOD_REGEX  ,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The full regular expression methods should match to be included in the output.',
+                ''
             );
     }
 
@@ -75,6 +107,10 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $classes = $input->getArgument(self::ARG_CLASS);
         $bootstrap = $input->getOption(self::OPT_BOOTSTRAP);
         $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
+        $this->visibilityFilter = empty($input->getOption(self::OPT_VISIBILITY))
+            ? ['public', 'protected', 'private', 'abstract', 'final']
+            : array_map('trim', preg_split('/\\s*,\\s*/', $input->getOption(self::OPT_VISIBILITY)));
+        $this->methodRegex = $input->getOption(self::OPT_METHOD_REGEX) ?: false;
         $requestingOneClass = false;
 
         if( $bootstrap ) {
