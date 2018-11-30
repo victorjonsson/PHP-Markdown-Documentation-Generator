@@ -444,7 +444,6 @@ class Reflector implements ReflectorInterface
         $map = [
             'public' => ReflectionMethod::IS_PUBLIC,
             'protected' => ReflectionMethod::IS_PROTECTED,
-            'private' => ReflectionMethod::IS_PRIVATE,
             'abstract' => ReflectionMethod::IS_ABSTRACT,
             'final' => ReflectionMethod::IS_FINAL,
         ];

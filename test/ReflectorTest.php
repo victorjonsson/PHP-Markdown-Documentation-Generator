@@ -1,5 +1,7 @@
 <?php
 
+use PHPDocsMD\FunctionEntity;
+
 class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -156,5 +158,31 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $functions = $reflector->getClassEntity()->getFunctions();
         $this->assertEquals('\\PHPDocsMD\\Console\\CLI', $functions[1]->getReturnType());
         $this->assertEquals('\\PHPDocsMD\\Console\\CLI[]', $functions[0]->getReturnType());
+    }
+
+	public function visibilityFiltersAndExpectedMethods(  ) {
+		return [
+			'public'               => [ [ 'public' ], [ 'funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc' ] ],
+			'protected'            => [ [ 'protected' ], [ 'funcC' ] ],
+			'public-and-protected' => [
+				[ 'public', 'protected' ],
+				[ 'funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc', 'funcC' ],
+			],
+			'abstract' => [ [ 'abstract' ], [ 'isFunc' ] ],
+		];
+	}
+
+	/**
+	 * @dataProvider visibilityFiltersAndExpectedMethods
+	 */
+    function testVisibilityBasedFiltering(array $visibilityFilter, array $expectedMethods)
+    {
+        $reflector = new \PHPDocsMD\Reflector('Acme\\ExampleClass');
+        $reflector->setVisibilityFilter($visibilityFilter);
+        $functions = $reflector->getClassEntity()->getFunctions();
+        $functionNames = array_map(function(FunctionEntity $entity){
+        	return $entity->getName();
+        },$functions);
+        $this->assertEquals($expectedMethods, $functionNames);
     }
 }

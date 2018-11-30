@@ -45,12 +45,12 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     private function getClassEntity($name) {
         if( !isset($this->memory[$name]) ) {
             $reflector = new Reflector($name);
-            if (!empty($this->visibilityFilter)) {
-                $reflector->setVisibilityFilter($this->visibilityFilter);
-            }
-            if (!empty($this->methodRegex)) {
-                $reflector->setMethodRegex($this->methodRegex);
-            }
+	        if ( ! empty( $this->visibilityFilter ) ) {
+		        $reflector->setVisibilityFilter( $this->visibilityFilter );
+	        }
+	        if ( ! empty( $this->methodRegex ) ) {
+		        $reflector->setMethodRegex( $this->methodRegex );
+	        }
             $this->memory[$name] = $reflector->getClassEntity();
         }
         return $this->memory[$name];
@@ -108,7 +108,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $bootstrap = $input->getOption(self::OPT_BOOTSTRAP);
         $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
         $this->visibilityFilter = empty($input->getOption(self::OPT_VISIBILITY))
-            ? ['public', 'protected', 'private', 'abstract', 'final']
+            ? ['public', 'protected', 'abstract', 'final']
             : array_map('trim', preg_split('/\\s*,\\s*/', $input->getOption(self::OPT_VISIBILITY)));
         $this->methodRegex = $input->getOption(self::OPT_METHOD_REGEX) ?: false;
         $requestingOneClass = false;
