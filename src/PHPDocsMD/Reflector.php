@@ -95,15 +95,16 @@ class Reflector implements ReflectorInterface
         $classUseStatements = $this->useInspector->getUseStatements($reflectionClass);
         $publicFunctions = [];
         $protectedFunctions = [];
+        $methodReflections = [];
 
-        if(!$this->visibilityFilter){
-            $methodReflections = $reflectionClass->getMethods();
-        } else {
-            foreach ($this->visibilityFilter as $filter){
-                $methodReflections[] = $reflectionClass->getMethods($this->translateVisibilityFilter($filter));
-            }
-            $methodReflections = array_merge(...$methodReflections);
-        }
+	    if ( ! $this->visibilityFilter ) {
+		    $methodReflections = $reflectionClass->getMethods();
+	    } else {
+		    foreach ( $this->visibilityFilter as $filter ) {
+			    $methodReflections[] = $reflectionClass->getMethods( $this->translateVisibilityFilter( $filter ) );
+		    }
+		    $methodReflections = call_user_func_array( 'array_merge', $methodReflections );
+	    }
 
         if ($this->methodRegex !== '') {
             $methodReflections = array_filter($methodReflections, function (ReflectionMethod $reflectionMethod) {
