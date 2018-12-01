@@ -3,11 +3,10 @@ namespace PHPDocsMD\Console;
 
 use PHPDocsMD\MDTableGenerator;
 use PHPDocsMD\Reflector;
-
 use PHPDocsMD\Utils;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
@@ -45,12 +44,12 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     private function getClassEntity($name) {
         if( !isset($this->memory[$name]) ) {
             $reflector = new Reflector($name);
-	        if ( ! empty( $this->visibilityFilter ) ) {
-		        $reflector->setVisibilityFilter( $this->visibilityFilter );
-	        }
-	        if ( ! empty( $this->methodRegex ) ) {
-		        $reflector->setMethodRegex( $this->methodRegex );
-	        }
+            if ( ! empty($this->visibilityFilter)) {
+                $reflector->setVisibilityFilter($this->visibilityFilter);
+            }
+            if ( ! empty($this->methodRegex)) {
+                $reflector->setMethodRegex($this->methodRegex);
+            }
             $this->memory[$name] = $reflector->getClassEntity();
         }
         return $this->memory[$name];
