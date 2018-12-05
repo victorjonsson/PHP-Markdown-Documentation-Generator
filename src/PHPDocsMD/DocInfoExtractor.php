@@ -185,7 +185,7 @@ class DocInfoExtractor
         array_shift($words);
 
         if (!$words) {
-            return false;
+            $see = false;
         } elseif (preg_match('#^http://|^https://#', $words[0])) {
             $see = count($words) > 1
                 ? '[' . implode(' ', array_slice($words, 1)) . '](' . $words[0] . ')'
