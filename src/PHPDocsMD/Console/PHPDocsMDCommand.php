@@ -3,6 +3,7 @@ namespace PHPDocsMD\Console;
 
 use PHPDocsMD\MDTableGenerator;
 use PHPDocsMD\Reflector;
+use PHPDocsMD\TableGenerator;
 use PHPDocsMD\Utils;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,6 +22,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     const OPT_IGNORE = 'ignore';
     const OPT_VISIBILITY = 'visibility';
     const OPT_METHOD_REGEX = 'methodRegex';
+    const OPT_TABLE_GENERATOR = 'tableGenerator';
 
     /**
      * @var array
@@ -79,18 +81,25 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 ''
             )
             ->addOption(
-                self::OPT_VISIBILITY  ,
+                self::OPT_VISIBILITY,
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The visibility of the methods to import, a comma-separated list.',
                 ''
             )
             ->addOption(
-                self::OPT_METHOD_REGEX  ,
+                self::OPT_METHOD_REGEX,
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The full regular expression methods should match to be included in the output.',
                 ''
+            )
+            ->addOption(
+                self::OPT_TABLE_GENERATOR,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The slug of a supported table generator class or a fully qualified TableGenerator interface implementation class name.',
+                'default'
             );
     }
 
@@ -132,7 +141,9 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             throw new \InvalidArgumentException('Given input is neither a class nor a source directory');
         }
 
-        $tableGenerator = new MDTableGenerator();
+        $tableGeneratorSlug = $input->getOption(self::OPT_TABLE_GENERATOR);
+        $tableGenerator = $this->buildTableGenerator($tableGeneratorSlug);
+
         $tableOfContent = [];
         $body = [];
         $classLinks = [];
@@ -318,6 +329,26 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             }
         }
         return false;
+    }
+
+    protected function buildTableGenerator($tableGeneratorSlug = 'default')
+    {
+        if (class_exists($tableGeneratorSlug)) {
+            if (!in_array(TableGenerator::class, class_implements($tableGeneratorSlug), true)) {
+                throw new \InvalidArgumentException('The table generator class should implement the ' .
+                                                    TableGenerator::class . ' interface.');
+            }
+
+            return new $tableGeneratorSlug();
+        }
+
+        $map = [
+            'default' => MDTableGenerator::class,
+        ];
+
+        $class = isset($map[$tableGeneratorSlug]) ? $map[$tableGeneratorSlug] : $map['default'];
+
+        return new $class;
     }
 
 }
