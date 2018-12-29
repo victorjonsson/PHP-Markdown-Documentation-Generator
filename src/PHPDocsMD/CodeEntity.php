@@ -24,6 +24,11 @@ class CodeEntity {
     private $isDeprecated = false;
 
     /**
+     * @var bool
+     */
+    private $isInternal = false;
+
+    /**
      * @var string
      */
     private $deprecationMessage = '';
@@ -44,6 +49,19 @@ class CodeEntity {
             return $this->isDeprecated;
         } else {
             return $this->isDeprecated = (bool)$toggle;
+        }
+    }
+
+    /**
+     * @param bool $toggle
+     * @return bool|null
+     */
+    public function isInternal($toggle=null)
+    {
+        if ($toggle === null) {
+            return $this->isInternal;
+        } else {
+            return $this->isInternal = (bool)$toggle;
         }
     }
 
