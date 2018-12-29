@@ -29,6 +29,11 @@ class ClassEntity extends CodeEntity {
     private $hasIgnoreTag = false;
 
     /**
+     * @var bool
+     */
+    private $hasInternalTag = false;
+
+    /**
      * @var string
      */
     private $extends = '';
@@ -71,6 +76,19 @@ class ClassEntity extends CodeEntity {
             return $this->hasIgnoreTag;
         } else {
             return $this->hasIgnoreTag = (bool)$toggle;
+        }
+    }
+
+    /**
+     * @param bool $toggle
+     * @return bool
+     */
+    public function hasInternalTag($toggle = null)
+    {
+        if ($toggle === null) {
+            return $this->hasInternalTag;
+        } else {
+            return $this->hasInternalTag = (bool)$toggle;
         }
     }
 

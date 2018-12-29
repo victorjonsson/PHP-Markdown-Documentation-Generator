@@ -29,6 +29,7 @@ class ClassEntityFactory
         $class->isAbstract($reflection->isAbstract());
         $class->setInterfaces(array_keys($reflection->getInterfaces()));
         $class->hasIgnoreTag($docInfo->shouldBeIgnored());
+        $class->hasInternalTag($docInfo->isInternal());
 
         if ($reflection->getParentClass()) {
             $class->setExtends($reflection->getParentClass()->getName());

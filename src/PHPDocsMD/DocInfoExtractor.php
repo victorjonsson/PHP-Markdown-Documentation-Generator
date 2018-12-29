@@ -29,6 +29,7 @@ class DocInfoExtractor
         $code->setDescription($docInfo->getDescription());
         $code->setExample($docInfo->getExample());
         $code->setSee($docInfo->getSee());
+        $code->isInternal($docInfo->isInternal());
 
         if ($docInfo->getDeprecationMessage()) {
             $code->isDeprecated(true);

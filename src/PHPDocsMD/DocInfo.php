@@ -105,4 +105,12 @@ class DocInfo
     {
         return isset($this->data['ignore']);
     }
+
+    /**
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return isset($this->data['internal']);
+    }
 }
