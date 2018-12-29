@@ -39,6 +39,11 @@ class FunctionEntity extends CodeEntity {
     private $class = '';
 
     /**
+     * @var array
+     */
+    private $see = [];
+
+    /**
      * @var bool
      */
     private $isReturningNativeClass = false;
@@ -149,6 +154,22 @@ class FunctionEntity extends CodeEntity {
     public function getClass()
     {
         return $this->class;
+    }
+
+    /**
+     * @param array $see
+     */
+    public function setSee(array $see)
+    {
+        $this->see = $see;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSee()
+    {
+        return $this->see;
     }
 }
 

@@ -44,6 +44,11 @@ class ClassEntity extends CodeEntity {
     private $interfaces = [];
 
     /**
+     * @var array
+     */
+    private $see = [];
+
+    /**
      * @var bool
      */
     private $isNative;
@@ -138,6 +143,17 @@ class ClassEntity extends CodeEntity {
     }
 
     /**
+     * @param array $see
+     */
+    public function setSee(array $see)
+    {
+        $this->see = [];
+        foreach($see as $i) {
+            $this->see[] = $i;
+        }
+    }
+
+    /**
      * @param array $implements
      */
     public function setInterfaces(array $implements)
@@ -154,6 +170,14 @@ class ClassEntity extends CodeEntity {
     public function getInterfaces()
     {
         return $this->interfaces;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSee()
+    {
+        return $this->see;
     }
 
     /**

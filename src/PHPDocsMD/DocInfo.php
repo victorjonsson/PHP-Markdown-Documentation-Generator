@@ -25,7 +25,8 @@ class DocInfo
             'params' => [],
             'description' => '',
             'example' => false,
-            'deprecated' => false
+            'deprecated' => false,
+            'see' => []
         ], $data);
     }
 
@@ -79,6 +80,14 @@ class DocInfo
     public function getDeprecationMessage()
     {
         return $this->data['deprecated'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getSee()
+    {
+        return $this->data['see'];
     }
 
     /**

@@ -20,6 +20,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     const ARG_CLASS = 'class';
     const OPT_BOOTSTRAP = 'bootstrap';
     const OPT_IGNORE = 'ignore';
+    const OPT_SEE = 'see';
     const OPT_NO_INTERNAL = 'no-internal';
 
     /**
@@ -63,6 +64,12 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 ''
             )
             ->addOption(
+                self::OPT_SEE,
+                null,
+                InputOption::VALUE_NONE,
+                'Include @see in generated markdown'
+             )
+             ->addOption(
                 self::OPT_NO_INTERNAL,
                 null,
                 InputOption::VALUE_NONE,
@@ -82,6 +89,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $classes = $input->getArgument(self::ARG_CLASS);
         $bootstrap = $input->getOption(self::OPT_BOOTSTRAP);
         $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
+        $includeSee = $input->getOption(self::OPT_SEE);
         $noInternal = $input->getOption(self::OPT_NO_INTERNAL);
         $requestingOneClass = false;
 
@@ -143,7 +151,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                                 '.php';
                         }
                     }
-                    $tableGenerator->addFunc($func);
+                    $tableGenerator->addFunc($func, $includeSee);
                 }
 
                 $docs = ($requestingOneClass ? '':'<hr /><a id="' . trim($classLinks[$class->getName()], '#') . '"></a>'.PHP_EOL);
@@ -156,6 +164,13 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $docs .= '### '.$class->generateTitle().PHP_EOL.PHP_EOL;
                     if( $class->getDescription() )
                         $docs .= '> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                }
+
+                if ($includeSee && $seeArray = $class->getSee()) {
+                    foreach ($seeArray as $see) {
+                        $docs .= 'See ' . $see . '<br />' . PHP_EOL;
+                    }
+                    $docs .= PHP_EOL;
                 }
 
                 if( $example = $class->getExample() ) {
