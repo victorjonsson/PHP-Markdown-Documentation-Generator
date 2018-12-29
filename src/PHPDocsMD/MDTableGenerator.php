@@ -100,9 +100,10 @@ class MDTableGenerator implements TableGenerator
      * row to the table and returns the markdown formatted string.
      *
      * @param FunctionEntity $func
+     * @param bool $see
      * @return string
      */
-    function addFunc(FunctionEntity $func)
+    function addFunc(FunctionEntity $func, $includeSee=false)
     {
         $this->fullClassName = $func->getClass();
 
@@ -135,6 +136,10 @@ class MDTableGenerator implements TableGenerator
             $str .= '<br /><em>DEPRECATED - '.$func->getDeprecationMessage().'</em>';
         } elseif( $func->getDescription() ) {
             $str .= '<br /><em>'.$func->getDescription().'</em>';
+        }
+        if ($func->getSee() && $includeSee) {
+            $str .= '<br /><em>&nbsp;&nbsp;&nbsp;&nbsp;See: ' .
+                implode(', ', $func->getSee()) . '</em>';
         }
 
         $str = str_replace(['</strong><strong>', '</strong></strong> '], ['','</strong>'], trim($str));

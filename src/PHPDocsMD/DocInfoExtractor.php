@@ -28,6 +28,8 @@ class DocInfoExtractor
         $code->setName($reflection->getName());
         $code->setDescription($docInfo->getDescription());
         $code->setExample($docInfo->getExample());
+        $code->setSee($docInfo->getSee());
+        $code->isInternal($docInfo->isInternal());
 
         if ($docInfo->getDeprecationMessage()) {
             $code->isDeprecated(true);
@@ -76,6 +78,9 @@ class DocInfoExtractor
                     list($name, $data) = $paramData;
                     $tags['params'][$name] = $data;
                 }
+            }
+            elseif( $words[0] == '@see' ) {
+                $tags['see'][] = $this->figureOutSeeDeclaration($words);
             }
             else {
                 // Start new tag
@@ -170,5 +175,26 @@ class DocInfoExtractor
         }
 
         return false;
+    }
+
+    /**
+     * @param $words
+     * @return array|false
+     */
+    private function figureOutSeeDeclaration($words)
+    {
+        array_shift($words);
+
+        if (!$words) {
+            $see = false;
+        } elseif (preg_match('#^http://|^https://#', $words[0])) {
+            $see = count($words) > 1
+                ? '[' . implode(' ', array_slice($words, 1)) . '](' . $words[0] . ')'
+                : '<' . $words[0] . '>';
+        } else {
+            $see = implode(' ', $words);
+        }
+
+        return $see;
     }
 }

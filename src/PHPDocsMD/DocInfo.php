@@ -25,7 +25,8 @@ class DocInfo
             'params' => [],
             'description' => '',
             'example' => false,
-            'deprecated' => false
+            'deprecated' => false,
+            'see' => []
         ], $data);
     }
 
@@ -82,6 +83,14 @@ class DocInfo
     }
 
     /**
+     * @return array
+     */
+    public function getSee()
+    {
+        return $this->data['see'];
+    }
+
+    /**
      * @return bool
      */
     public function shouldInheritDoc()
@@ -95,5 +104,13 @@ class DocInfo
     public function shouldBeIgnored()
     {
         return isset($this->data['ignore']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInternal()
+    {
+        return isset($this->data['internal']);
     }
 }

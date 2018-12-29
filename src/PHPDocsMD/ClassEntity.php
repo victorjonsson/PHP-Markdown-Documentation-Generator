@@ -29,6 +29,11 @@ class ClassEntity extends CodeEntity {
     private $hasIgnoreTag = false;
 
     /**
+     * @var bool
+     */
+    private $hasInternalTag = false;
+
+    /**
      * @var string
      */
     private $extends = '';
@@ -37,6 +42,11 @@ class ClassEntity extends CodeEntity {
      * @var array
      */
     private $interfaces = [];
+
+    /**
+     * @var array
+     */
+    private $see = [];
 
     /**
      * @var bool
@@ -66,6 +76,19 @@ class ClassEntity extends CodeEntity {
             return $this->hasIgnoreTag;
         } else {
             return $this->hasIgnoreTag = (bool)$toggle;
+        }
+    }
+
+    /**
+     * @param bool $toggle
+     * @return bool
+     */
+    public function hasInternalTag($toggle = null)
+    {
+        if ($toggle === null) {
+            return $this->hasInternalTag;
+        } else {
+            return $this->hasInternalTag = (bool)$toggle;
         }
     }
 
@@ -120,6 +143,17 @@ class ClassEntity extends CodeEntity {
     }
 
     /**
+     * @param array $see
+     */
+    public function setSee(array $see)
+    {
+        $this->see = [];
+        foreach($see as $i) {
+            $this->see[] = $i;
+        }
+    }
+
+    /**
      * @param array $implements
      */
     public function setInterfaces(array $implements)
@@ -136,6 +170,14 @@ class ClassEntity extends CodeEntity {
     public function getInterfaces()
     {
         return $this->interfaces;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSee()
+    {
+        return $this->see;
     }
 
     /**

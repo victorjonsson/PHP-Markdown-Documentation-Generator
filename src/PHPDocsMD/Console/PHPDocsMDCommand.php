@@ -23,6 +23,8 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
     const OPT_VISIBILITY = 'visibility';
     const OPT_METHOD_REGEX = 'methodRegex';
     const OPT_TABLE_GENERATOR = 'tableGenerator';
+    const OPT_SEE = 'see';
+    const OPT_NO_INTERNAL = 'no-internal';
 
     /**
      * @var array
@@ -100,6 +102,19 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 InputOption::VALUE_OPTIONAL,
                 'The slug of a supported table generator class or a fully qualified TableGenerator interface implementation class name.',
                 'default'
+          )
+          ->addOption(
+                self::OPT_SEE,
+                null,
+                InputOption::VALUE_NONE,
+                'Include @see in generated markdown',
+                ''
+             )
+             ->addOption(
+                self::OPT_NO_INTERNAL,
+                null,
+                InputOption::VALUE_NONE,
+                'Ignore entities marked @internal'
             );
     }
 
@@ -119,6 +134,8 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             ? ['public', 'protected', 'abstract', 'final']
             : array_map('trim', preg_split('/\\s*,\\s*/', $input->getOption(self::OPT_VISIBILITY)));
         $this->methodRegex = $input->getOption(self::OPT_METHOD_REGEX) ?: false;
+        $includeSee = $input->getOption(self::OPT_SEE);
+        $noInternal = $input->getOption(self::OPT_NO_INTERNAL);
         $requestingOneClass = false;
 
         if( $bootstrap ) {
@@ -152,8 +169,10 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             foreach($classes as $className) {
                 $class = $this->getClassEntity($className);
 
-                if( $class->hasIgnoreTag() )
+                if ($class->hasIgnoreTag()
+                        || ($class->hasInternalTag() && $noInternal)) {
                     continue;
+                }
 
                 // Add to tbl of contents
                 $tableOfContent[] = sprintf('- [%s](#%s)', $class->generateTitle('%name% %extra%'), $class->generateAnchor());
@@ -164,6 +183,9 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 $tableGenerator->openTable();
                 $tableGenerator->doDeclareAbstraction(!$class->isInterface());
                 foreach($class->getFunctions() as $func) {
+                    if ($func->isInternal() && $noInternal) {
+                        continue;
+                    }
                     if ($func->isReturningNativeClass()) {
                         $classLinks[$func->getReturnType()] = 'http://php.net/manual/en/class.'.
                             strtolower(str_replace(array('[]', '\\'), '', $func->getReturnType())).
@@ -176,7 +198,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                                 '.php';
                         }
                     }
-                    $tableGenerator->addFunc($func);
+                    $tableGenerator->addFunc($func, $includeSee);
                 }
 
                 $docs = ($requestingOneClass ? '':'<hr /><a id="' . trim($classLinks[$class->getName()], '#') . '"></a>'.PHP_EOL);
@@ -189,6 +211,13 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                     $docs .= '### '.$class->generateTitle().PHP_EOL.PHP_EOL;
                     if( $class->getDescription() )
                         $docs .= '> '.$class->getDescription().PHP_EOL.PHP_EOL;
+                }
+
+                if ($includeSee && $seeArray = $class->getSee()) {
+                    foreach ($seeArray as $see) {
+                        $docs .= 'See ' . $see . '<br />' . PHP_EOL;
+                    }
+                    $docs .= PHP_EOL;
                 }
 
                 if( $example = $class->getExample() ) {
