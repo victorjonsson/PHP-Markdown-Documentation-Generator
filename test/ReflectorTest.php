@@ -1,7 +1,8 @@
 <?php
 
 use PHPDocsMD\FunctionEntity;
-
+use PHPDocsMD\Reflector;
+    
 class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -160,7 +161,8 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('\\PHPDocsMD\\Console\\CLI[]', $functions[0]->getReturnType());
     }
 
-	public function visibilityFiltersAndExpectedMethods() {
+	public function visibilityFiltersAndExpectedMethods()
+    {
 		return [
 			'public'               => [ [ 'public' ], [ 'funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc' ] ],
 			'protected'            => [ [ 'protected' ], [ 'funcC' ] ],
@@ -173,11 +175,11 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataProvider visibilityFiltersAndExpectedMethods
+	 *@dataProvider visibilityFiltersAndExpectedMethods
 	 */
-    function testVisibilityBasedFiltering(array $visibilityFilter, array $expectedMethods)
+    public function testVisibilityBasedFiltering(array $visibilityFilter, array $expectedMethods)
     {
-	    $reflector = new \PHPDocsMD\Reflector( 'Acme\\ExampleClass' );
+	    $reflector = new Reflector( 'Acme\\ExampleClass' );
 	    $reflector->setVisibilityFilter( $visibilityFilter );
 	    $functions     = $reflector->getClassEntity()->getFunctions();
 	    $functionNames = array_map(
@@ -189,7 +191,8 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 	    $this->assertEquals( $expectedMethods, $functionNames );
     }
 
-	public function regexFiltersAndExpectedMethods() {
+	public function regexFiltersAndExpectedMethods()
+    {
 		return [
 			'has-only'              => [ '/^has/', [ 'hasFunc' ] ],
 			'does-not-start-with-h' => [ '/^[^h]/', [ 'funcA', 'funcB', 'funcD', 'getFunc', 'isFunc', 'funcC' ] ],
@@ -197,10 +200,11 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 		];
 	}
 	/**
-	 * @dataProvider regexFiltersAndExpectedMethods
+	 *@dataProvider regexFiltersAndExpectedMethods
 	 */
-    function testMethodRegexFiltering($regexFilter, $expectedMethods){
-	    $reflector = new \PHPDocsMD\Reflector( 'Acme\\ExampleClass' );
+    public function testMethodRegexFiltering($regexFilter, $expectedMethods)
+    {
+	    $reflector = new Reflector( 'Acme\\ExampleClass' );
 	    $reflector->setMethodRegex( $regexFilter );
 	    $functions     = $reflector->getClassEntity()->getFunctions();
 	    $functionNames = array_map(
