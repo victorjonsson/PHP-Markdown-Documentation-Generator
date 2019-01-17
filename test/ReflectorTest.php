@@ -18,7 +18,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
     protected function setUp()
     {
         require_once __DIR__ . '/ExampleClass.php';
-        $this->reflector = new \PHPDocsMD\Reflector('Acme\\ExampleClass');
+        $this->reflector = new Reflector('Acme\\ExampleClass');
         $this->class = $this->reflector->getClassEntity();
     }
 
@@ -31,13 +31,13 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($this->class->isDeprecated());
         $this->assertFalse($this->class->hasIgnoreTag());
 
-        $refl = new \PHPDocsMD\Reflector('Acme\\ExampleClassDepr');
+        $refl = new Reflector('Acme\\ExampleClassDepr');
         $class = $refl->getClassEntity();
         $this->assertTrue($class->isDeprecated());
         $this->assertEquals('This one is deprecated Lorem te ipsum', $class->getDeprecationMessage());
         $this->assertFalse($class->hasIgnoreTag());
 
-        $refl = new \PHPDocsMD\Reflector('Acme\\ExampleInterface');
+        $refl = new Reflector('Acme\\ExampleInterface');
         $class = $refl->getClassEntity();
         $this->assertTrue($class->isInterface());
         $this->assertTrue($class->hasIgnoreTag());
@@ -89,7 +89,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
     }
 
     function testStaticFunc() {
-        $reflector = new \PHPDocsMD\Reflector('Acme\\ClassWithStaticFunc');
+        $reflector = new Reflector('Acme\\ClassWithStaticFunc');
         $functions = $reflector->getClassEntity()->getFunctions();
         $this->assertNotEmpty($functions);
         $this->assertEquals('', $functions[0]->getDescription());
@@ -107,9 +107,9 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $paramB = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 3);
         $paramC = new ReflectionParameter(array('Acme\\ExampleClass', 'funcD'), 0);
 
-        $typeA = \PHPDocsMD\Reflector::getParamType($paramA);
-        $typeB = \PHPDocsMD\Reflector::getParamType($paramB);
-        $typeC = \PHPDocsMD\Reflector::getParamType($paramC);
+        $typeA = Reflector::getParamType($paramA);
+        $typeB = Reflector::getParamType($paramB);
+        $typeC = Reflector::getParamType($paramC);
 
         $this->assertEmpty($typeC);
         $this->assertEquals('\\stdClass', $typeB);
@@ -138,7 +138,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     function testInheritedDocs()
     {
-        $reflector = new \PHPDocsMD\Reflector('Acme\\ClassImplementingInterface');
+        $reflector = new Reflector('Acme\\ClassImplementingInterface');
         $functions = $reflector->getClassEntity()->getFunctions();
         $this->assertEquals(4, count($functions));
         $this->assertEquals('aMethod', $functions[0]->getName());
@@ -155,7 +155,7 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     function testReferenceToImportedClass()
     {
-        $reflector = new \PHPDocsMD\Reflector('Acme\\InterfaceReferringToImportedClass');
+        $reflector = new Reflector('Acme\\InterfaceReferringToImportedClass');
         $functions = $reflector->getClassEntity()->getFunctions();
         $this->assertEquals('\\PHPDocsMD\\Console\\CLI', $functions[1]->getReturnType());
         $this->assertEquals('\\PHPDocsMD\\Console\\CLI[]', $functions[0]->getReturnType());

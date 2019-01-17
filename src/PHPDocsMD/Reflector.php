@@ -97,7 +97,7 @@ class Reflector implements ReflectorInterface
         $protectedFunctions = [];
         $methodReflections  = [];
 
-        if (count($this->visibilityFilter) !== 0) {
+        if (count($this->visibilityFilter) === 0) {
             $methodReflections = $reflectionClass->getMethods();
         } else {
             foreach ($this->visibilityFilter as $filter) {
