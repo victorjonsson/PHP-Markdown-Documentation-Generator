@@ -2,7 +2,7 @@
 
 use PHPDocsMD\FunctionEntity;
 use PHPDocsMD\Reflector;
-    
+
 class ReflectorTest extends PHPUnit_Framework_TestCase {
 
     /**
@@ -161,59 +161,59 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('\\PHPDocsMD\\Console\\CLI[]', $functions[0]->getReturnType());
     }
 
-	public function visibilityFiltersAndExpectedMethods()
+    public function visibilityFiltersAndExpectedMethods()
     {
-		return [
-			'public'               => [ [ 'public' ], [ 'funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc' ] ],
-			'protected'            => [ [ 'protected' ], [ 'funcC' ] ],
-			'public-and-protected' => [
-				[ 'public', 'protected' ],
-				[ 'funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc', 'funcC' ],
-			],
-			'abstract'             => [ [ 'abstract' ], [ 'isFunc' ] ],
-		];
-	}
-
-	/**
-	 *@dataProvider visibilityFiltersAndExpectedMethods
-	 */
-    public function testVisibilityBasedFiltering(array $visibilityFilter, array $expectedMethods)
-    {
-	    $reflector = new Reflector( 'Acme\\ExampleClass' );
-	    $reflector->setVisibilityFilter( $visibilityFilter );
-	    $functions     = $reflector->getClassEntity()->getFunctions();
-	    $functionNames = array_map(
-		    function ( FunctionEntity $entity ) {
-			    return $entity->getName();
-		    },
-		    $functions
-	    );
-	    $this->assertEquals( $expectedMethods, $functionNames );
+        return [
+            'public' => [['public'], ['funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc']],
+            'protected' => [['protected'], ['funcC']],
+            'public-and-protected' => [
+                ['public', 'protected'],
+                ['funcA', 'funcB', 'funcD', 'getFunc', 'hasFunc', 'isFunc', 'funcC'],
+            ],
+            'abstract' => [['abstract'], ['isFunc']],
+        ];
     }
 
-	public function regexFiltersAndExpectedMethods()
-	{
-		return [
-			'has-only'              => [ '/^has/', [ 'hasFunc' ] ],
-			'does-not-start-with-h' => [ '/^[^h]/', [ 'funcA', 'funcB', 'funcD', 'getFunc', 'isFunc', 'funcC' ] ],
-			'func-letter-only'      => [ '/^func[A-Z]/', [ 'funcA', 'funcB', 'funcD', 'funcC' ] ],
-		];
-	}
-	
     /**
-	 *@dataProvider regexFiltersAndExpectedMethods
-	*/
+     *@dataProvider visibilityFiltersAndExpectedMethods
+     */
+    public function testVisibilityBasedFiltering(array $visibilityFilter, array $expectedMethods)
+    {
+        $reflector = new Reflector('Acme\\ExampleClass');
+        $reflector->setVisibilityFilter($visibilityFilter);
+        $functions = $reflector->getClassEntity()->getFunctions();
+        $functionNames = array_map(
+            function (FunctionEntity $entity) {
+                return $entity->getName();
+            },
+            $functions
+        );
+        $this->assertEquals($expectedMethods, $functionNames);
+    }
+
+    public function regexFiltersAndExpectedMethods()
+    {
+        return [
+            'has-only' => ['/^has/', ['hasFunc']],
+            'does-not-start-with-h' => ['/^[^h]/', ['funcA', 'funcB', 'funcD', 'getFunc', 'isFunc', 'funcC']],
+            'func-letter-only' => ['/^func[A-Z]/', ['funcA', 'funcB', 'funcD', 'funcC']],
+        ];
+    }
+
+    /**
+     *@dataProvider regexFiltersAndExpectedMethods
+     */
     public function testMethodRegexFiltering($regexFilter, $expectedMethods)
     {
-	    $reflector = new Reflector( 'Acme\\ExampleClass' );
-	    $reflector->setMethodRegex( $regexFilter );
-	    $functions     = $reflector->getClassEntity()->getFunctions();
-	    $functionNames = array_map(
-		    function ( FunctionEntity $entity ) {
-			    return $entity->getName();
-		    },
-		    $functions
-	    );
-	    $this->assertEquals( $expectedMethods, $functionNames );
+        $reflector = new Reflector('Acme\\ExampleClass');
+        $reflector->setMethodRegex($regexFilter);
+        $functions = $reflector->getClassEntity()->getFunctions();
+        $functionNames = array_map(
+            function (FunctionEntity $entity) {
+                return $entity->getName();
+            },
+            $functions
+        );
+        $this->assertEquals($expectedMethods, $functionNames);
     }
 }
