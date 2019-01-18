@@ -192,16 +192,17 @@ class ReflectorTest extends PHPUnit_Framework_TestCase {
     }
 
 	public function regexFiltersAndExpectedMethods()
-    {
+	{
 		return [
 			'has-only'              => [ '/^has/', [ 'hasFunc' ] ],
 			'does-not-start-with-h' => [ '/^[^h]/', [ 'funcA', 'funcB', 'funcD', 'getFunc', 'isFunc', 'funcC' ] ],
 			'func-letter-only'      => [ '/^func[A-Z]/', [ 'funcA', 'funcB', 'funcD', 'funcC' ] ],
 		];
 	}
-	/**
+	
+    /**
 	 *@dataProvider regexFiltersAndExpectedMethods
-	 */
+	*/
     public function testMethodRegexFiltering($regexFilter, $expectedMethods)
     {
 	    $reflector = new Reflector( 'Acme\\ExampleClass' );
