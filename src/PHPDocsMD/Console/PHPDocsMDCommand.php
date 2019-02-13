@@ -108,7 +108,6 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
                 null,
                 InputOption::VALUE_NONE,
                 'Include @see in generated markdown',
-                ''
              )
              ->addOption(
                 self::OPT_NO_INTERNAL,
