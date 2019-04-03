@@ -19,7 +19,8 @@ namespace PHPDocsMD;
  *
  * @package PHPDocsMD
  */
-class MDTableGenerator {
+class MDTableGenerator implements TableGenerator
+{
 
     /**
      * @var string
