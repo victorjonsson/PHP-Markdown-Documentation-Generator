@@ -144,11 +144,11 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         $classCollection = [];
         if( strpos($classes, ',') !== false ) {
             foreach(explode(',', $classes) as $class) {
-                if( class_exists($class) || interface_exists($class) )
+                if( class_exists($class) || interface_exists($class) || trait_exists($class) )
                     $classCollection[0][] = $class;
             }
         }
-        elseif( class_exists($classes) || interface_exists($classes) ) {
+        elseif( class_exists($classes) || interface_exists($classes) || trait_exists($classes) ) {
             $classCollection[] = array($classes);
             $requestingOneClass = true;
         } elseif( is_dir($classes) ) {
@@ -333,7 +333,7 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
             /** @var \SplFileInfo $f */
             if( $f->isFile() && !$f->isLink() ) {
                 list($ns, $className) = $this->findClassInFile($f->getRealPath());
-                if( $className && (class_exists($className, true) || interface_exists($className)) ) {
+                if( $className && (class_exists($className, true) || interface_exists($className) || trait_exists($className)) ) {
                     $collection[$ns][] = $className;
                 }
             } elseif( $f->isDir() && !$f->isLink() && !$this->shouldIgnoreDirectory($f->getFilename(), $ignores) ) {
