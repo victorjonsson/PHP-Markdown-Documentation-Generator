@@ -1,23 +1,32 @@
 {
-    "name": "victorjonsson/markdowndocs",
+    "name": "thaldos/markdowndocs",
     "description": "Command line tool for generating markdown-formatted class documentation",
-    "minimum-stability": "dev",
-    "homepage" : "https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator",
+    "minimum-stability": "stable",
+    "homepage" : "https://github.com/thaldos/PHP-Markdown-Documentation-Generator",
     "license" : "MIT",
     "version" : "1.3.8",
     "authors": [{
         "name": "Victor Jonsson",
         "email": "kontakt@victorjonsson.se"
-    }],
+		}, {
+        "name": "Vincent Godé",
+        "email": "hello@vincentgo.fr"
+		}
+	],
     "require" : {
-        "php" : ">=5.5.0",
-        "symfony/console": ">=2.6"
+        "php": ">=7.1",
+		"symfony/console": "~4.0",
+		"symfony/dependency-injection": "~4.0",
+		"symfony/event-dispatcher": "~4.0",
+		"psr/log": "^1.0"
     },
     "require-dev" : {
-        "phpunit/phpunit": "3.7.23"
+        "phpunit/phpunit": "~4.5"
     },
     "bin":["bin/phpdoc-md"],
-    "autoload": {
-        "psr-0": {"PHPDocsMD": "src/"}
+	"autoload": {
+        "psr-4": {
+            "PHPDocsMD\\": "src/"
+        }
     }
 }
