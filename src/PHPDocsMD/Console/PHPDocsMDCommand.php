@@ -266,6 +266,8 @@ class PHPDocsMDCommand extends \Symfony\Component\Console\Command\Command {
         }
 
         $output->writeln(PHP_EOL.$docString);
+        
+        return 0;
     }
 
     /**
