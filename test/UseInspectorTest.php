@@ -1,6 +1,9 @@
 <?php
 
-class UseInspectorTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class UseInspectorTest extends TestCase
+{
 
     function testInspection()
     {
@@ -37,6 +40,4 @@ class UseInspectorTest extends PHPUnit_Framework_TestCase {
         $inspector = new \PHPDocsMD\UseInspector();
         $this->assertEquals($expected, $inspector->getUseStatementsInString($code));
     }
-
-
 }

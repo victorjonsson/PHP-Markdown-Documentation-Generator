@@ -336,15 +336,7 @@ class Reflector implements ReflectorInterface
      */
     static function getParamType(\ReflectionParameter $refParam)
     {
-        $export = \ReflectionParameter::export([
-                $refParam->getDeclaringClass()->name,
-                $refParam->getDeclaringFunction()->name
-            ],
-            $refParam->name,
-            true
-        );
-
-        $export =  str_replace(' or NULL', '', $export);
+        $export =  str_replace(' or NULL', '', (string)$refParam);
 
         $type = preg_replace('/.*?([\w\\\]+)\s+\$'.current(explode('=', $refParam->name)).'.*/', '\\1', $export);
         if( strpos($type, 'Parameter ') !== false ) {
